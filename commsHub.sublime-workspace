@@ -1,0 +1,215 @@
+{
+	"auto_complete":
+	{
+		"selected_items":
+		[
+		]
+	},
+	"buffers":
+	[
+	],
+	"build_system": "",
+	"build_system_choices":
+	[
+	],
+	"build_varint": "",
+	"command_palette":
+	{
+		"height": 0.0,
+		"last_filter": "",
+		"selected_items":
+		[
+		],
+		"width": 0.0
+	},
+	"console":
+	{
+		"height": 0.0,
+		"history":
+		[
+		]
+	},
+	"distraction_free":
+	{
+		"menu_visible": true,
+		"show_minimap": false,
+		"show_open_files": false,
+		"show_tabs": false,
+		"side_bar_visible": false,
+		"status_bar_visible": false
+	},
+	"file_history":
+	[
+		"/Users/andresgarzon/Projects/comms_hub/app/views/announcements/new.html.erb",
+		"/Users/andresgarzon/Projects/comms_hub/app/controllers/announcements_controller.rb",
+		"/Users/andresgarzon/Projects/comms_hub/config/environments/development.rb",
+		"/Users/andresgarzon/Projects/comms_hub/app/views/layouts/application.html.erb",
+		"/Users/andresgarzon/Projects/comms_hub/app/jobs/send_announcement_job.rb",
+		"/Users/andresgarzon/Projects/comms_hub/config/application.rb",
+		"/Users/andresgarzon/Projects/comms_hub/app/models/announcement.rb",
+		"/Users/andresgarzon/Projects/comms_hub/app/views/announcements/index.html.erb",
+		"/Users/andresgarzon/Projects/comms_hub/config/routes.rb",
+		"/Users/andresgarzon/Projects/comms_hub/app/views/announcements/show.html.erb",
+		"/Users/andresgarzon/Projects/comms_hub/db/migrate/20251226214538_add_unique_index_to_delivery_logs.rb",
+		"/Users/andresgarzon/Projects/comms_hub/app/services/slack_announcement_sender.rb",
+		"/Users/andresgarzon/Projects/comms_hub/config/initializers/slack.rb",
+		"/Users/andresgarzon/Projects/comms_hub/app/models/group.rb",
+		"/Users/andresgarzon/Projects/comms_hub/app/models/group_membership.rb",
+		"/Users/andresgarzon/Projects/comms_hub/app/models/user.rb",
+		"/Users/andresgarzon/Projects/comms_hub/app/models/announcement_audience.rb",
+		"/Users/andresgarzon/Projects/comms_hub/app/models/audience.rb",
+		"/Users/andresgarzon/Projects/comms_hub/app/models/audience_membership.rb",
+		"/Users/andresgarzon/Projects/comms_hub/app/models/announcement_target.rb",
+		"/var/folders/f4/1stdb7316c79_w49gm610bxw0000gn/T/20251225-9379-l2a1rs-credentials.yml",
+		"/var/folders/f4/1stdb7316c79_w49gm610bxw0000gn/T/20251225-7780-i3rmcc-credentials.yml",
+		"/var/folders/f4/1stdb7316c79_w49gm610bxw0000gn/T/20251225-7304-mbjlw3-credentials.yml",
+		"/Users/andresgarzon/Projects/comms_hub/slack_announcement_sender.rb",
+		"/Users/andresgarzon/Projects/comms_hub/app/controllers/application_controller.rb",
+		"/Users/andresgarzon/Projects/comms_hub/bin/rails",
+		"/Users/andresgarzon/Projects/comms_hub/app/models/delivery_log.rb",
+		"/Users/andresgarzon/Projects/comms_hub/gemfile",
+		"/Users/andresgarzon/Projects/comms_hub/credentials:edit",
+		"/var/folders/f4/1stdb7316c79_w49gm610bxw0000gn/T/20251217-29493-m1on0f-credentials.yml",
+		"/Users/andresgarzon/Projects/comms_hub/nano/vim",
+		"/Users/andresgarzon/Projects/comms_hub/use",
+		"/Users/andresgarzon/Projects/comms_hub/or",
+		"/Users/andresgarzon/Projects/comms_hub/#",
+		"/Users/andresgarzon/Projects/comms_hub/development.rb",
+		"/Users/andresgarzon/Projects/invest_dashboard/app/views/dashboard/index.html.erb",
+		"/Users/andresgarzon/Projects/invest_dashboard/config/routes.rb",
+		"/Users/andresgarzon/Projects/invest_dashboard/app/controllers/transactions_controller.rb",
+		"/Users/andresgarzon/Projects/invest_dashboard/app/controllers/holdings_controller.rb",
+		"/Users/andresgarzon/Projects/invest_dashboard/app/views/accounts/show.html.erb",
+		"/Users/andresgarzon/Projects/invest_dashboard/app/controllers/dashboard_controller.rb",
+		"/Users/andresgarzon/Projects/invest_dashboard/app/models/transaction.rb",
+		"/Users/andresgarzon/Projects/invest_dashboard/app/models/holding.rb",
+		"/Users/andresgarzon/Projects/invest_dashboard/app/models/account.rb"
+	],
+	"find":
+	{
+		"height": 24.0
+	},
+	"find_in_files":
+	{
+		"height": 0.0,
+		"where_history":
+		[
+		]
+	},
+	"find_state":
+	{
+		"case_sensitive": false,
+		"find_history":
+		[
+			"list",
+			"config.active_job.queue_adapter = :async"
+		],
+		"highlight": true,
+		"in_selection": false,
+		"preserve_case": false,
+		"regex": false,
+		"replace_history":
+		[
+		],
+		"reverse": false,
+		"scrollbar_highlights": true,
+		"show_context": true,
+		"use_buffer2": true,
+		"use_gitignore": true,
+		"whole_word": false,
+		"wrap": false
+	},
+	"groups":
+	[
+		{
+			"sheets":
+			[
+			]
+		}
+	],
+	"incremental_find":
+	{
+		"height": 24.0
+	},
+	"input":
+	{
+		"height": 0.0
+	},
+	"layout":
+	{
+		"cells":
+		[
+			[
+				0,
+				0,
+				1,
+				1
+			]
+		],
+		"cols":
+		[
+			0.0,
+			1.0
+		],
+		"rows":
+		[
+			0.0,
+			1.0
+		]
+	},
+	"menu_visible": true,
+	"output.find_results":
+	{
+		"height": 0.0,
+		"history":
+		[
+		]
+	},
+	"pinned_build_system": "",
+	"project": "commsHub.sublime-project",
+	"replace":
+	{
+		"height": 44.0
+	},
+	"save_all_on_build": true,
+	"select_file":
+	{
+		"height": 0.0,
+		"last_filter": "",
+		"selected_items":
+		[
+		],
+		"width": 0.0
+	},
+	"select_project":
+	{
+		"height": 0.0,
+		"last_filter": "",
+		"selected_items":
+		[
+		],
+		"width": 0.0
+	},
+	"select_symbol":
+	{
+		"height": 0.0,
+		"last_filter": "",
+		"selected_items":
+		[
+		],
+		"width": 0.0
+	},
+	"selected_group": 0,
+	"settings":
+	{
+	},
+	"show_minimap": true,
+	"show_open_files": false,
+	"show_tabs": true,
+	"side_bar_visible": true,
+	"side_bar_width": 150.0,
+	"status_bar_visible": true,
+	"template_settings":
+	{
+	}
+}

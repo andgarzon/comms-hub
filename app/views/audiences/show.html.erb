@@ -1,0 +1,10 @@
+<p style="color: green"><%= notice %></p>
+
+<%= render @audience %>
+
+<div>
+  <%= link_to "Edit this audience", edit_audience_path(@audience) %> |
+  <%= link_to "Back to audiences", audiences_path %>
+
+  <%= button_to "Destroy this audience", @audience, method: :delete %>
+</div>

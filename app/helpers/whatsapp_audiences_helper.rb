@@ -1,0 +1,2 @@
+module WhatsappAudiencesHelper
+end

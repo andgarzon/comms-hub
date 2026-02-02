@@ -1,0 +1,101 @@
+<h1>New Announcement</h1>
+
+<%= form_with model: @announcement do |f| %>
+
+  <p>
+    <%= f.label :title %><br>
+    <%= f.text_field :title, style: "width:100%;" %>
+  </p>
+
+  <h3>Base message</h3>
+  <p>
+    <%= f.label :base_body, "Original message" %><br>
+    <%= f.text_area :base_body, rows: 6, style: "width:100%;" %>
+  </p>
+
+  <p>
+    <%= button_tag "Improve with AI",
+          type: "submit",
+          name: "improve_with_ai",
+          value: "1" %>
+  </p>
+
+  <hr>
+
+  <h3>Email version</h3>
+  <p>
+    <%= f.text_area :email_body, rows: 8, style: "width:100%;" %>
+  </p>
+
+  <h3>Slack version</h3>
+  <p>
+    <%= f.text_area :slack_body, rows: 4, style: "width:100%;" %>
+  </p>
+
+  <h3>WhatsApp version</h3>
+  <p>
+    <%= f.text_area :whatsapp_body, rows: 3, style: "width:100%;" %>
+  </p>
+
+  <hr>
+
+  <p>
+    <%= f.check_box :send_to_slack %> Send to Slack<br>
+    <%= f.check_box :send_to_email %> Send to Email<br>
+    <%= f.check_box :send_to_whatsapp %> Send to WhatsApp
+  </p>
+
+  <p>
+    <%= f.label :scheduled_for, "Send later (leave blank to send now)" %><br>
+    <%= f.datetime_local_field :scheduled_for %>
+  </p>
+
+  <% if @audiences.present? %>
+    <fieldset style="margin-top: 20px;">
+      <legend><strong>Target Audiences</strong></legend>
+      <hr>
+
+<h3>Slack audiences</h3>
+<% if @slack_audiences.present? %>
+  <%= f.collection_check_boxes :audience_ids, @slack_audiences, :id, :name do |b| %>
+    <div>
+      <%= b.check_box %>
+      <%= b.label %>
+    </div>
+  <% end %>
+<% else %>
+  <p><em>No Slack audiences yet.</em></p>
+<% end %>
+
+<h3>Email audiences</h3>
+<% if @email_audiences.present? %>
+  <%= f.collection_check_boxes :audience_ids, @email_audiences, :id, :name do |b| %>
+    <div>
+      <%= b.check_box %>
+      <%= b.label %>
+    </div>
+  <% end %>
+<% else %>
+  <p><em>No Email audiences yet.</em></p>
+<% end %>
+
+<h3>WhatsApp audiences</h3>
+<% if @whatsapp_audiences.present? %>
+  <%= f.collection_check_boxes :audience_ids, @whatsapp_audiences, :id, :name do |b| %>
+    <div>
+      <%= b.check_box %>
+      <%= b.label %>
+    </div>
+  <% end %>
+<% else %>
+  <p><em>No WhatsApp audiences yet.</em></p>
+<% end %>
+
+    </fieldset>
+  <% end %>
+
+  <p style="margin-top: 20px;">
+    <%= f.submit "Create Announcement" %>
+  </p>
+
+<% end %>

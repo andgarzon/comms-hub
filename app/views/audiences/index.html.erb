@@ -1,0 +1,16 @@
+<p style="color: green"><%= notice %></p>
+
+<% content_for :title, "Audiences" %>
+
+<h1>Audiences</h1>
+
+<div id="audiences">
+  <% @audiences.each do |audience| %>
+    <%= render audience %>
+    <p>
+      <%= link_to "Show this audience", audience %>
+    </p>
+  <% end %>
+</div>
+
+<%= link_to "New audience", new_audience_path %>

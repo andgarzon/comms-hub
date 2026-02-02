@@ -1,0 +1,7 @@
+<h1>New Email Audience</h1>
+
+<%= form_with model: @audience, url: email_audiences_path do |f| %>
+  <p><%= f.label :name %><br><%= f.text_field :name %></p>
+  <p><%= f.label :email_recipients %><br><%= f.text_field :email_recipients%></p>
+  <%= f.submit "Create" %>
+<% end %>

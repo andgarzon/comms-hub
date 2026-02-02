@@ -1,0 +1,97 @@
+<p><%= notice %></p>
+
+<h1><%= @announcement.title %></h1>
+
+<p>
+  <em>
+    By <%= @announcement.user&.email || "Unknown" %>
+    on <%= @announcement.created_at&.strftime("%Y-%m-%d %H:%M") %>
+  </em>
+</p>
+
+<hr>
+
+<p style="white-space: pre-wrap;">
+  <%= @announcement.body %>
+</p>
+
+<hr>
+
+<p style="color:#666;">
+  Status: <strong><%= @announcement.status || "draft" %></strong><br>
+  Created: <%= @announcement.created_at.strftime("%Y-%m-%d %H:%M") %><br>
+  <% if @announcement.scheduled_for.present? %>
+    Scheduled for: <%= @announcement.scheduled_for.strftime("%Y-%m-%d %H:%M") %>
+  <% end %>
+</p>
+
+
+<hr>
+
+<h3>Schedule</h3>
+
+<% if @announcement.status == "scheduled" %>
+  <p>
+    Currently scheduled for:
+    <strong><%= @announcement.scheduled_for.strftime("%Y-%m-%d %H:%M") %></strong>
+  </p>
+<% elsif @announcement.scheduled_for.present? %>
+  <p>
+    Scheduled time:
+    <strong><%= @announcement.scheduled_for.strftime("%Y-%m-%d %H:%M") %></strong>
+  </p>
+<% else %>
+  <p>Not scheduled.</p>
+<% end %>
+
+<%= form_with model: @announcement, url: schedule_announcement_path(@announcement), method: :patch do |f| %>
+  <p>
+    <%= f.label :scheduled_for, "Reschedule (leave blank to send now)" %><br>
+    <%= f.datetime_local_field :scheduled_for %>
+  </p>
+  <%= f.submit "Update schedule" %>
+<% end %>
+
+<%= button_to "Cancel schedule", cancel_schedule_announcement_path(@announcement), method: :patch,
+      data: { confirm: "Cancel the scheduled send?" } %>
+
+<% if @announcement.status == "failed" %>
+  <%= button_to "Retry send now", send_now_announcement_path(@announcement), method: :patch,
+        data: { confirm: "Retry sending now?" } %>
+<% end %>
+
+
+<h3>Channels</h3>
+<ul>
+  <li>Slack: <%= @announcement.send_to_slack? ? "Yes" : "No" %></li>
+  <li>Email: <%= @announcement.send_to_email? ? "Yes" : "No" %></li>
+  <li>WhatsApp: <%= @announcement.send_to_whatsapp? ? "Yes" : "No" %></li>
+</ul>
+
+<h3>Delivery logs</h3>
+
+<ul>
+  <% @announcement.delivery_logs.order(created_at: :desc).each do |log| %>
+    <li>
+      <details>
+        <summary>
+          <%= [log.channel, log.destination].compact.join(": ") %>
+          — <%= log.status %>
+          (<%= log.created_at.strftime("%Y-%m-%d %H:%M") %>)
+        </summary>
+
+        <% if log.details.present? %>
+          <pre style="white-space: pre-wrap;"><%= log.details %></pre>
+        <% else %>
+          <em>No details.</em>
+        <% end %>
+      </details>
+    </li>
+  <% end %>
+</ul>
+
+
+
+<p>
+  <%= link_to "Back to Announcements", announcements_path %>
+</p>

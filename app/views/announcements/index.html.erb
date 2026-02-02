@@ -1,0 +1,17 @@
+<h1>Announcements</h1>
+
+<ul>
+  <% @announcements.each do |announcement| %>
+    <li>
+      <%= link_to announcement.title, announcement %><br>
+
+      <small style="color:#888;">
+        <%= announcement.status || "draft" %>
+        • <%= announcement.created_at.strftime("%Y-%m-%d %H:%M") %>
+        <% if announcement.scheduled_for.present? %>
+          • scheduled: <%= announcement.scheduled_for.strftime("%Y-%m-%d %H:%M") %>
+        <% end %>
+      </small>
+    </li>
+  <% end %>
+</ul>

@@ -1,0 +1,17 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  title: MyString
+  body: MyText
+  user: one
+  send_to_slack: false
+  send_to_email: false
+  send_to_whatsapp: false
+
+two:
+  title: MyString
+  body: MyText
+  user: two
+  send_to_slack: false
+  send_to_email: false
+  send_to_whatsapp: false

@@ -1,0 +1,7 @@
+<h1>New Whatsapp Audience</h1>
+
+<%= form_with model: @audience, url: whatsapp_audiences_path do |f| %>
+  <p><%= f.label :name %><br><%= f.text_field :name %></p>
+  <p><%= f.label :whatsapp_recipients %><br><%= f.text_field :whatsapp_recipients %></p>
+  <%= f.submit "Create" %>
+<% end %>
