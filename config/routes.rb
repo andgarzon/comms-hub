@@ -32,4 +32,5 @@ end
 resources :slack_audiences
 resources :email_audiences
 resources :whatsapp_audiences
+resources :audiences
 end
