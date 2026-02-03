@@ -1,7 +1,32 @@
 <h1>New Email Audience</h1>
 
 <%= form_with model: @audience, url: email_audiences_path do |f| %>
-  <p><%= f.label :name %><br><%= f.text_field :name %></p>
-  <p><%= f.label :email_recipients %><br><%= f.text_area :email_recipients, rows: 6, style: "width: 100%;" %></p>
-  <%= f.submit "Create" %>
+  <% if @audience.errors.any? %>
+    <div style="color: red; margin-bottom: 12px;">
+      <h3><%= pluralize(@audience.errors.count, "error") %> prohibited this audience from being saved:</h3>
+      <ul>
+        <% @audience.errors.each do |error| %>
+          <li><%= error.full_message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <p>
+    <%= f.label :name %><br>
+    <%= f.text_field :name, style: "width: 100%;" %>
+  </p>
+
+  <p>
+    <%= f.label :email_recipients, "Email recipients (one per line or comma-separated)" %><br>
+    <%= f.text_area :email_recipients, rows: 6, style: "width: 100%;" %>
+  </p>
+
+  <p>
+    <%= f.submit "Create" %>
+  </p>
 <% end %>
+
+<p>
+  <%= link_to "Back to Email Audiences", email_audiences_path %>
+</p>

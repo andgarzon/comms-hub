@@ -4,7 +4,8 @@ class AnnouncementAiRewriter
   end
 
   def call
-    raise "OpenAI API key missing" if Rails.application.credentials.dig(:openai, :api_key).blank?
+    api_key = Rails.application.credentials.dig(:openai, :api_key)
+    raise "OpenAI API key missing. Set it in credentials with: rails credentials:edit" if api_key.blank?
 
     prompt = <<~PROMPT
       You are a professional executive communications assistant.
@@ -25,7 +26,9 @@ class AnnouncementAiRewriter
       WHATSAPP:
       <text>
     PROMPT
-    client = OpenAI::Client.new
+
+    client = OpenAI::Client.new(access_token: api_key)
+    
     resp = client.chat(
       parameters: {
         model: "gpt-4o-mini",
@@ -42,6 +45,10 @@ class AnnouncementAiRewriter
       slack_body: slack.presence || @announcement.base_body,
       whatsapp_body: whatsapp.presence || @announcement.base_body
     )
+  rescue StandardError => e
+    Rails.logger.error "AI Rewrite failed: #{e.class} - #{e.message}"
+    Rails.logger.error e.backtrace.join("\n")
+    raise "AI rewrite failed: #{e.message}"
   end
 
   private
