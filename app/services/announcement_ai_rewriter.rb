@@ -10,8 +10,13 @@ class AnnouncementAiRewriter
     prompt = <<~PROMPT
       You are a professional executive communications assistant.
 
-      Task: Rewrite the ORIGINAL message into THREE tailored versions.
+      Task: Rewrite the ORIGINAL message into THREE tailored versions for different communication channels.
       Keep facts the same, improve clarity and tone.
+
+      IMPORTANT LENGTH REQUIREMENTS:
+      - EMAIL: Can be longer and more formal (multiple paragraphs OK)
+      - SLACK: Must be SHORT - maximum 2-3 sentences, casual and direct
+      - WHATSAPP: Must be VERY SHORT - maximum 1-2 sentences, conversational
 
       ORIGINAL:
       #{@announcement.base_body}
@@ -21,10 +26,10 @@ class AnnouncementAiRewriter
       <text>
 
       SLACK:
-      <text>
+      <text - keep this SHORT, 2-3 sentences max>
 
       WHATSAPP:
-      <text>
+      <text - keep this VERY SHORT, 1-2 sentences max>
     PROMPT
 
     client = OpenAI::Client.new(access_token: api_key)

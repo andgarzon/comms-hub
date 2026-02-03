@@ -24,12 +24,17 @@ class AnnouncementsController < ApplicationController
     
     @announcement = current_user.announcements.build(announcement_params)
 
-    # 1) "Improve with AI" flow (preview/edit in the form, do NOT enqueue sending)
-if params[:improve_with_ai]
-  @announcement.save(validate: false)
-  AnnouncementAiRewriter.new(@announcement).call
-  render :new and return
-end
+    # 1) "Improve with AI" flow - REDIRECT to avoid turbo issues
+    if params[:improve_with_ai]
+      if @announcement.save(validate: false)
+        AnnouncementAiRewriter.new(@announcement).call
+        redirect_to new_announcement_path(improved_id: @announcement.id), notice: "AI improvements applied! Review and submit when ready."
+      else
+        flash.now[:alert] = "Please fix errors before improving with AI."
+        render :new, status: :unprocessable_entity
+      end
+      return
+    end
 
     # 2) Normal create flow (save + enqueue)
     if @announcement.save
@@ -69,33 +74,6 @@ end
   end
 
   private
-
-  def handle_ai_improve
-    unless OPENAI_API_KEY.present?
-      @announcement.errors.add(:base, "OpenAI API key missing")
-      render :new, status: :unprocessable_entity
-      return
-    end
-
-    # Use the field you actually permit/store (base_body, not :body)
-    base_text = @announcement.base_body.to_s
-
-    # If your Ai service returns a STRING:
-    improved = Ai::ImproveAnnouncement.call(base_text)
-
-    # Put the improved text back into the form
-    @announcement.base_body = improved
-
-    # Optionally keep the other channels in sync (you can delete if you don’t want this)
-    @announcement.email_body    ||= improved
-    @announcement.slack_body    ||= improved
-    @announcement.whatsapp_body ||= improved
-
-    render :new
-  rescue => e
-    @announcement.errors.add(:base, "AI rewrite failed: #{e.message}")
-    render :new, status: :unprocessable_entity
-  end
 
   def enqueue_or_schedule(announcement)
     if announcement.scheduled_for.present?

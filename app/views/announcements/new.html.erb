@@ -1,6 +1,41 @@
 <h1>New Announcement</h1>
 
-<%= form_with model: @announcement do |f| %>
+<% if flash[:notice] %>
+  <div style="background: #d4edda; color: #155724; padding: 12px; margin-bottom: 16px; border-radius: 4px;">
+    <%= flash[:notice] %>
+  </div>
+<% end %>
+
+<% if flash[:alert] %>
+  <div style="background: #f8d7da; color: #721c24; padding: 12px; margin-bottom: 16px; border-radius: 4px;">
+    <%= flash[:alert] %>
+  </div>
+<% end %>
+
+<!-- Loading overlay -->
+<div id="ai-loading" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.7); z-index: 9999;">
+  <div style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); background: white; padding: 30px; border-radius: 8px; text-align: center; max-width: 400px;">
+    <div class="spinner" style="border: 4px solid #f3f3f3; border-top: 4px solid #3498db; border-radius: 50%; width: 50px; height: 50px; animation: spin 1s linear infinite; margin: 0 auto 20px;"></div>
+    <h2 style="margin: 0 0 10px 0;">Improving with AI...</h2>
+    <p style="margin: 0; color: #666;">This may take a few seconds</p>
+  </div>
+</div>
+
+<style>
+  @keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+  }
+</style>
+
+<%
+  # Load improved announcement if redirected from AI improvement
+  if params[:improved_id].present?
+    @announcement = Announcement.find(params[:improved_id])
+  end
+%>
+
+<%= form_with model: @announcement, data: { turbo: false }, id: "announcement-form" do |f| %>
 
   <p>
     <%= f.label :title %><br>
@@ -17,7 +52,9 @@
     <%= button_tag "Improve with AI",
           type: "submit",
           name: "improve_with_ai",
-          value: "1" %>
+          value: "1",
+          id: "improve-button",
+          onclick: "document.getElementById('ai-loading').style.display='block'; return true;" %>
   </p>
 
   <hr>
@@ -50,7 +87,7 @@
     <%= f.datetime_local_field :scheduled_for %>
   </p>
 
-  <% if @audiences.present? %>
+  <% if @audiences.present? || @slack_audiences.present? %>
     <fieldset style="margin-top: 20px;">
       <legend><strong>Target Audiences</strong></legend>
       <hr>
