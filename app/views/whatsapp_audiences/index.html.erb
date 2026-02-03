@@ -1,2 +1,36 @@
-<h1>WhatsappAudiences#index</h1>
-<p>Find me in app/views/whatsapp_audiences/index.html.erb</p>
+<% content_for :title, "WhatsApp Audiences" %>
+
+<p style="color: green"><%= notice %></p>
+<p style="color: red"><%= alert %></p>
+
+<h1>WhatsApp Audiences</h1>
+
+<% if @audiences.any? %>
+  <table style="width: 100%; border-collapse: collapse; margin-top: 12px;">
+    <thead>
+      <tr style="border-bottom: 2px solid #ddd;">
+        <th style="text-align: left; padding: 8px;">Name</th>
+        <th style="text-align: left; padding: 8px;">Recipients</th>
+        <th style="text-align: left; padding: 8px;">Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% @audiences.each do |audience| %>
+        <tr style="border-bottom: 1px solid #eee;">
+          <td style="padding: 8px;"><%= audience.name %></td>
+          <td style="padding: 8px;"><%= audience.whatsapp_list.length %> recipient<%= audience.whatsapp_list.length == 1 ? "" : "s" %></td>
+          <td style="padding: 8px;">
+            <%= link_to "Edit", edit_whatsapp_audience_path(audience) %> |
+            <%= button_to "Delete", audience, method: :delete, data: { confirm: "Are you sure?" }, style: "background: none; border: none; color: #c00; cursor: pointer; padding: 0;" %>
+          </td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+<% else %>
+  <p><em>No WhatsApp audiences yet.</em></p>
+<% end %>
+
+<p style="margin-top: 16px;">
+  <%= link_to "New WhatsApp Audience", new_whatsapp_audience_path %>
+</p>

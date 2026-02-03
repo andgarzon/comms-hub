@@ -1,2 +1,34 @@
-<h1>EmailAudiences#edit</h1>
-<p>Find me in app/views/email_audiences/edit.html.erb</p>
+<% content_for :title, "Edit Email Audience" %>
+
+<h1>Edit Email Audience</h1>
+
+<%= form_with model: @audience, url: email_audience_path(@audience), method: :patch do |f| %>
+  <% if @audience.errors.any? %>
+    <div style="color: red; margin-bottom: 12px;">
+      <h3><%= pluralize(@audience.errors.count, "error") %> prohibited this audience from being saved:</h3>
+      <ul>
+        <% @audience.errors.each do |error| %>
+          <li><%= error.full_message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <p>
+    <%= f.label :name %><br>
+    <%= f.text_field :name, style: "width: 100%;" %>
+  </p>
+
+  <p>
+    <%= f.label :email_recipients, "Email recipients (one per line or comma-separated)" %><br>
+    <%= f.text_area :email_recipients, rows: 6, style: "width: 100%;" %>
+  </p>
+
+  <p>
+    <%= f.submit "Update" %>
+  </p>
+<% end %>
+
+<p>
+  <%= link_to "Back to Email Audiences", email_audiences_path %>
+</p>

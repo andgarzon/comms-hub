@@ -31,9 +31,13 @@
       &nbsp;|&nbsp;
       <%= link_to "New Announcement", new_announcement_path %>
       &nbsp;|&nbsp;
-      <%= link_to "Audiences", audiences_path %>
+      <strong>Audiences:</strong>
+      &nbsp;
+      <%= link_to "Slack", slack_audiences_path %>
       &nbsp;|&nbsp;
-      <%= link_to "New Audience", new_audience_path %>
+      <%= link_to "Email", email_audiences_path %>
+      &nbsp;|&nbsp;
+      <%= link_to "WhatsApp", whatsapp_audiences_path %>
 
       <span style="float:right;">
         <% if user_signed_in? %>

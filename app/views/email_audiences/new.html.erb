@@ -2,6 +2,6 @@
 
 <%= form_with model: @audience, url: email_audiences_path do |f| %>
   <p><%= f.label :name %><br><%= f.text_field :name %></p>
-  <p><%= f.label :email_recipients %><br><%= f.text_field :email_recipients%></p>
+  <p><%= f.label :email_recipients %><br><%= f.text_area :email_recipients, rows: 6, style: "width: 100%;" %></p>
   <%= f.submit "Create" %>
 <% end %>
