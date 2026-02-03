@@ -31,7 +31,7 @@ class AnnouncementsController < ApplicationController
         redirect_to new_announcement_path(improved_id: @announcement.id), notice: "AI improvements applied! Review and submit when ready."
       else
         flash.now[:alert] = "Please fix errors before improving with AI."
-        render :new, status: :unprocessable_entity
+        render :new, status: :unprocessable_content
       end
       return
     end
@@ -40,7 +40,7 @@ class AnnouncementsController < ApplicationController
     if @announcement.save
       enqueue_or_schedule(@announcement)
     else
-      render :new, status: :unprocessable_entity
+      render :new, status: :unprocessable_content
     end
   end
 

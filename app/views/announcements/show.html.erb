@@ -11,8 +11,24 @@
 
 <hr>
 
+<h3>Base Message</h3>
 <p style="white-space: pre-wrap;">
-  <%= @announcement.body %>
+  <%= @announcement.base_body %>
+</p>
+
+<h3>Email Version</h3>
+<p style="white-space: pre-wrap;">
+  <%= @announcement.email_body.presence || "(using base message)" %>
+</p>
+
+<h3>Slack Version</h3>
+<p style="white-space: pre-wrap;">
+  <%= @announcement.slack_body.presence || "(using base message)" %>
+</p>
+
+<h3>WhatsApp Version</h3>
+<p style="white-space: pre-wrap;">
+  <%= @announcement.whatsapp_body.presence || "(using base message)" %>
 </p>
 
 <hr>
@@ -44,10 +60,10 @@
   <p>Not scheduled.</p>
 <% end %>
 
-<%= form_with model: @announcement, url: schedule_announcement_path(@announcement), method: :patch do |f| %>
+<%= form_with url: schedule_announcement_path(@announcement), method: :patch do |f| %>
   <p>
     <%= f.label :scheduled_for, "Reschedule (leave blank to send now)" %><br>
-    <%= f.datetime_local_field :scheduled_for %>
+    <%= f.datetime_local_field :scheduled_for, name: "announcement[scheduled_for]" %>
   </p>
   <%= f.submit "Update schedule" %>
 <% end %>
@@ -67,6 +83,17 @@
   <li>Email: <%= @announcement.send_to_email? ? "Yes" : "No" %></li>
   <li>WhatsApp: <%= @announcement.send_to_whatsapp? ? "Yes" : "No" %></li>
 </ul>
+
+<h3>Target Audiences</h3>
+<% if @announcement.audiences.any? %>
+  <ul>
+    <% @announcement.audiences.each do |audience| %>
+      <li><%= audience.type.gsub('Audience', '') %>: <%= audience.name %></li>
+    <% end %>
+  </ul>
+<% else %>
+  <p><em>No specific audiences selected</em></p>
+<% end %>
 
 <h3>Delivery logs</h3>
 

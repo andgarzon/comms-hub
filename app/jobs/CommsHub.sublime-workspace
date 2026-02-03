@@ -8,358 +8,24 @@
 	"buffers":
 	[
 		{
-			"file": "/Users/andresgarzon/Projects/comms_hub/app/controllers/announcements_controller.rb",
-			"settings":
-			{
-				"buffer_size": 2681,
-				"encoding": "UTF-8",
-				"line_ending": "Unix"
-			},
-			"undo_stack":
-			[
-				[
-					3,
-					1,
-					"insert",
-					{
-						"characters": "\n\n"
-					},
-					"AgAAAHgEAAAAAAAAeQQAAAAAAAAAAAAAeQQAAAAAAAB6BAAAAAAAAAAAAAA",
-					"AQAAAAAAAAABAAAAeAQAAAAAAAB4BAAAAAAAAAAAAAAAAPC/"
-				],
-				[
-					5,
-					1,
-					"paste",
-					null,
-					"AQAAAHkEAAAAAAAAFwkAAAAAAAAAAAAA",
-					"AQAAAAAAAAABAAAAeQQAAAAAAAB5BAAAAAAAAAAAAAAAAAAA"
-				],
-				[
-					8,
-					1,
-					"insert",
-					{
-						"characters": "\n\n\n"
-					},
-					"BQAAAHcEAAAAAAAAegQAAAAAAAAAAAAAegQAAAAAAAB9BAAAAAAAAAAAAAB4BAAAAAAAAHgEAAAAAAAAAgAAACAgewQAAAAAAAB+BAAAAAAAAAAAAAB5BAAAAAAAAHkEAAAAAAAAAgAAACAg",
-					"AQAAAAAAAAABAAAAdwQAAAAAAAB3BAAAAAAAAAAAAAAAAPC/"
-				],
-				[
-					19,
-					1,
-					"paste",
-					null,
-					"AQAAAEYBAAAAAAAApgQAAAAAAAAyAwAAICBkZWYgY3JlYXRlCiAgICBAYW5ub3VuY2VtZW50ID0gY3VycmVudF91c2VyLmFubm91bmNlbWVudHMuYnVpbGQoYW5ub3VuY2VtZW50X3BhcmFtcykKICAgIEBhdWRpZW5jZXMgPSBBdWRpZW5jZS5vcmRlcig6bmFtZSkKCiAgICBpZiBAYW5ub3VuY2VtZW50LnNhdmUKICAgIEBhbm5vdW5jZW1lbnQucmVsb2FkCgogICAgCiAgICAgIGlmIEBhbm5vdW5jZW1lbnQuc2NoZWR1bGVkPwogICAgICAgIEBhbm5vdW5jZW1lbnQudXBkYXRlIShzdGF0dXM6ICJzY2hlZHVsZWQiKQogICAgICAgIFNlbmRBbm5vdW5jZW1lbnRKb2Iuc2V0KHdhaXRfdW50aWw6IEBhbm5vdW5jZW1lbnQuc2NoZWR1bGVkX2ZvcikucGVyZm9ybV9sYXRlcihAYW5ub3VuY2VtZW50LmlkKQogICAgICAgIHJlZGlyZWN0X3RvIEBhbm5vdW5jZW1lbnQsIG5vdGljZTogIkFubm91bmNlbWVudCBzY2hlZHVsZWQuIgogICAgICBlbHNlCiAgICAgICAgQGFubm91bmNlbWVudC51cGRhdGUhKHN0YXR1czogImRyYWZ0IikgaWYgQGFubm91bmNlbWVudC5zdGF0dXMuYmxhbms/CiAgICAgICAgU2VuZEFubm91bmNlbWVudEpvYi5wZXJmb3JtX2xhdGVyKEBhbm5vdW5jZW1lbnQuaWQpCiAgICAgICAgcmVkaXJlY3RfdG8gQGFubm91bmNlbWVudCwgbm90aWNlOiAiQW5ub3VuY2VtZW50IHF1ZXVlZCB0byBzZW5kLiIKICAgICAgZW5kCgogICAgZWxzZQogICAgICByZW5kZXIgOm5ldywgc3RhdHVzOiA6dW5wcm9jZXNzYWJsZV9lbnRpdHkKICAgIGVuZAogIGVuZAoKICBkZWYgc2hvdwogICAgQGFubm91bmNlbWVudCA9IEFubm91bmNlbWVudC5maW5kKHBhcmFtc1s6aWRdKQogIGVuZAo",
-					"AQAAAAAAAAABAAAAeAQAAAAAAABGAQAAAAAAAAAAAAAAAPC/"
-				],
-				[
-					26,
-					1,
-					"paste",
-					null,
-					"AQAAAEYBAAAAAAAApQQAAAAAAABfAwAAZGVmIGNyZWF0ZQogIEBhdWRpZW5jZXMgPSBBdWRpZW5jZS5vcmRlcig6bmFtZSkKICBAYW5ub3VuY2VtZW50ID0gY3VycmVudF91c2VyLmFubm91bmNlbWVudHMuYnVpbGQoYW5ub3VuY2VtZW50X3BhcmFtcykKCiAgaWYgcGFyYW1zWzppbXByb3ZlX3dpdGhfYWldCiAgICBpZiBAYW5ub3VuY2VtZW50LnNhdmUodmFsaWRhdGU6IGZhbHNlKQogICAgICBBbm5vdW5jZW1lbnRBaVJld3JpdGVyLm5ldyhAYW5ub3VuY2VtZW50KS5jYWxsCiAgICBlbmQKICAgIHJlbmRlciA6bmV3IGFuZCByZXR1cm4KICBlbmQKCiAgaWYgQGFubm91bmNlbWVudC5zYXZlCiAgICBAYW5ub3VuY2VtZW50LnJlbG9hZAoKICAgIGlmIEBhbm5vdW5jZW1lbnQuc2NoZWR1bGVkPwogICAgICBAYW5ub3VuY2VtZW50LnVwZGF0ZSEoc3RhdHVzOiAic2NoZWR1bGVkIikKICAgICAgU2VuZEFubm91bmNlbWVudEpvYi5zZXQod2FpdF91bnRpbDogQGFubm91bmNlbWVudC5zY2hlZHVsZWRfZm9yKQogICAgICAgICAgICAgICAgICAgICAgICAgLnBlcmZvcm1fbGF0ZXIoQGFubm91bmNlbWVudC5pZCkKICAgICAgcmVkaXJlY3RfdG8gQGFubm91bmNlbWVudCwgbm90aWNlOiAiQW5ub3VuY2VtZW50IHNjaGVkdWxlZC4iCiAgICBlbHNlCiAgICAgIEBhbm5vdW5jZW1lbnQudXBkYXRlIShzdGF0dXM6ICJkcmFmdCIpCiAgICAgIFNlbmRBbm5vdW5jZW1lbnRKb2IucGVyZm9ybV9sYXRlcihAYW5ub3VuY2VtZW50LmlkKQogICAgICByZWRpcmVjdF90byBAYW5ub3VuY2VtZW50LCBub3RpY2U6ICJBbm5vdW5jZW1lbnQgcXVldWVkLiIKICAgIGVuZAogIGVsc2UKICAgIHJlbmRlciA6bmV3LCBzdGF0dXM6IDp1bnByb2Nlc3NhYmxlX2VudGl0eQogIGVuZAplbmQ",
-					"AQAAAAAAAAABAAAApQQAAAAAAABGAQAAAAAAAAAAAAAAAPC/"
-				],
-				[
-					31,
-					1,
-					"paste",
-					null,
-					"AQAAAJsJAAAAAAAAVAoAAAAAAACMAAAAICAgICAgOnRpdGxlLAogICAgICA6Ym9keSwKICAgICAgOnNlbmRfdG9fc2xhY2ssCiAgICAgIDpzZW5kX3RvX2VtYWlsLAogICAgICA6c2VuZF90b193aGF0c2FwcCwKICAgICAgOnNjaGVkdWxlZF9mb3IsCiAgICAgIGF1ZGllbmNlX2lkczogW10",
-					"AQAAAAAAAAABAAAAJwoAAAAAAACbCQAAAAAAAAAAAAAAAPC/"
-				],
-				[
-					34,
-					1,
-					"indent",
-					null,
-					"CgAAAJsJAAAAAAAAnQkAAAAAAAAAAAAAqQkAAAAAAACrCQAAAAAAAAAAAAC7CQAAAAAAAL0JAAAAAAAAAAAAAM4JAAAAAAAA0AkAAAAAAAAAAAAA4QkAAAAAAADjCQAAAAAAAAAAAAD3CQAAAAAAAPkJAAAAAAAAAAAAAA0KAAAAAAAADwoAAAAAAAAAAAAAIwoAAAAAAAAlCgAAAAAAAAAAAAA8CgAAAAAAAD4KAAAAAAAAAAAAAFIKAAAAAAAAVAoAAAAAAAAAAAAA",
-					"AQAAAAAAAAABAAAAnwkAAAAAAABUCgAAAAAAAAAAAAAAAPC/"
-				]
-			]
-		},
-		{
-			"file": "/Users/andresgarzon/Projects/comms_hub/app/models/announcement.rb",
-			"settings":
-			{
-				"buffer_size": 960,
-				"encoding": "UTF-8",
-				"line_ending": "Unix"
-			},
-			"undo_stack":
-			[
-				[
-					4,
-					3,
-					"left_delete",
-					null,
-					"AwAAANABAAAAAAAA0AEAAAAAAAAtAAAAdmFsaWRhdGUgOnNjaGVkdWxlZF9mb3JfY2Fubm90X2JlX2luX3RoZV9wYXN0zgEAAAAAAADOAQAAAAAAAAIAAAAgIM0BAAAAAAAAzQEAAAAAAAABAAAACg",
-					"AQAAAAAAAAABAAAA/QEAAAAAAADQAQAAAAAAAAAAAAAAAPC/"
-				],
-				[
-					9,
-					1,
-					"paste",
-					null,
-					"AQAAAHQBAAAAAAAA0wEAAAAAAABYAAAAICB2YWxpZGF0ZXMgOnN0YXR1cywgaW5jbHVzaW9uOiB7IGluOiAld1tkcmFmdCBzY2hlZHVsZWQgc2VudCBmYWlsZWRdLCBhbGxvd19uaWw6IHRydWUgfQ",
-					"AQAAAAAAAAABAAAAzAEAAAAAAAB0AQAAAAAAAAAAAAAAAPC/"
-				],
-				[
-					12,
-					1,
-					"left_delete",
-					null,
-					"AQAAANMBAAAAAAAA0wEAAAAAAAABAAAACg",
-					"AQAAAAAAAAABAAAA1AEAAAAAAADUAQAAAAAAAAAAAAAAAPC/"
-				],
-				[
-					15,
-					1,
-					"insert",
-					{
-						"characters": "\t"
-					},
-					"AQAAAHQBAAAAAAAAdgEAAAAAAAAAAAAA",
-					"AQAAAAAAAAABAAAAdAEAAAAAAAB0AQAAAAAAAAAAAAAAAPC/"
-				],
-				[
-					18,
-					1,
-					"reindent",
-					null,
-					"AQAAANYBAAAAAAAA2AEAAAAAAAAAAAAA",
-					"AQAAAAAAAAABAAAA1gEAAAAAAADWAQAAAAAAAAAAAAAAAPC/"
-				],
-				[
-					19,
-					1,
-					"paste",
-					null,
-					"AQAAANgBAAAAAAAA/QEAAAAAAAAAAAAA",
-					"AQAAAAAAAAABAAAA2AEAAAAAAADYAQAAAAAAAAAAAAAAAPC/"
-				],
-				[
-					25,
-					1,
-					"insert",
-					{
-						"characters": " "
-					},
-					"AQAAAGMBAAAAAAAAZAEAAAAAAAAAAAAA",
-					"AQAAAAAAAAABAAAAYwEAAAAAAABjAQAAAAAAAAAAAAAAAPC/"
-				],
-				[
-					26,
-					1,
-					"paste",
-					null,
-					"AQAAAGQBAAAAAAAAbgEAAAAAAAAAAAAA",
-					"AQAAAAAAAAABAAAAZAEAAAAAAABkAQAAAAAAAAAAAAAAAPC/"
-				],
-				[
-					27,
-					1,
-					"insert",
-					{
-						"characters": ","
-					},
-					"AQAAAG4BAAAAAAAAbwEAAAAAAAAAAAAA",
-					"AQAAAAAAAAABAAAAbgEAAAAAAABuAQAAAAAAAAAAAAAAAPC/"
-				],
-				[
-					30,
-					2,
-					"left_delete",
-					null,
-					"AgAAAOIBAAAAAAAA4gEAAAAAAAAmAAAAICB2YWxpZGF0ZXMgOmJhc2VfYm9keSwgcHJlc2VuY2U6IHRydWXhAQAAAAAAAOEBAAAAAAAAAQAAAAo",
-					"AQAAAAAAAAABAAAACAIAAAAAAADiAQAAAAAAAAAAAAAAAPC/"
-				],
-				[
-					38,
-					4,
-					"left_delete",
-					null,
-					"BAAAAF4BAAAAAAAAXgEAAAAAAAAEAAAAYm9keV0BAAAAAAAAXQEAAAAAAAABAAAAOlwBAAAAAAAAXAEAAAAAAAABAAAAIFsBAAAAAAAAWwEAAAAAAAABAAAALA",
-					"AQAAAAAAAAABAAAAXgEAAAAAAABiAQAAAAAAAAAAAAAAAPC/"
-				]
-			]
-		},
-		{
 			"file": "/Users/andresgarzon/Projects/comms_hub/app/views/announcements/new.html.erb",
 			"settings":
 			{
-				"buffer_size": 2437,
+				"buffer_size": 3827,
 				"encoding": "UTF-8",
 				"line_ending": "Unix"
 			},
 			"undo_stack":
 			[
 				[
-					11,
-					1,
-					"insert",
-					{
-						"characters": "\n\n"
-					},
-					"AgAAAAAAAAAAAAAAAQAAAAAAAAAAAAAAAQAAAAAAAAACAAAAAAAAAAAAAAA",
-					"AQAAAAAAAAABAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAPC/"
-				],
-				[
-					13,
-					1,
-					"insert",
-					{
-						"characters": "\n\n"
-					},
-					"AgAAAAAAAAAAAAAAAQAAAAAAAAAAAAAAAQAAAAAAAAACAAAAAAAAAAAAAAA",
-					"AQAAAAAAAAABAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
-				],
-				[
-					15,
+					4,
 					1,
 					"paste",
 					null,
-					"AQAAAAAAAAAAAAAAHQIAAAAAAAAAAAAA",
-					"AQAAAAAAAAABAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
-				],
-				[
-					24,
-					1,
-					"insert",
-					{
-						"characters": "\n\n\n\n"
-					},
-					"BAAAAB0CAAAAAAAAHgIAAAAAAAAAAAAAHgIAAAAAAAAfAgAAAAAAAAAAAAAfAgAAAAAAACACAAAAAAAAAAAAACACAAAAAAAAIQIAAAAAAAAAAAAA",
-					"AQAAAAAAAAABAAAAHQIAAAAAAAAdAgAAAAAAAAAAAAAAAPC/"
-				],
-				[
-					47,
-					1,
-					"toggle_comment",
-					{
-						"block": false
-					},
-					"PgAAAO8IAAAAAAAA8QgAAAAAAAAAAAAAsggAAAAAAAC0CAAAAAAAAAAAAACuCAAAAAAAALAIAAAAAAAAAAAAAKMIAAAAAAAApQgAAAAAAAAAAAAAnAgAAAAAAACeCAAAAAAAAAAAAABxCAAAAAAAAHMIAAAAAAAAAAAAAGQIAAAAAAAAZggAAAAAAAAAAAAAXQgAAAAAAABfCAAAAAAAAAAAAAAsCAAAAAAAAC4IAAAAAAAAAAAAAN4HAAAAAAAA4AcAAAAAAAAAAAAA2AcAAAAAAADaBwAAAAAAAAAAAACqBwAAAAAAAKwHAAAAAAAAAAAAAIEHAAAAAAAAgwcAAAAAAAAAAAAAewcAAAAAAAB9BwAAAAAAAAAAAABtBwAAAAAAAG8HAAAAAAAAAAAAAGEHAAAAAAAAYwcAAAAAAAAAAAAAMQcAAAAAAAAzBwAAAAAAAAAAAAAkBwAAAAAAACYHAAAAAAAAAAAAABYHAAAAAAAAGAcAAAAAAAAAAAAACQcAAAAAAAALBwAAAAAAAAAAAADyBgAAAAAAAPQGAAAAAAAAAAAAANcGAAAAAAAA2QYAAAAAAAAAAAAAywYAAAAAAADNBgAAAAAAAAAAAAB6BgAAAAAAAHwGAAAAAAAAAAAAAFsGAAAAAAAAXQYAAAAAAAAAAAAAJQYAAAAAAAAnBgAAAAAAAAAAAAD/BQAAAAAAAAEGAAAAAAAAAAAAAPAFAAAAAAAA8gUAAAAAAAAAAAAA5wUAAAAAAADpBQAAAAAAAAAAAACsBQAAAAAAAK4FAAAAAAAAAAAAAIEFAAAAAAAAgwUAAAAAAAAAAAAAeQUAAAAAAAB7BQAAAAAAAAAAAABwBQAAAAAAAHIFAAAAAAAAAAAAADsFAAAAAAAAPQUAAAAAAAAAAAAAEwUAAAAAAAAVBQAAAAAAAAAAAAALBQAAAAAAAA0FAAAAAAAAAAAAAAIFAAAAAAAABAUAAAAAAAAAAAAAzQQAAAAAAADPBAAAAAAAAAAAAAClBAAAAAAAAKcEAAAAAAAAAAAAAJ0EAAAAAAAAnwQAAAAAAAAAAAAAfwQAAAAAAACBBAAAAAAAAAAAAAByBAAAAAAAAHQEAAAAAAAAAAAAAGoEAAAAAAAAbAQAAAAAAAAAAAAAKwQAAAAAAAAtBAAAAAAAAAAAAAAOBAAAAAAAABAEAAAAAAAAAAAAAAgEAAAAAAAACgQAAAAAAAAAAAAAAAQAAAAAAAACBAAAAAAAAAAAAADJAwAAAAAAAMsDAAAAAAAAAAAAAKsDAAAAAAAArQMAAAAAAAAAAAAApQMAAAAAAACnAwAAAAAAAAAAAACYAwAAAAAAAJoDAAAAAAAAAAAAAI0DAAAAAAAAjwMAAAAAAAAAAAAAgQMAAAAAAACDAwAAAAAAAAAAAABvAwAAAAAAAHEDAAAAAAAAAAAAAFEDAAAAAAAAUwMAAAAAAAAAAAAAEgMAAAAAAAAUAwAAAAAAAAAAAAAHAwAAAAAAAAkDAAAAAAAAAAAAALACAAAAAAAAsgIAAAAAAAAAAAAAkgIAAAAAAACUAgAAAAAAAAAAAABtAgAAAAAAAG8CAAAAAAAAAAAAAEACAAAAAAAAQgIAAAAAAAAAAAAAJQIAAAAAAAAnAgAAAAAAAAAAAAA",
-					"AQAAAAAAAAABAAAAIwIAAAAAAAD0CAAAAAAAAAAAAAAAAPC/"
-				],
-				[
-					49,
-					1,
-					"toggle_comment",
-					{
-						"block": false
-					},
-					"AQAAACMCAAAAAAAAJQIAAAAAAAAAAAAA",
-					"AQAAAAAAAAABAAAAIwIAAAAAAAAjAgAAAAAAAAAAAAAAAPC/"
-				],
-				[
-					50,
-					1,
-					"insert",
-					{
-						"characters": "Commented"
-					},
-					"CQAAACUCAAAAAAAAJgIAAAAAAAAAAAAAJgIAAAAAAAAnAgAAAAAAAAAAAAAnAgAAAAAAACgCAAAAAAAAAAAAACgCAAAAAAAAKQIAAAAAAAAAAAAAKQIAAAAAAAAqAgAAAAAAAAAAAAAqAgAAAAAAACsCAAAAAAAAAAAAACsCAAAAAAAALAIAAAAAAAAAAAAALAIAAAAAAAAtAgAAAAAAAAAAAAAtAgAAAAAAAC4CAAAAAAAAAAAAAA",
-					"AQAAAAAAAAABAAAAJQIAAAAAAAAlAgAAAAAAAAAAAAAAAPC/"
-				],
-				[
-					51,
-					1,
-					"insert",
-					{
-						"characters": " old"
-					},
-					"BAAAAC4CAAAAAAAALwIAAAAAAAAAAAAALwIAAAAAAAAwAgAAAAAAAAAAAAAwAgAAAAAAADECAAAAAAAAAAAAADECAAAAAAAAMgIAAAAAAAAAAAAA",
-					"AQAAAAAAAAABAAAALgIAAAAAAAAuAgAAAAAAAAAAAAAAAPC/"
-				],
-				[
-					52,
-					1,
-					"insert",
-					{
-						"characters": " code"
-					},
-					"BQAAADICAAAAAAAAMwIAAAAAAAAAAAAAMwIAAAAAAAA0AgAAAAAAAAAAAAA0AgAAAAAAADUCAAAAAAAAAAAAADUCAAAAAAAANgIAAAAAAAAAAAAANgIAAAAAAAA3AgAAAAAAAAAAAAA",
-					"AQAAAAAAAAABAAAAMgIAAAAAAAAyAgAAAAAAAAAAAAAAAPC/"
-				],
-				[
-					57,
-					2,
-					"left_delete",
-					null,
-					"AgAAADoCAAAAAAAAOgIAAAAAAAABAAAAIDkCAAAAAAAAOQIAAAAAAAABAAAAIw",
-					"AQAAAAAAAAABAAAAOwIAAAAAAAA7AgAAAAAAAAAAAAAAAPC/"
-				],
-				[
-					58,
-					1,
-					"toggle_comment",
-					{
-						"block": false
-					},
-					"AQAAADkCAAAAAAAAOwIAAAAAAAAAAAAA",
-					"AQAAAAAAAAABAAAAOQIAAAAAAAA5AgAAAAAAAAAAAAAAAPC/"
-				],
-				[
-					61,
-					1,
-					"insert",
-					{
-						"characters": " "
-					},
-					"AQAAAFQCAAAAAAAAVQIAAAAAAAAAAAAA",
-					"AQAAAAAAAAABAAAAVAIAAAAAAABUAgAAAAAAAAAAAAAAAPC/"
+					"AQAAAAAAAAAAAAAA8w4AAAAAAABKEAAAPGgxPk5ldyBBbm5vdW5jZW1lbnQ8L2gxPgoKPCUgaWYgZmxhc2hbOm5vdGljZV0gJT4KICA8ZGl2IHN0eWxlPSJiYWNrZ3JvdW5kOiAjZDRlZGRhOyBjb2xvcjogIzE1NTcyNDsgcGFkZGluZzogMTJweDsgbWFyZ2luLWJvdHRvbTogMTZweDsgYm9yZGVyLXJhZGl1czogNHB4OyI+CiAgICA8JT0gZmxhc2hbOm5vdGljZV0gJT4KICA8L2Rpdj4KPCUgZW5kICU+Cgo8JSBpZiBmbGFzaFs6YWxlcnRdICU+CiAgPGRpdiBzdHlsZT0iYmFja2dyb3VuZDogI2Y4ZDdkYTsgY29sb3I6ICM3MjFjMjQ7IHBhZGRpbmc6IDEycHg7IG1hcmdpbi1ib3R0b206IDE2cHg7IGJvcmRlci1yYWRpdXM6IDRweDsiPgogICAgPCU9IGZsYXNoWzphbGVydF0gJT4KICA8L2Rpdj4KPCUgZW5kICU+Cgo8IS0tIExvYWRpbmcgb3ZlcmxheSAtLT4KPGRpdiBpZD0iYWktbG9hZGluZyIgc3R5bGU9ImRpc3BsYXk6IG5vbmU7IHBvc2l0aW9uOiBmaXhlZDsgdG9wOiAwOyBsZWZ0OiAwOyB3aWR0aDogMTAwJTsgaGVpZ2h0OiAxMDAlOyBiYWNrZ3JvdW5kOiByZ2JhKDAsMCwwLDAuNyk7IHotaW5kZXg6IDk5OTk7IGp1c3RpZnktY29udGVudDogY2VudGVyOyBhbGlnbi1pdGVtczogY2VudGVyOyI+CiAgPGRpdiBzdHlsZT0iYmFja2dyb3VuZDogd2hpdGU7IHBhZGRpbmc6IDMwcHg7IGJvcmRlci1yYWRpdXM6IDhweDsgdGV4dC1hbGlnbjogY2VudGVyOyBtYXgtd2lkdGg6IDQwMHB4OyI+CiAgICA8ZGl2IGNsYXNzPSJzcGlubmVyIiBzdHlsZT0iYm9yZGVyOiA0cHggc29saWQgI2YzZjNmMzsgYm9yZGVyLXRvcDogNHB4IHNvbGlkICMzNDk4ZGI7IGJvcmRlci1yYWRpdXM6IDUwJTsgd2lkdGg6IDUwcHg7IGhlaWdodDogNTBweDsgYW5pbWF0aW9uOiBzcGluIDFzIGxpbmVhciBpbmZpbml0ZTsgbWFyZ2luOiAwIGF1dG8gMjBweDsiPjwvZGl2PgogICAgPGgyIHN0eWxlPSJtYXJnaW46IDAgMCAxMHB4IDA7Ij5JbXByb3Zpbmcgd2l0aCBBSS4uLjwvaDI+CiAgICA8cCBzdHlsZT0ibWFyZ2luOiAwOyBjb2xvcjogIzY2NjsiPlRoaXMgbWF5IHRha2UgYSBmZXcgc2Vjb25kczwvcD4KICA8L2Rpdj4KPC9kaXY+Cgo8c3R5bGU+CiAgQGtleWZyYW1lcyBzcGluIHsKICAgIDAlIHsgdHJhbnNmb3JtOiByb3RhdGUoMGRlZyk7IH0KICAgIDEwMCUgeyB0cmFuc2Zvcm06IHJvdGF0ZSgzNjBkZWcpOyB9CiAgfQo8L3N0eWxlPgoKPHNjcmlwdD4KICBkb2N1bWVudC5hZGRFdmVudExpc3RlbmVyKCdET01Db250ZW50TG9hZGVkJywgZnVuY3Rpb24oKSB7CiAgICBjb25zdCBmb3JtID0gZG9jdW1lbnQucXVlcnlTZWxlY3RvcignZm9ybScpOwogICAgY29uc3QgbG9hZGluZyA9IGRvY3VtZW50LmdldEVsZW1lbnRCeUlkKCdhaS1sb2FkaW5nJyk7CiAgICAKICAgIGZvcm0uYWRkRXZlbnRMaXN0ZW5lcignc3VibWl0JywgZnVuY3Rpb24oZSkgewogICAgICAvLyBPbmx5IHNob3cgbG9hZGluZyBpZiAiSW1wcm92ZSB3aXRoIEFJIiBidXR0b24gd2FzIGNsaWNrZWQKICAgICAgY29uc3Qgc3VibWl0QnV0dG9uID0gZG9jdW1lbnQuYWN0aXZlRWxlbWVudDsKICAgICAgaWYgKHN1Ym1pdEJ1dHRvbiAmJiBzdWJtaXRCdXR0b24ubmFtZSA9PT0gJ2ltcHJvdmVfd2l0aF9haScpIHsKICAgICAgICBsb2FkaW5nLnN0eWxlLmRpc3BsYXkgPSAnZmxleCc7CiAgICAgIH0KICAgIH0pOwogIH0pOwo8L3NjcmlwdD4KCjwlCiAgIyBMb2FkIGltcHJvdmVkIGFubm91bmNlbWVudCBpZiByZWRpcmVjdGVkIGZyb20gQUkgaW1wcm92ZW1lbnQKICBpZiBwYXJhbXNbOmltcHJvdmVkX2lkXS5wcmVzZW50PwogICAgQGFubm91bmNlbWVudCA9IEFubm91bmNlbWVudC5maW5kKHBhcmFtc1s6aW1wcm92ZWRfaWRdKQogIGVuZAolPgoKPCU9IGZvcm1fd2l0aCBtb2RlbDogQGFubm91bmNlbWVudCwgZGF0YTogeyB0dXJibzogZmFsc2UgfSBkbyB8ZnwgJT4KCiAgPHA+CiAgICA8JT0gZi5sYWJlbCA6dGl0bGUgJT48YnI+CiAgICA8JT0gZi50ZXh0X2ZpZWxkIDp0aXRsZSwgc3R5bGU6ICJ3aWR0aDoxMDAlOyIgJT4KICA8L3A+CgogIDxoMz5CYXNlIG1lc3NhZ2U8L2gzPgogIDxwPgogICAgPCU9IGYubGFiZWwgOmJhc2VfYm9keSwgIk9yaWdpbmFsIG1lc3NhZ2UiICU+PGJyPgogICAgPCU9IGYudGV4dF9hcmVhIDpiYXNlX2JvZHksIHJvd3M6IDYsIHN0eWxlOiAid2lkdGg6MTAwJTsiICU+CiAgPC9wPgoKICA8cD4KICAgIDwlPSBidXR0b25fdGFnICJJbXByb3ZlIHdpdGggQUkiLAogICAgICAgICAgdHlwZTogInN1Ym1pdCIsCiAgICAgICAgICBuYW1lOiAiaW1wcm92ZV93aXRoX2FpIiwKICAgICAgICAgIHZhbHVlOiAiMSIsCiAgICAgICAgICBpZDogImltcHJvdmUtYnV0dG9uIiAlPgogIDwvcD4KCiAgPGhyPgoKICA8aDM+RW1haWwgdmVyc2lvbjwvaDM+CiAgPHA+CiAgICA8JT0gZi50ZXh0X2FyZWEgOmVtYWlsX2JvZHksIHJvd3M6IDgsIHN0eWxlOiAid2lkdGg6MTAwJTsiICU+CiAgPC9wPgoKICA8aDM+U2xhY2sgdmVyc2lvbjwvaDM+CiAgPHA+CiAgICA8JT0gZi50ZXh0X2FyZWEgOnNsYWNrX2JvZHksIHJvd3M6IDQsIHN0eWxlOiAid2lkdGg6MTAwJTsiICU+CiAgPC9wPgoKICA8aDM+V2hhdHNBcHAgdmVyc2lvbjwvaDM+CiAgPHA+CiAgICA8JT0gZi50ZXh0X2FyZWEgOndoYXRzYXBwX2JvZHksIHJvd3M6IDMsIHN0eWxlOiAid2lkdGg6MTAwJTsiICU+CiAgPC9wPgoKICA8aHI+CgogIDxwPgogICAgPCU9IGYuY2hlY2tfYm94IDpzZW5kX3RvX3NsYWNrICU+IFNlbmQgdG8gU2xhY2s8YnI+CiAgICA8JT0gZi5jaGVja19ib3ggOnNlbmRfdG9fZW1haWwgJT4gU2VuZCB0byBFbWFpbDxicj4KICAgIDwlPSBmLmNoZWNrX2JveCA6c2VuZF90b193aGF0c2FwcCAlPiBTZW5kIHRvIFdoYXRzQXBwCiAgPC9wPgoKICA8cD4KICAgIDwlPSBmLmxhYmVsIDpzY2hlZHVsZWRfZm9yLCAiU2VuZCBsYXRlciAobGVhdmUgYmxhbmsgdG8gc2VuZCBub3cpIiAlPjxicj4KICAgIDwlPSBmLmRhdGV0aW1lX2xvY2FsX2ZpZWxkIDpzY2hlZHVsZWRfZm9yICU+CiAgPC9wPgoKICA8JSBpZiBAYXVkaWVuY2VzLnByZXNlbnQ/IHx8IEBzbGFja19hdWRpZW5jZXMucHJlc2VudD8gJT4KICAgIDxmaWVsZHNldCBzdHlsZT0ibWFyZ2luLXRvcDogMjBweDsiPgogICAgICA8bGVnZW5kPjxzdHJvbmc+VGFyZ2V0IEF1ZGllbmNlczwvc3Ryb25nPjwvbGVnZW5kPgogICAgICA8aHI+Cgo8aDM+U2xhY2sgYXVkaWVuY2VzPC9oMz4KPCUgaWYgQHNsYWNrX2F1ZGllbmNlcy5wcmVzZW50PyAlPgogIDwlPSBmLmNvbGxlY3Rpb25fY2hlY2tfYm94ZXMgOmF1ZGllbmNlX2lkcywgQHNsYWNrX2F1ZGllbmNlcywgOmlkLCA6bmFtZSBkbyB8YnwgJT4KICAgIDxkaXY+CiAgICAgIDwlPSBiLmNoZWNrX2JveCAlPgogICAgICA8JT0gYi5sYWJlbCAlPgogICAgPC9kaXY+CiAgPCUgZW5kICU+CjwlIGVsc2UgJT4KICA8cD48ZW0+Tm8gU2xhY2sgYXVkaWVuY2VzIHlldC48L2VtPjwvcD4KPCUgZW5kICU+Cgo8aDM+RW1haWwgYXVkaWVuY2VzPC9oMz4KPCUgaWYgQGVtYWlsX2F1ZGllbmNlcy5wcmVzZW50PyAlPgogIDwlPSBmLmNvbGxlY3Rpb25fY2hlY2tfYm94ZXMgOmF1ZGllbmNlX2lkcywgQGVtYWlsX2F1ZGllbmNlcywgOmlkLCA6bmFtZSBkbyB8YnwgJT4KICAgIDxkaXY+CiAgICAgIDwlPSBiLmNoZWNrX2JveCAlPgogICAgICA8JT0gYi5sYWJlbCAlPgogICAgPC9kaXY+CiAgPCUgZW5kICU+CjwlIGVsc2UgJT4KICA8cD48ZW0+Tm8gRW1haWwgYXVkaWVuY2VzIHlldC48L2VtPjwvcD4KPCUgZW5kICU+Cgo8aDM+V2hhdHNBcHAgYXVkaWVuY2VzPC9oMz4KPCUgaWYgQHdoYXRzYXBwX2F1ZGllbmNlcy5wcmVzZW50PyAlPgogIDwlPSBmLmNvbGxlY3Rpb25fY2hlY2tfYm94ZXMgOmF1ZGllbmNlX2lkcywgQHdoYXRzYXBwX2F1ZGllbmNlcywgOmlkLCA6bmFtZSBkbyB8YnwgJT4KICAgIDxkaXY+CiAgICAgIDwlPSBiLmNoZWNrX2JveCAlPgogICAgICA8JT0gYi5sYWJlbCAlPgogICAgPC9kaXY+CiAgPCUgZW5kICU+CjwlIGVsc2UgJT4KICA8cD48ZW0+Tm8gV2hhdHNBcHAgYXVkaWVuY2VzIHlldC48L2VtPjwvcD4KPCUgZW5kICU+CgogICAgPC9maWVsZHNldD4KICA8JSBlbmQgJT4KCiAgPHAgc3R5bGU9Im1hcmdpbi10b3A6IDIwcHg7Ij4KICAgIDwlPSBmLnN1Ym1pdCAiQ3JlYXRlIEFubm91bmNlbWVudCIgJT4KICA8L3A+Cgo8JSBlbmQgJT4K",
+					"AQAAAAAAAAABAAAAAAAAAAAAAABKEAAAAAAAAAAAAAAAAPC/"
 				]
 			]
-		},
-		{
-			"file": "/Users/andresgarzon/Projects/comms_hub/app/services/announcement_ai_rewriter.rb",
-			"settings":
-			{
-				"buffer_size": 1392,
-				"encoding": "UTF-8",
-				"line_ending": "Unix"
-			},
-			"undo_stack":
-			[
-				[
-					6,
-					1,
-					"paste",
-					null,
-					"AQAAAAAAAAAAAAAAcAUAAAAAAAAAAAAA",
-					"AQAAAAAAAAABAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAPC/"
-				]
-			]
-		},
-		{
-			"file": "send_announcement_job.rb",
-			"settings":
-			{
-				"buffer_size": 958,
-				"encoding": "UTF-8",
-				"line_ending": "Unix"
-			},
-			"undo_stack":
-			[
-				[
-					2,
-					1,
-					"paste",
-					null,
-					"AQAAAAAAAAAAAAAAvgMAAAAAAABTBAAAY2xhc3MgU2VuZEFubm91bmNlbWVudEpvYiA8IEFwcGxpY2F0aW9uSm9iCiAgcXVldWVfYXMgOmRlZmF1bHQKCiAgZGVmIHBlcmZvcm0oYW5ub3VuY2VtZW50X2lkKQogICAgYW5ub3VuY2VtZW50ID0gQW5ub3VuY2VtZW50LmZpbmQoYW5ub3VuY2VtZW50X2lkKQoKICAgICMgSWYgaXQgd2FzIGNhbmNlbGVkIG9yIGFscmVhZHkgc2VudCwgZG8gbm90aGluZwogICAgcmV0dXJuIGlmIGFubm91bmNlbWVudC5zdGF0dXMgPT0gInNlbnQiCiAgICByZXR1cm4gaWYgYW5ub3VuY2VtZW50LnN0YXR1cyA9PSAiZHJhZnQiICYmIGFubm91bmNlbWVudC5zY2hlZHVsZWRfZm9yLnByZXNlbnQ/CgogICAgIyBJZiBzdGlsbCBzY2hlZHVsZWQgZm9yIHRoZSBmdXR1cmUsIGRvIG5vdGhpbmcgKHN0YWxlIGpvYikKICAgIGlmIGFubm91bmNlbWVudC5zdGF0dXMgPT0gInNjaGVkdWxlZCIgJiYgYW5ub3VuY2VtZW50LnNjaGVkdWxlZF9mb3IucHJlc2VudD8gJiYgYW5ub3VuY2VtZW50LnNjaGVkdWxlZF9mb3IuZnV0dXJlPwogICAgICByZXR1cm4KICAgIGVuZAoKICAgICMgTWFyayBhcyBzZW5kaW5nIChvcHRpb25hbCBidXQgbmljZSkKICAgIGFubm91bmNlbWVudC51cGRhdGUhKHN0YXR1czogInNlbmRpbmciKSByZXNjdWUgbmlsCgogICAgaWYgYW5ub3VuY2VtZW50LnNlbmRfdG9fc2xhY2s/CiAgICAgIFNsYWNrQW5ub3VuY2VtZW50U2VuZGVyLm5ldyhhbm5vdW5jZW1lbnQpLmNhbGwKICAgIGVuZAoKICAgIGFubm91bmNlbWVudC51cGRhdGUhKHN0YXR1czogInNlbnQiKQogIHJlc2N1ZSA9PiBlCiAgICBpZiAoYW5ub3VuY2VtZW50IHx8PSBBbm5vdW5jZW1lbnQuZmluZF9ieShpZDogYW5ub3VuY2VtZW50X2lkKSkKICAgICAgYW5ub3VuY2VtZW50LmRlbGl2ZXJ5X2xvZ3MuY3JlYXRlISgKICAgICAgICBjaGFubmVsOiAic3lzdGVtIiwKICAgICAgICBkZXN0aW5hdGlvbjogInNlbmRfam9iIiwKICAgICAgICBzdGF0dXM6ICJlcnJvciIsCiAgICAgICAgZGV0YWlsczogIiN7ZS5jbGFzc306ICN7ZS5tZXNzYWdlfSIKICAgICAgKQogICAgICBhbm5vdW5jZW1lbnQudXBkYXRlIShzdGF0dXM6ICJmYWlsZWQiKQogICAgZW5kCiAgICByYWlzZQogIGVuZAplbmQK",
-					"AQAAAAAAAAABAAAAAAAAAAAAAABTBAAAAAAAAAAAAAAAAPC/"
-				]
-			]
-		},
-		{
-			"file": "/Users/andresgarzon/Projects/comms_hub/config/routes.rb",
-			"settings":
-			{
-				"buffer_size": 279,
-				"line_ending": "Unix"
-			}
 		}
 	],
 	"build_system": "",
@@ -394,19 +60,54 @@
 	},
 	"expanded_folders":
 	[
-		"/Users/andresgarzon/Projects/comms_hub"
+		"/Users/andresgarzon/Projects/comms_hub",
+		"/Users/andresgarzon/Projects/comms_hub/app",
+		"/Users/andresgarzon/Projects/comms_hub/app/views",
+		"/Users/andresgarzon/Projects/comms_hub/app/views/layouts",
+		"/Users/andresgarzon/Projects/comms_hub/app/views/whatsapp_audiences",
+		"/Users/andresgarzon/Projects/comms_hub/script",
+		"/Users/andresgarzon/Projects/comms_hub/storage"
 	],
 	"file_history":
 	[
+		"/Users/andresgarzon/Projects/comms_hub/app/services/announcement_ai_rewriter.rb",
 		"/Users/andresgarzon/Projects/comms_hub/app/views/announcements/new.html.erb",
 		"/Users/andresgarzon/Projects/comms_hub/app/controllers/announcements_controller.rb",
-		"/Users/andresgarzon/Projects/comms_hub/config/environments/development.rb",
-		"/Users/andresgarzon/Projects/comms_hub/app/views/layouts/application.html.erb",
+		"/var/folders/f4/1stdb7316c79_w49gm610bxw0000gn/T/20260202-33345-c5a7xs-credentials.yml",
+		"/Users/andresgarzon/Projects/comms_hub/app/mailers/announcement_mailer.rb",
+		"/Users/andresgarzon/Projects/comms_hub/app/views/email_audiences/new.html.erb",
 		"/Users/andresgarzon/Projects/comms_hub/app/jobs/send_announcement_job.rb",
-		"/Users/andresgarzon/Projects/comms_hub/config/application.rb",
-		"/Users/andresgarzon/Projects/comms_hub/app/models/announcement.rb",
-		"/Users/andresgarzon/Projects/comms_hub/app/views/announcements/index.html.erb",
+		"/Users/andresgarzon/Projects/comms_hub/db/migrate/20260109032334_add_type_and_channels_to_audiences.rb",
 		"/Users/andresgarzon/Projects/comms_hub/config/routes.rb",
+		"/Users/andresgarzon/Projects/comms_hub/app/views/email_audiences/edit.html.erb",
+		"/Users/andresgarzon/Projects/comms_hub/app/views/whatsapp_audiences/edit.html.erb",
+		"/Users/andresgarzon/Projects/comms_hub/app/views/layouts/application.html.erb",
+		"/Users/andresgarzon/Projects/comms_hub/app/views/whatsapp_audiences/new.html.erb",
+		"/Users/andresgarzon/Projects/comms_hub/app/views/slack_audiences/new.html.erb",
+		"/Users/andresgarzon/Projects/comms_hub/app/controllers/whatsapp_audiences_controller.rb",
+		"/Users/andresgarzon/Projects/comms_hub/app/controllers/email_audiences_controller.rb",
+		"/Users/andresgarzon/Projects/comms_hub/app/controllers/slack_audiences_controller.rb",
+		"/Users/andresgarzon/Projects/comms_hub/announcements/new.html.erb",
+		"/Users/andresgarzon/Projects/comms_hub/app/controllers/EmailAudiencesController.rb",
+		"/Users/andresgarzon/Projects/comms_hub/app/views/audiences/_form.html.erb",
+		"/Users/andresgarzon/Projects/comms_hub/app/models/whatsapp_audience.rb",
+		"/Users/andresgarzon/Projects/comms_hub/app/models/email_audience.rb",
+		"/Users/andresgarzon/Projects/comms_hub/app/models/slack_audience.rb",
+		"/Users/andresgarzon/Projects/comms_hub/app/models/audience.rb",
+		"/var/folders/f4/1stdb7316c79_w49gm610bxw0000gn/T/20260108-24726-cxqdqi-credentials.yml",
+		"/Users/andresgarzon/Projects/comms_hub/slack_announcement_sender.rb",
+		"/var/folders/f4/1stdb7316c79_w49gm610bxw0000gn/T/20260106-16633-54p2da-credentials.yml",
+		"/Users/andresgarzon/Projects/comms_hub/Gemfile",
+		"/Users/andresgarzon/Projects/comms_hub/config/initializers/openai.rb",
+		"/var/folders/f4/1stdb7316c79_w49gm610bxw0000gn/T/20260107-21826-lmcxoi-credentials.yml",
+		"/var/folders/f4/1stdb7316c79_w49gm610bxw0000gn/T/20260107-21634-9j0yve-credentials.yml",
+		"/var/folders/f4/1stdb7316c79_w49gm610bxw0000gn/T/20260107-21570-etdh4t-credentials.yml",
+		"/var/folders/f4/1stdb7316c79_w49gm610bxw0000gn/T/20260105-10904-xmabmb-credentials.yml",
+		"/var/folders/f4/1stdb7316c79_w49gm610bxw0000gn/T/20260105-10587-nbeflu-credentials.yml",
+		"/Users/andresgarzon/Projects/comms_hub/app/models/announcement.rb",
+		"/Users/andresgarzon/Projects/comms_hub/config/environments/development.rb",
+		"/Users/andresgarzon/Projects/comms_hub/config/application.rb",
+		"/Users/andresgarzon/Projects/comms_hub/app/views/announcements/index.html.erb",
 		"/Users/andresgarzon/Projects/comms_hub/app/views/announcements/show.html.erb",
 		"/Users/andresgarzon/Projects/comms_hub/db/migrate/20251226214538_add_unique_index_to_delivery_logs.rb",
 		"/Users/andresgarzon/Projects/comms_hub/app/services/slack_announcement_sender.rb",
@@ -415,13 +116,11 @@
 		"/Users/andresgarzon/Projects/comms_hub/app/models/group_membership.rb",
 		"/Users/andresgarzon/Projects/comms_hub/app/models/user.rb",
 		"/Users/andresgarzon/Projects/comms_hub/app/models/announcement_audience.rb",
-		"/Users/andresgarzon/Projects/comms_hub/app/models/audience.rb",
 		"/Users/andresgarzon/Projects/comms_hub/app/models/audience_membership.rb",
 		"/Users/andresgarzon/Projects/comms_hub/app/models/announcement_target.rb",
 		"/var/folders/f4/1stdb7316c79_w49gm610bxw0000gn/T/20251225-9379-l2a1rs-credentials.yml",
 		"/var/folders/f4/1stdb7316c79_w49gm610bxw0000gn/T/20251225-7780-i3rmcc-credentials.yml",
 		"/var/folders/f4/1stdb7316c79_w49gm610bxw0000gn/T/20251225-7304-mbjlw3-credentials.yml",
-		"/Users/andresgarzon/Projects/comms_hub/slack_announcement_sender.rb",
 		"/Users/andresgarzon/Projects/comms_hub/app/controllers/application_controller.rb",
 		"/Users/andresgarzon/Projects/comms_hub/bin/rails",
 		"/Users/andresgarzon/Projects/comms_hub/app/models/delivery_log.rb",
@@ -449,9 +148,10 @@
 	},
 	"find_in_files":
 	{
-		"height": 0.0,
+		"height": 98.0,
 		"where_history":
 		[
+			"/Users/andresgarzon/Projects/comms_hub,<project filters>"
 		]
 	},
 	"find_state":
@@ -459,6 +159,8 @@
 		"case_sensitive": false,
 		"find_history":
 		[
+			"<%= form_with model: @announcement do |f| %>",
+			"raise",
 			"text = \"*#{@announcement.title}*\\n\\n#{@announcement.body}\"",
 			"validates :status, inclusion: { in: %w[draft scheduled sent failed], allow_nil: true }\n"
 		],
@@ -484,188 +186,33 @@
 			[
 				{
 					"buffer": 0,
-					"file": "/Users/andresgarzon/Projects/comms_hub/app/controllers/announcements_controller.rb",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 2681,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								491,
-								491
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/Ruby/Ruby.sublime-syntax",
-							"tab_size": 2,
-							"translate_tabs_to_spaces": true
-						},
-						"translation.x": 0.0,
-						"translation.y": 0.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 2,
-					"stack_multiselect": false,
-					"type": "text"
-				},
-				{
-					"buffer": 1,
-					"file": "/Users/andresgarzon/Projects/comms_hub/app/models/announcement.rb",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 960,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								347,
-								347
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/Ruby/Ruby.sublime-syntax",
-							"tab_size": 2,
-							"translate_tabs_to_spaces": true
-						},
-						"translation.x": 0.0,
-						"translation.y": 0.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 1,
-					"stack_multiselect": false,
-					"type": "text"
-				},
-				{
-					"buffer": 2,
 					"file": "/Users/andresgarzon/Projects/comms_hub/app/views/announcements/new.html.erb",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 2437,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								597,
-								597
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/Ruby/Ruby.sublime-syntax",
-							"tab_size": 2,
-							"translate_tabs_to_spaces": true
-						},
-						"translation.x": 0.0,
-						"translation.y": 2.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 4,
-					"stack_multiselect": false,
-					"type": "text"
-				},
-				{
-					"buffer": 3,
-					"file": "/Users/andresgarzon/Projects/comms_hub/app/services/announcement_ai_rewriter.rb",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 1392,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								1061,
-								1061
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/Ruby/Ruby.sublime-syntax",
-							"tab_size": 2,
-							"translate_tabs_to_spaces": true
-						},
-						"translation.x": 0.0,
-						"translation.y": 317.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 3,
-					"stack_multiselect": false,
-					"type": "text"
-				},
-				{
-					"buffer": 4,
-					"file": "send_announcement_job.rb",
 					"selected": true,
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 958,
+						"buffer_size": 3827,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								958,
-								958
+								3827,
+								3827
 							]
 						],
 						"settings":
 						{
-							"syntax": "Packages/Ruby/Ruby.sublime-syntax",
+							"syntax": "Packages/Rails/HTML (Rails).sublime-syntax",
 							"tab_size": 2,
 							"translate_tabs_to_spaces": true
 						},
 						"translation.x": 0.0,
-						"translation.y": 0.0,
+						"translation.y": 1386.0,
 						"zoom_level": 1.0
 					},
 					"stack_index": 0,
-					"stack_multiselect": false,
-					"type": "text"
-				},
-				{
-					"buffer": 5,
-					"file": "/Users/andresgarzon/Projects/comms_hub/config/routes.rb",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 279,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								0,
-								0
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/Ruby/Ruby.sublime-syntax",
-							"tab_size": 2,
-							"translate_tabs_to_spaces": true
-						},
-						"translation.x": 0.0,
-						"translation.y": 0.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 5,
 					"stack_multiselect": false,
 					"type": "text"
 				}
