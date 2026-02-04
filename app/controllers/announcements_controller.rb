@@ -26,11 +26,32 @@ class AnnouncementsController < ApplicationController
 
     # 1) "Improve with AI" flow - REDIRECT to avoid turbo issues
     if params[:improve_with_ai]
+      # Validate only title and base_body for AI improvement
+      if @announcement.title.blank?
+        @announcement.errors.add(:title, "can't be blank")
+        flash.now[:alert] = "Please add a title before improving with AI."
+        render :new, status: :unprocessable_content
+        return
+      end
+      
+      if @announcement.base_body.blank?
+        @announcement.errors.add(:base_body, "can't be blank")
+        flash.now[:alert] = "Please add a base message before improving with AI."
+        render :new, status: :unprocessable_content
+        return
+      end
+
+      # Save without full validation, then improve
       if @announcement.save(validate: false)
-        AnnouncementAiRewriter.new(@announcement).call
-        redirect_to new_announcement_path(improved_id: @announcement.id), notice: "AI improvements applied! Review and submit when ready."
+        begin
+          AnnouncementAiRewriter.new(@announcement).call
+          redirect_to new_announcement_path(improved_id: @announcement.id), notice: "AI improvements applied! Review and submit when ready."
+        rescue => e
+          flash.now[:alert] = "AI improvement failed: #{e.message}. Please try again."
+          render :new, status: :unprocessable_content
+        end
       else
-        flash.now[:alert] = "Please fix errors before improving with AI."
+        flash.now[:alert] = "Could not save announcement for AI improvement."
         render :new, status: :unprocessable_content
       end
       return
@@ -48,9 +69,9 @@ class AnnouncementsController < ApplicationController
     scheduled_for = params.dig(:announcement, :scheduled_for)
 
     if scheduled_for.blank?
-      @announcement.update!(scheduled_for: nil, status: "queued")
+      @announcement.update!(scheduled_for: nil, status: "draft")
       SendAnnouncementJob.perform_later(@announcement.id)
-      redirect_to @announcement, notice: "Queued to send now."
+      redirect_to @announcement, notice: "Sending now."
       return
     end
 
@@ -68,7 +89,7 @@ class AnnouncementsController < ApplicationController
   end
 
   def send_now
-    @announcement.update!(status: "queued", scheduled_for: nil)
+    @announcement.update!(status: "draft", scheduled_for: nil)
     SendAnnouncementJob.perform_later(@announcement.id)
     redirect_to @announcement, notice: "Retry queued."
   end
@@ -81,9 +102,9 @@ class AnnouncementsController < ApplicationController
       SendAnnouncementJob.set(wait_until: announcement.scheduled_for).perform_later(announcement.id)
       redirect_to announcement, notice: "Announcement scheduled."
     else
-      announcement.update!(status: "queued")
+      announcement.update!(status: "draft")
       SendAnnouncementJob.perform_later(announcement.id)
-      redirect_to announcement, notice: "Announcement queued."
+      redirect_to announcement, notice: "Announcement sending now."
     end
   end
 

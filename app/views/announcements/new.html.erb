@@ -1,41 +1,36 @@
 <h1>New Announcement</h1>
 
-<% if flash[:notice] %>
-  <div style="background: #d4edda; color: #155724; padding: 12px; margin-bottom: 16px; border-radius: 4px;">
-    <%= flash[:notice] %>
-  </div>
-<% end %>
-
-<% if flash[:alert] %>
-  <div style="background: #f8d7da; color: #721c24; padding: 12px; margin-bottom: 16px; border-radius: 4px;">
-    <%= flash[:alert] %>
-  </div>
-<% end %>
-
-<!-- Loading overlay -->
-<div id="ai-loading" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.7); z-index: 9999;">
-  <div style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); background: white; padding: 30px; border-radius: 8px; text-align: center; max-width: 400px;">
-    <div class="spinner" style="border: 4px solid #f3f3f3; border-top: 4px solid #3498db; border-radius: 50%; width: 50px; height: 50px; animation: spin 1s linear infinite; margin: 0 auto 20px;"></div>
-    <h2 style="margin: 0 0 10px 0;">Improving with AI...</h2>
-    <p style="margin: 0; color: #666;">This may take a few seconds</p>
-  </div>
-</div>
-
-<style>
-  @keyframes spin {
-    0% { transform: rotate(0deg); }
-    100% { transform: rotate(360deg); }
-  }
-</style>
-
-<%
-  # Load improved announcement if redirected from AI improvement
+<% 
+  # Load improved announcement if provided, otherwise create new
   if params[:improved_id].present?
     @announcement = Announcement.find(params[:improved_id])
+    # Create a NEW announcement with the improved content, don't use the existing one
+    @announcement = Announcement.new(@announcement.attributes.except('id', 'created_at', 'updated_at', 'user_id', 'status'))
   end
 %>
 
-<%= form_with model: @announcement, data: { turbo: false }, id: "announcement-form" do |f| %>
+<!-- Loading overlay (hidden by default) -->
+<div id="ai-loading" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.5); z-index:9999; align-items:center; justify-content:center;">
+  <div style="background:white; padding:30px; border-radius:10px; text-align:center;">
+    <div style="border:4px solid #f3f3f3; border-top:4px solid #3498db; border-radius:50%; width:40px; height:40px; animation:spin 1s linear infinite; margin:0 auto 20px;"></div>
+    <p>Improving with AI...</p>
+  </div>
+</div>
+<style>
+  @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+</style>
+
+<%= form_with model: @announcement, url: announcements_path, method: :post, data: { turbo: false } do |f| %>
+  <% if @announcement.errors.any? %>
+    <div style="color: red">
+      <h2><%= pluralize(@announcement.errors.count, "error") %> prohibited this announcement from being saved:</h2>
+      <ul>
+        <% @announcement.errors.full_messages.each do |message| %>
+          <li><%= message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
 
   <p>
     <%= f.label :title %><br>
@@ -53,8 +48,7 @@
           type: "submit",
           name: "improve_with_ai",
           value: "1",
-          id: "improve-button",
-          onclick: "document.getElementById('ai-loading').style.display='block'; return true;" %>
+          onclick: "document.getElementById('ai-loading').style.display='flex'; return true;" %>
   </p>
 
   <hr>
@@ -87,46 +81,46 @@
     <%= f.datetime_local_field :scheduled_for %>
   </p>
 
-  <% if @audiences.present? || @slack_audiences.present? %>
+  <% if @slack_audiences.present? || @email_audiences.present? || @whatsapp_audiences.present? %>
     <fieldset style="margin-top: 20px;">
       <legend><strong>Target Audiences</strong></legend>
       <hr>
 
-<h3>Slack audiences</h3>
-<% if @slack_audiences.present? %>
-  <%= f.collection_check_boxes :audience_ids, @slack_audiences, :id, :name do |b| %>
-    <div>
-      <%= b.check_box %>
-      <%= b.label %>
-    </div>
-  <% end %>
-<% else %>
-  <p><em>No Slack audiences yet.</em></p>
-<% end %>
+      <h3>Slack audiences</h3>
+      <% if @slack_audiences.present? %>
+        <%= f.collection_check_boxes :audience_ids, @slack_audiences, :id, :name do |b| %>
+          <div>
+            <%= b.check_box %>
+            <%= b.label %>
+          </div>
+        <% end %>
+      <% else %>
+        <p><em>No Slack audiences yet.</em></p>
+      <% end %>
 
-<h3>Email audiences</h3>
-<% if @email_audiences.present? %>
-  <%= f.collection_check_boxes :audience_ids, @email_audiences, :id, :name do |b| %>
-    <div>
-      <%= b.check_box %>
-      <%= b.label %>
-    </div>
-  <% end %>
-<% else %>
-  <p><em>No Email audiences yet.</em></p>
-<% end %>
+      <h3>Email audiences</h3>
+      <% if @email_audiences.present? %>
+        <%= f.collection_check_boxes :audience_ids, @email_audiences, :id, :name do |b| %>
+          <div>
+            <%= b.check_box %>
+            <%= b.label %>
+          </div>
+        <% end %>
+      <% else %>
+        <p><em>No Email audiences yet.</em></p>
+      <% end %>
 
-<h3>WhatsApp audiences</h3>
-<% if @whatsapp_audiences.present? %>
-  <%= f.collection_check_boxes :audience_ids, @whatsapp_audiences, :id, :name do |b| %>
-    <div>
-      <%= b.check_box %>
-      <%= b.label %>
-    </div>
-  <% end %>
-<% else %>
-  <p><em>No WhatsApp audiences yet.</em></p>
-<% end %>
+      <h3>WhatsApp audiences</h3>
+      <% if @whatsapp_audiences.present? %>
+        <%= f.collection_check_boxes :audience_ids, @whatsapp_audiences, :id, :name do |b| %>
+          <div>
+            <%= b.check_box %>
+            <%= b.label %>
+          </div>
+        <% end %>
+      <% else %>
+        <p><em>No WhatsApp audiences yet.</em></p>
+      <% end %>
 
     </fieldset>
   <% end %>
