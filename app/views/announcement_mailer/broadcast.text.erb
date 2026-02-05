@@ -1,0 +1,8 @@
+<%= @announcement.title %>
+<%= "=" * @announcement.title.length %>
+
+<%= @announcement.email_body.presence || @announcement.base_body %>
+
+---
+Sent on <%= @announcement.created_at.strftime("%B %d, %Y at %I:%M %p") %>
+This is an automated announcement from your organization.

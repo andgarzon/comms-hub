@@ -4,9 +4,7 @@ class AnnouncementMailer < ApplicationMailer
     
     mail(
       to: to,
-      subject: @announcement.title,
-      body: @announcement.email_body.presence || @announcement.base_body,
-      content_type: "text/plain"
+      subject: "📢 #{@announcement.title}"
     )
   end
 end
