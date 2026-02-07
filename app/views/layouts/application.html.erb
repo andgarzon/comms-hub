@@ -1,56 +1,418 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title><%= content_for(:title) || "Comms Hub" %></title>
+    <title>CommsHub - Announcement Management</title>
     <meta name="viewport" content="width=device-width,initial-scale=1">
-    <meta name="apple-mobile-web-app-capable" content="yes">
-    <meta name="application-name" content="Comms Hub">
-    <meta name="mobile-web-app-capable" content="yes">
     <%= csrf_meta_tags %>
     <%= csp_meta_tag %>
 
-    <%= yield :head %>
-
-    <%# Enable PWA manifest for installable apps (make sure to enable in config/routes.rb too!) %>
-    <%#= tag.link rel: "manifest", href: pwa_manifest_path(format: :json) %>
-
-    <link rel="icon" href="/icon.png" type="image/png">
-    <link rel="icon" href="/icon.svg" type="image/svg+xml">
-    <link rel="apple-touch-icon" href="/icon.png">
-
-    <%# Includes all stylesheet files in app/assets/stylesheets %>
-    <%= stylesheet_link_tag :app, "data-turbo-track": "reload" %>
+    <%= stylesheet_link_tag "application", "data-turbo-track": "reload" %>
     <%= javascript_importmap_tags %>
+    
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+      
+      body {
+        font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+        background: #f5f5f7;
+        min-height: 100vh;
+      }
+      
+      .navbar {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        box-shadow: 0 2px 12px rgba(0,0,0,0.1);
+        position: sticky;
+        top: 0;
+        z-index: 1000;
+      }
+      
+      .navbar-container {
+        max-width: 1400px;
+        margin: 0 auto;
+        padding: 0 24px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        height: 70px;
+      }
+      
+      .navbar-brand {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        text-decoration: none;
+        color: white;
+        font-size: 24px;
+        font-weight: 700;
+        transition: opacity 0.2s;
+      }
+      
+      .navbar-brand:hover {
+        opacity: 0.9;
+      }
+      
+      .brand-icon {
+        font-size: 32px;
+      }
+      
+      .navbar-menu {
+        display: flex;
+        gap: 8px;
+        align-items: center;
+        list-style: none;
+      }
+      
+      .nav-item {
+        position: relative;
+      }
+      
+      .nav-link {
+        display: flex;
+        align-items: center;
+        gap: 6px;
+        padding: 10px 18px;
+        color: white;
+        text-decoration: none;
+        font-weight: 500;
+        font-size: 15px;
+        border-radius: 8px;
+        transition: all 0.2s;
+      }
+      
+      .nav-link:hover {
+        background: rgba(255,255,255,0.15);
+      }
+      
+      .nav-link.active {
+        background: rgba(255,255,255,0.2);
+      }
+      
+      .dropdown {
+        position: relative;
+      }
+      
+      .dropdown-toggle::after {
+        content: '▼';
+        font-size: 10px;
+        margin-left: 4px;
+      }
+      
+      .dropdown-menu {
+        position: absolute;
+        top: 100%;
+        left: 0;
+        margin-top: 8px;
+        background: white;
+        border-radius: 12px;
+        box-shadow: 0 8px 24px rgba(0,0,0,0.15);
+        min-width: 220px;
+        opacity: 0;
+        visibility: hidden;
+        transform: translateY(-10px);
+        transition: all 0.2s;
+        list-style: none;
+        padding: 8px;
+      }
+      
+      .dropdown:hover .dropdown-menu {
+        opacity: 1;
+        visibility: visible;
+        transform: translateY(0);
+      }
+      
+      .dropdown-item {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        padding: 12px 16px;
+        color: #333;
+        text-decoration: none;
+        font-size: 14px;
+        border-radius: 8px;
+        transition: all 0.2s;
+      }
+      
+      .dropdown-item:hover {
+        background: #f8f9fa;
+        color: #667eea;
+      }
+      
+      .dropdown-divider {
+        height: 1px;
+        background: #e9ecef;
+        margin: 8px 0;
+      }
+      
+      .btn-new {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        padding: 10px 20px;
+        background: white;
+        color: #667eea;
+        text-decoration: none;
+        font-weight: 600;
+        font-size: 15px;
+        border-radius: 8px;
+        transition: all 0.2s;
+        margin-left: 16px;
+      }
+      
+      .btn-new:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+      }
+      
+      .mobile-menu-toggle {
+        display: none;
+        background: none;
+        border: none;
+        color: white;
+        font-size: 24px;
+        cursor: pointer;
+        padding: 8px;
+      }
+      
+      @media (max-width: 768px) {
+        .mobile-menu-toggle {
+          display: block;
+        }
+        
+        .navbar-menu {
+          position: absolute;
+          top: 70px;
+          left: 0;
+          right: 0;
+          background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+          flex-direction: column;
+          padding: 16px;
+          gap: 4px;
+          display: none;
+        }
+        
+        .navbar-menu.active {
+          display: flex;
+        }
+        
+        .nav-item {
+          width: 100%;
+        }
+        
+        .nav-link {
+          width: 100%;
+          justify-content: flex-start;
+        }
+        
+        .dropdown-menu {
+          position: static;
+          opacity: 1;
+          visibility: visible;
+          transform: none;
+          margin-top: 8px;
+          display: none;
+        }
+        
+        .dropdown.active .dropdown-menu {
+          display: block;
+        }
+        
+        .btn-new {
+          margin-left: 0;
+          width: 100%;
+          justify-content: center;
+        }
+      }
+      
+      .page-content {
+        min-height: calc(100vh - 70px);
+      }
+    </style>
   </head>
 
   <body>
-    <nav style="padding: 12px 0; border-bottom: 1px solid #ddd; margin-bottom: 16px;">
-      <%= link_to "Home", root_path %>
-      &nbsp;|&nbsp;
-      <%= link_to "Announcements", announcements_path %>
-      &nbsp;|&nbsp;
-      <%= link_to "New Announcement", new_announcement_path %>
-      &nbsp;|&nbsp;
-      <strong>Audiences:</strong>
-      &nbsp;
-      <%= link_to "Slack", slack_audiences_path %>
-      &nbsp;|&nbsp;
-      <%= link_to "Email", email_audiences_path %>
-      &nbsp;|&nbsp;
-      <%= link_to "WhatsApp", whatsapp_audiences_path %>
-
-      <span style="float:right;">
-        <% if user_signed_in? %>
-          <%= current_user.email %>
-          &nbsp;|&nbsp;
-          <%= button_to "Sign out", destroy_user_session_path, method: :delete, form: { style: "display:inline;" } %>
-        <% else %>
-          <%= link_to "Sign in", new_user_session_path %>
+    <!-- Navigation Header -->
+    <nav class="navbar">
+      <div class="navbar-container">
+        <!-- Brand/Logo -->
+        <%= link_to root_path, class: "navbar-brand" do %>
+          <span class="brand-icon">📢</span>
+          <span>CommsHub</span>
         <% end %>
-      </span>
+
+        <!-- Mobile Menu Toggle -->
+        <button class="mobile-menu-toggle" onclick="toggleMobileMenu()">
+          ☰
+        </button>
+
+        <!-- Navigation Menu -->
+        <ul class="navbar-menu" id="navbarMenu">
+          <!-- Home -->
+          <li class="nav-item">
+            <%= link_to root_path, class: "nav-link #{current_page?(root_path) ? 'active' : ''}" do %>
+              <span>🏠</span>
+              <span>Home</span>
+            <% end %>
+          </li>
+
+          <!-- Announcements Dropdown -->
+          <li class="nav-item dropdown">
+            <a href="#" class="nav-link dropdown-toggle">
+              <span>📢</span>
+              <span>Announcements</span>
+            </a>
+            <ul class="dropdown-menu">
+              <li>
+                <%= link_to announcements_path, class: "dropdown-item" do %>
+                  <span>📋</span>
+                  <span>All Announcements</span>
+                <% end %>
+              </li>
+              <li>
+                <%= link_to new_announcement_path, class: "dropdown-item" do %>
+                  <span>✨</span>
+                  <span>Create New</span>
+                <% end %>
+              </li>
+              <li class="dropdown-divider"></li>
+              <li>
+                <a href="<%= announcements_path %>?filter=draft" class="dropdown-item">
+                  <span>📝</span>
+                  <span>Drafts</span>
+                </a>
+              </li>
+              <li>
+                <a href="<%= announcements_path %>?filter=scheduled" class="dropdown-item">
+                  <span>📅</span>
+                  <span>Scheduled</span>
+                </a>
+              </li>
+              <li>
+                <a href="<%= announcements_path %>?filter=sent" class="dropdown-item">
+                  <span>✅</span>
+                  <span>Sent</span>
+                </a>
+              </li>
+            </ul>
+          </li>
+
+          <!-- Audiences Dropdown -->
+          <li class="nav-item dropdown">
+            <a href="#" class="nav-link dropdown-toggle">
+              <span>👥</span>
+              <span>Audiences</span>
+            </a>
+            <ul class="dropdown-menu">
+              <li>
+                <%= link_to audiences_path, class: "dropdown-item" do %>
+                  <span>👥</span>
+                  <span>All Audiences</span>
+                <% end %>
+              </li>
+              <li class="dropdown-divider"></li>
+              <li>
+                <%= link_to slack_audiences_path, class: "dropdown-item" do %>
+                  <span>💬</span>
+                  <span>Slack Audiences</span>
+                <% end %>
+              </li>
+              <li>
+                <%= link_to email_audiences_path, class: "dropdown-item" do %>
+                  <span>📧</span>
+                  <span>Email Audiences</span>
+                <% end %>
+              </li>
+              <li>
+                <%= link_to whatsapp_audiences_path, class: "dropdown-item" do %>
+                  <span>📲</span>
+                  <span>WhatsApp Audiences</span>
+                <% end %>
+              </li>
+            </ul>
+          </li>
+
+          <!-- Reports -->
+          <li class="nav-item">
+            <%= link_to announcements_path, class: "nav-link" do %>
+              <span>📊</span>
+              <span>Reports</span>
+            <% end %>
+          </li>
+
+          <!-- CTA Button -->
+          <li class="nav-item">
+            <%= link_to new_announcement_path, class: "btn-new" do %>
+              <span>✨</span>
+              <span>New Announcement</span>
+            <% end %>
+          </li>
+
+          <!-- User Menu -->
+          <% if user_signed_in? %>
+            <li class="nav-item dropdown">
+              <a href="#" class="nav-link dropdown-toggle">
+                <span>👤</span>
+                <span><%= current_user.email.split('@').first %></span>
+              </a>
+              <ul class="dropdown-menu">
+                <li>
+                  <a href="#" class="dropdown-item">
+                    <span>👤</span>
+                    <span><%= current_user.email %></span>
+                  </a>
+                </li>
+                <li class="dropdown-divider"></li>
+                <li>
+                  <%= button_to destroy_user_session_path, method: :delete, class: "dropdown-item", style: "border: none; background: none; width: 100%; text-align: left; cursor: pointer;" do %>
+                    <span>🚪</span>
+                    <span>Logout</span>
+                  <% end %>
+                </li>
+              </ul>
+            </li>
+          <% else %>
+            <li class="nav-item">
+              <%= link_to new_user_session_path, class: "nav-link" do %>
+                <span>🔐</span>
+                <span>Login</span>
+              <% end %>
+            </li>
+          <% end %>
+        </ul>
+      </div>
     </nav>
 
-    <%= yield %>
-  </body>
+    <!-- Main Content -->
+    <div class="page-content">
+      <%= yield %>
+    </div>
 
+    <script>
+      function toggleMobileMenu() {
+        const menu = document.getElementById('navbarMenu');
+        menu.classList.toggle('active');
+      }
+
+      document.addEventListener('click', function(event) {
+        const menu = document.getElementById('navbarMenu');
+        const toggle = document.querySelector('.mobile-menu-toggle');
+        
+        if (menu && toggle && !menu.contains(event.target) && !toggle.contains(event.target)) {
+          menu.classList.remove('active');
+        }
+      });
+
+      if (window.innerWidth <= 768) {
+        document.querySelectorAll('.dropdown-toggle').forEach(toggle => {
+          toggle.addEventListener('click', function(e) {
+            e.preventDefault();
+            this.parentElement.classList.toggle('active');
+          });
+        });
+      }
+    </script>
+  </body>
 </html>
