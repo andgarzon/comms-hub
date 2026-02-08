@@ -1,5 +1,5 @@
 <% 
-  # Load improved announcement if provided, otherwise create new
+  # Load improved announcement if provided, otherwise create new!
   if params[:improved_id].present?
     @announcement = Announcement.find(params[:improved_id])
     # Create a NEW announcement with the improved content, don't use the existing one
