@@ -1,211 +1,302 @@
-<% content_for :page_title, "Announcements" %>
-<%# ULTRA-SAFE VERSION - All attributes checked with respond_to? - v3.0 %>
+<style>
+  .announcements-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 40px 20px;
+  }
 
-<div class="page-header">
-  <div style="display: flex; justify-content: space-between; align-items: start; flex-wrap: wrap; gap: 16px;">
-    <div style="flex: 1;">
-      <h2 class="page-header__title">Announcements</h2>
-      <p class="page-header__description">Manage and send communications to your audiences</p>
-    </div>
-    <div>
-      <%= link_to new_announcement_path, class: "btn btn-primary" do %>
-        <span style="font-size: 18px; margin-right: 4px;">+</span>
-        <span>Create Announcement</span>
-      <% end %>
-    </div>
+  .page-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 32px;
+    flex-wrap: wrap;
+    gap: 16px;
+  }
+
+  .page-header h1 {
+    font-size: 36px;
+    font-weight: 700;
+    color: #1a1a1a;
+    margin: 0;
+  }
+
+  .btn {
+    padding: 12px 24px;
+    border-radius: 8px;
+    font-weight: 600;
+    font-size: 15px;
+    text-decoration: none;
+    display: inline-block;
+    transition: all 0.2s;
+  }
+
+  .btn-primary {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+  }
+
+  .btn-primary:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 24px rgba(102, 126, 234, 0.4);
+  }
+
+  .filter-tabs {
+    display: flex;
+    gap: 8px;
+    margin-bottom: 24px;
+    flex-wrap: wrap;
+  }
+
+  .filter-tab {
+    padding: 10px 20px;
+    background: white;
+    border: 2px solid #e9ecef;
+    border-radius: 8px;
+    font-weight: 500;
+    color: #6c757d;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+
+  .filter-tab.active {
+    background: #667eea;
+    color: white;
+    border-color: #667eea;
+  }
+
+  .filter-tab:hover {
+    border-color: #667eea;
+    color: #667eea;
+  }
+
+  .announcements-grid {
+    display: grid;
+    gap: 20px;
+  }
+
+  .announcement-card {
+    background: white;
+    border-radius: 12px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+    padding: 24px;
+    transition: all 0.2s;
+    display: flex;
+    gap: 20px;
+  }
+
+  .announcement-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 8px 24px rgba(0,0,0,0.12);
+  }
+
+  .announcement-content {
+    flex: 1;
+  }
+
+  .announcement-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: start;
+    margin-bottom: 12px;
+    gap: 16px;
+  }
+
+  .announcement-title {
+    font-size: 20px;
+    font-weight: 600;
+    color: #1a1a1a;
+    margin: 0;
+  }
+
+  .status-badge {
+    padding: 6px 12px;
+    border-radius: 20px;
+    font-size: 12px;
+    font-weight: 600;
+    text-transform: uppercase;
+    white-space: nowrap;
+  }
+
+  .status-draft {
+    background: #e9ecef;
+    color: #495057;
+  }
+
+  .status-scheduled {
+    background: #fff3cd;
+    color: #856404;
+  }
+
+  .status-sending {
+    background: #cfe2ff;
+    color: #084298;
+  }
+
+  .status-sent {
+    background: #d1e7dd;
+    color: #0f5132;
+  }
+
+  .status-failed {
+    background: #f8d7da;
+    color: #842029;
+  }
+
+  .announcement-body {
+    color: #6c757d;
+    line-height: 1.6;
+    margin-bottom: 16px;
+  }
+
+  .announcement-meta {
+    display: flex;
+    gap: 24px;
+    flex-wrap: wrap;
+    font-size: 14px;
+    color: #6c757d;
+  }
+
+  .meta-item {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+
+  .channels {
+    display: flex;
+    gap: 8px;
+  }
+
+  .channel-badge {
+    padding: 4px 10px;
+    background: #f8f9fa;
+    border-radius: 4px;
+    font-size: 13px;
+  }
+
+  .announcement-actions {
+    display: flex;
+    gap: 12px;
+    margin-top: 16px;
+    padding-top: 16px;
+    border-top: 1px solid #e9ecef;
+  }
+
+  .btn-small {
+    padding: 8px 16px;
+    font-size: 14px;
+    border-radius: 6px;
+    text-decoration: none;
+    font-weight: 500;
+    transition: all 0.2s;
+  }
+
+  .btn-view {
+    background: #667eea;
+    color: white;
+  }
+
+  .btn-view:hover {
+    background: #5568d3;
+  }
+
+  .empty-state {
+    text-align: center;
+    padding: 80px 20px;
+    background: white;
+    border-radius: 12px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+  }
+
+  .empty-state h2 {
+    font-size: 24px;
+    font-weight: 600;
+    color: #1a1a1a;
+    margin: 0 0 12px 0;
+  }
+
+  .empty-state p {
+    font-size: 16px;
+    color: #6c757d;
+    margin: 0 0 24px 0;
+  }
+</style>
+
+<div class="announcements-container">
+  <div class="page-header">
+    <h1>Announcements</h1>
+    <%= link_to "Create New", new_announcement_path, class: "btn btn-primary" %>
   </div>
-</div>
 
-<!-- Filters Card -->
-<div class="card" style="margin-bottom: 24px;">
-  <%= form_with url: announcements_path, method: :get, local: true do |f| %>
-    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 16px; align-items: end;">
-      <div class="form-group" style="margin: 0;">
-        <%= label_tag :status, "Status", class: "form-label" %>
-        <%= select_tag :status, 
-            options_for_select([
-              ['All Statuses', ''],
-              ['Draft', 'draft'],
-              ['Pending', 'pending'],
-              ['Delivered', 'delivered'],
-              ['Failed', 'failed']
-            ], params[:status]), 
-            class: "form-control" %>
-      </div>
-      
-      <div class="form-group" style="margin: 0;">
-        <%= label_tag :audience_id, "Audience", class: "form-label" %>
-        <%= select_tag :audience_id,
-            options_from_collection_for_select(Audience.all, :id, :name, params[:audience_id]),
-            { include_blank: 'All Audiences', class: "form-control" } %>
-      </div>
-      
-      <div class="form-group" style="margin: 0;">
-        <%= label_tag :search, "Search", class: "form-label" %>
-        <%= text_field_tag :search, params[:search], 
-            placeholder: "Search announcements...", 
-            class: "form-control" %>
-      </div>
-      
-      <div style="display: flex; gap: 8px;">
-        <%= submit_tag "Filter", class: "btn btn-primary" %>
-        <%= link_to "Clear", announcements_path, class: "btn btn-secondary" %>
-      </div>
-    </div>
-  <% end %>
-</div>
+  <!-- Filter Tabs -->
+  <div class="filter-tabs">
+    <div class="filter-tab active">All</div>
+    <div class="filter-tab">Drafts</div>
+    <div class="filter-tab">Scheduled</div>
+    <div class="filter-tab">Sent</div>
+    <div class="filter-tab">Failed</div>
+  </div>
 
-<!-- Announcements Table -->
-<div class="card">
   <% if @announcements.any? %>
-    <table class="table">
-      <thead>
-        <tr>
-          <th>Title & Message</th>
-          <th>Audience</th>
-          <th>Channel</th>
-          <th>Status</th>
-          <th>Delivery Date</th>
-          <th style="text-align: right;">Actions</th>
-        </tr>
-      </thead>
-      <tbody>
-        <% @announcements.each do |announcement| %>
-          <tr onclick="window.location='<%= announcement_path(announcement) %>'" style="cursor: pointer;">
-            <td>
-              <div style="font-weight: 600; margin-bottom: 4px;"><%= announcement.title %></div>
-              <div style="font-size: 13px; color: var(--text-secondary);">
-                <% 
-                  message_text = if announcement.respond_to?(:message) && announcement.message.present?
-                    announcement.message
-                  elsif announcement.respond_to?(:body) && announcement.body.present?
-                    announcement.body
-                  elsif announcement.respond_to?(:content) && announcement.content.present?
-                    announcement.content
-                  elsif announcement.respond_to?(:description) && announcement.description.present?
-                    announcement.description
-                  elsif announcement.respond_to?(:text) && announcement.text.present?
-                    announcement.text
-                  else
-                    "No message"
-                  end
-                %>
-                <%= truncate(message_text, length: 60) %>
+    <div class="announcements-grid">
+      <% @announcements.each do |announcement| %>
+        <div class="announcement-card">
+          <div class="announcement-content">
+            <div class="announcement-header">
+              <h2 class="announcement-title"><%= announcement.title %></h2>
+              <span class="status-badge status-<%= announcement.status %>">
+                <%= announcement.status %>
+              </span>
+            </div>
+
+            <div class="announcement-body">
+              <%= truncate(announcement.base_body, length: 200) %>
+            </div>
+
+            <div class="announcement-meta">
+              <div class="meta-item">
+                <span><%= announcement.created_at.strftime("%b %d, %Y at %I:%M %p") %></span>
               </div>
-            </td>
-            <td>
-              <% 
-                audience_name = if announcement.respond_to?(:audience) && announcement.audience.present?
-                  announcement.audience.name
-                elsif announcement.respond_to?(:audience_id) && announcement.audience_id.present?
-                  begin
-                    Audience.find(announcement.audience_id).name
-                  rescue
-                    "N/A"
-                  end
-                else
-                  "N/A"
-                end
-              %>
-              <%= audience_name %>
-            </td>
-            <td>
-              <% if announcement.respond_to?(:message_type) && announcement.message_type.present? %>
-                <% if announcement.message_type == 'email' %>
-                  <span style="font-size: 18px;" title="Email">📧</span>
-                <% elsif announcement.message_type == 'slack' %>
-                  <span style="font-size: 18px;" title="Slack">💬</span>
-                <% elsif announcement.message_type == 'both' %>
-                  <span style="font-size: 18px;" title="Email & Slack">📧💬</span>
-                <% else %>
-                  <span style="color: var(--text-muted);">—</span>
-                <% end %>
-              <% elsif announcement.respond_to?(:channel) && announcement.channel.present? %>
-                <% if announcement.channel == 'email' %>
-                  <span style="font-size: 18px;" title="Email">📧</span>
-                <% elsif announcement.channel == 'slack' %>
-                  <span style="font-size: 18px;" title="Slack">💬</span>
-                <% elsif announcement.channel == 'whatsapp' %>
-                  <span style="font-size: 18px;" title="WhatsApp">📱</span>
-                <% else %>
-                  <span style="color: var(--text-muted);">—</span>
-                <% end %>
-              <% else %>
-                <span style="color: var(--text-muted);">—</span>
+
+              <% if announcement.scheduled_for.present? %>
+                <div class="meta-item">
+                  <span>Scheduled for <%= announcement.scheduled_for.strftime("%b %d, %Y at %I:%M %p") %></span>
+                </div>
               <% end %>
-            </td>
-            <td>
-              <% if announcement.status == 'delivered' %>
-                <span class="badge badge-success">✓ Delivered</span>
-              <% elsif announcement.status == 'pending' %>
-                <span class="badge badge-warning">⏳ Pending</span>
-              <% elsif announcement.status == 'failed' %>
-                <span class="badge badge-danger">✕ Failed</span>
-              <% else %>
-                <span class="badge badge-info"><%= announcement.status&.titleize || "Draft" %></span>
-              <% end %>
-            </td>
-            <td>
-              <% 
-                delivery = if announcement.respond_to?(:delivery_date) && announcement.delivery_date.present?
-                  announcement.delivery_date
-                elsif announcement.respond_to?(:scheduled_at) && announcement.scheduled_at.present?
-                  announcement.scheduled_at
-                elsif announcement.respond_to?(:send_at) && announcement.send_at.present?
-                  announcement.send_at
-                elsif announcement.respond_to?(:scheduled_for) && announcement.scheduled_for.present?
-                  announcement.scheduled_for
-                else
-                  nil
-                end
-              %>
-              <% if delivery %>
-                <%= delivery.strftime("%b %d, %Y at %I:%M %p") %>
-              <% else %>
-                <span style="color: var(--text-muted);">Not scheduled</span>
-              <% end %>
-            </td>
-            <td style="text-align: right;" onclick="event.stopPropagation();">
-              <div style="display: flex; gap: 8px; justify-content: flex-end;">
-                <%= link_to "Edit", edit_announcement_path(announcement), class: "btn btn-secondary", style: "padding: 6px 12px; font-size: 13px;" %>
-                <%= button_to "Delete", announcement_path(announcement), 
-                    method: :delete, 
-                    data: { confirm: "Are you sure you want to delete this announcement?" },
-                    class: "btn btn-danger",
-                    style: "padding: 6px 12px; font-size: 13px;" %>
+
+              <div class="meta-item">
+                <span>Channels:</span>
+                <div class="channels">
+                  <% if announcement.send_to_slack %>
+                    <span class="channel-badge">Slack</span>
+                  <% end %>
+                  <% if announcement.send_to_email %>
+                    <span class="channel-badge">Email</span>
+                  <% end %>
+                  <% if announcement.send_to_whatsapp %>
+                    <span class="channel-badge">WhatsApp</span>
+                  <% end %>
+                </div>
               </div>
-            </td>
-          </tr>
-        <% end %>
-      </tbody>
-    </table>
-    
-    <!-- Pagination -->
-    <% if @announcements.respond_to?(:total_pages) && @announcements.total_pages > 1 %>
-      <div style="padding: 16px; border-top: 1px solid var(--border-light); display: flex; justify-content: center;">
-        <%= paginate @announcements %>
-      </div>
-    <% end %>
-  <% else %>
-    <!-- Empty State -->
-    <div style="text-align: center; padding: 64px 24px;">
-      <div style="font-size: 64px; margin-bottom: 16px;">📢</div>
-      <h3 style="font-size: 20px; font-weight: 600; margin-bottom: 8px; color: var(--text-primary);">
-        No announcements yet
-      </h3>
-      <p style="color: var(--text-secondary); margin-bottom: 24px; font-size: 14px;">
-        <% if params[:status].present? || params[:audience_id].present? || params[:search].present? %>
-          No announcements match your filters. Try adjusting your search criteria.
-        <% else %>
-          Get started by creating your first announcement to communicate with your audiences.
-        <% end %>
-      </p>
-      <% unless params[:status].present? || params[:audience_id].present? || params[:search].present? %>
-        <%= link_to new_announcement_path, class: "btn btn-primary" do %>
-          <span style="font-size: 18px; margin-right: 4px;">+</span>
-          <span>Create Your First Announcement</span>
-        <% end %>
+
+              <div class="meta-item">
+                <span><%= announcement.audiences.count %> <%= 'audience'.pluralize(announcement.audiences.count) %></span>
+              </div>
+            </div>
+
+            <div class="announcement-actions">
+              <%= link_to "View Details", announcement_path(announcement), class: "btn-small btn-view" %>
+            </div>
+          </div>
+        </div>
       <% end %>
+    </div>
+  <% else %>
+    <div class="empty-state">
+      <h2>No announcements yet</h2>
+      <p>Create your first announcement to get started</p>
+      <%= link_to "Create Announcement", new_announcement_path, class: "btn btn-primary" %>
     </div>
   <% end %>
 </div>
