@@ -1,273 +1,120 @@
-<style>
-  .home-container {
-    max-width: 1200px;
-    margin: 0 auto;
-    padding: 40px 20px;
-  }
-  
-  .hero-section {
-    text-align: center;
-    padding: 60px 20px;
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-    border-radius: 20px;
-    color: white;
-    margin-bottom: 48px;
-  }
-  
-  .hero-section h1 {
-    font-size: 48px;
-    font-weight: 700;
-    margin: 0 0 16px 0;
-  }
-  
-  .hero-section p {
-    font-size: 20px;
-    opacity: 0.95;
-    margin: 0 0 32px 0;
-  }
-  
-  .hero-buttons {
-    display: flex;
-    gap: 16px;
-    justify-content: center;
-    flex-wrap: wrap;
-  }
-  
-  .btn {
-    padding: 14px 28px;
-    border-radius: 10px;
-    font-weight: 600;
-    font-size: 16px;
-    text-decoration: none;
-    display: inline-block;
-    transition: all 0.2s;
-  }
-  
-  .btn-white {
-    background: white;
-    color: #667eea;
-  }
-  
-  .btn-white:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 8px 24px rgba(255,255,255,0.3);
-  }
-  
-  .btn-outline {
-    background: transparent;
-    color: white;
-    border: 2px solid white;
-  }
-  
-  .btn-outline:hover {
-    background: rgba(255,255,255,0.1);
-  }
-  
-  .stats-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-    gap: 24px;
-    margin-bottom: 48px;
-  }
-  
-  .stat-card {
-    background: white;
-    padding: 32px;
-    border-radius: 16px;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.08);
-    text-align: center;
-    transition: transform 0.2s;
-  }
-  
-  .stat-card:hover {
-    transform: translateY(-4px);
-    box-shadow: 0 8px 24px rgba(0,0,0,0.12);
-  }
-  
-  .stat-icon {
-    font-size: 48px;
-    margin-bottom: 16px;
-  }
-  
-  .stat-number {
-    font-size: 36px;
-    font-weight: 700;
-    color: #1a1a1a;
-    margin: 0 0 8px 0;
-  }
-  
-  .stat-label {
-    font-size: 16px;
-    color: #6c757d;
-    margin: 0;
-  }
-  
-  .features-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-    gap: 24px;
-    margin-bottom: 48px;
-  }
-  
-  .feature-card {
-    background: white;
-    padding: 32px;
-    border-radius: 16px;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.08);
-  }
-  
-  .feature-icon {
-    width: 56px;
-    height: 56px;
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-    border-radius: 12px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 28px;
-    margin-bottom: 20px;
-  }
-  
-  .feature-card h3 {
-    font-size: 20px;
-    font-weight: 600;
-    color: #1a1a1a;
-    margin: 0 0 12px 0;
-  }
-  
-  .feature-card p {
-    font-size: 15px;
-    color: #6c757d;
-    line-height: 1.6;
-    margin: 0;
-  }
-  
-  .quick-actions {
-    background: #f8f9fa;
-    padding: 40px;
-    border-radius: 16px;
-    text-align: center;
-  }
-  
-  .quick-actions h2 {
-    font-size: 28px;
-    font-weight: 700;
-    color: #1a1a1a;
-    margin: 0 0 24px 0;
-  }
-  
-  .action-buttons {
-    display: flex;
-    gap: 16px;
-    justify-content: center;
-    flex-wrap: wrap;
-  }
-  
-  .btn-primary {
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-    color: white;
-  }
-  
-  .btn-primary:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 8px 24px rgba(102, 126, 234, 0.4);
-  }
-  
-  .btn-secondary {
-    background: white;
-    color: #667eea;
-    border: 2px solid #667eea;
-  }
-  
-  .btn-secondary:hover {
-    background: #f8f9ff;
-  }
-</style>
+<% content_for :page_title, "Dashboard" %>
 
-<div class="home-container">
-  <!-- Hero Section -->
-  <div class="hero-section">
-    <h1>📢 Communication Hub</h1>
-    <p>Send announcements across all your channels from one place</p>
-    <div class="hero-buttons">
-      <%= link_to "✨ Create Announcement", new_announcement_path, class: "btn btn-white" %>
-      <%= link_to "📋 View All Announcements", announcements_path, class: "btn btn-outline" %>
-    </div>
+<div class="page-header">
+  <h2 class="page-header__title">Dashboard</h2>
+  <p class="page-header__description">Welcome to CommsHub - Your central communication management system</p>
+  <div class="page-header__actions">
+    <%= link_to "Create Announcement", new_announcement_path, class: "btn btn-primary" %>
+  </div>
+</div>
+
+<div class="card">
+  <div class="card__header">
+    <h3 class="card__title">Quick Stats</h3>
   </div>
 
-  <!-- Stats Section -->
-  <div class="stats-grid">
-    <div class="stat-card">
-      <div class="stat-icon">📊</div>
-      <p class="stat-number"><%= Announcement.count %></p>
-      <p class="stat-label">Total Announcements</p>
+  <div class="grid-auto-fit-200">
+    <div class="stat-card stat-card--blue">
+      <div class="stat-card__value text-blue"><%= Announcement.count %></div>
+      <div class="stat-card__label">Total Announcements</div>
     </div>
-    
-    <div class="stat-card">
-      <div class="stat-icon">✅</div>
-      <p class="stat-number"><%= Announcement.where(status: 'sent').count %></p>
-      <p class="stat-label">Sent</p>
+
+    <div class="stat-card stat-card--green">
+      <div class="stat-card__value text-success"><%= Announcement.where(status: 'delivered').count %></div>
+      <div class="stat-card__label">Delivered</div>
     </div>
-    
-    <div class="stat-card">
-      <div class="stat-icon">📅</div>
-      <p class="stat-number"><%= Announcement.where(status: 'scheduled').count %></p>
-      <p class="stat-label">Scheduled</p>
+
+    <div class="stat-card stat-card--orange">
+      <div class="stat-card__value text-warning"><%= Announcement.where(status: 'pending').count %></div>
+      <div class="stat-card__label">Pending</div>
     </div>
-    
-    <div class="stat-card">
-      <div class="stat-icon">👥</div>
-      <p class="stat-number"><%= Audience.count %></p>
-      <p class="stat-label">Audiences</p>
+
+    <div class="stat-card stat-card--info">
+      <div class="stat-card__value text-info"><%= Audience.count %></div>
+      <div class="stat-card__label">Audiences</div>
     </div>
   </div>
+</div>
 
-  <!-- Features Grid -->
-  <div class="features-grid">
-    <div class="feature-card">
-      <div class="feature-icon">🤖</div>
-      <h3>AI-Powered Writing</h3>
-      <p>Let AI help you craft the perfect message for each channel with smart suggestions and optimizations.</p>
-    </div>
-    
-    <div class="feature-card">
-      <div class="feature-icon">📱</div>
-      <h3>Multi-Channel Delivery</h3>
-      <p>Send to Slack, Email, and WhatsApp simultaneously. One message, everywhere your audience is.</p>
-    </div>
-    
-    <div class="feature-card">
-      <div class="feature-icon">⏰</div>
-      <h3>Smart Scheduling</h3>
-      <p>Schedule announcements for the perfect time. Set it and forget it with our reliable delivery system.</p>
-    </div>
-    
-    <div class="feature-card">
-      <div class="feature-icon">🎯</div>
-      <h3>Targeted Audiences</h3>
-      <p>Create audience segments and target the right people with the right message every time.</p>
-    </div>
-    
-    <div class="feature-card">
-      <div class="feature-icon">📈</div>
-      <h3>Delivery Tracking</h3>
-      <p>Monitor delivery status in real-time. Know exactly when and where your message was delivered.</p>
-    </div>
-    
-    <div class="feature-card">
-      <div class="feature-icon">⚡</div>
-      <h3>Lightning Fast</h3>
-      <p>Send announcements instantly or schedule them for later. Your message, your timing.</p>
-    </div>
+<div class="card">
+  <div class="card__header">
+    <h3 class="card__title">Recent Announcements</h3>
   </div>
 
-  <!-- Quick Actions -->
-  <div class="quick-actions">
-    <h2>Ready to get started?</h2>
-    <div class="action-buttons">
-      <%= link_to "📢 New Announcement", new_announcement_path, class: "btn btn-primary" %>
-      <%= link_to "👥 Manage Audiences", audiences_path, class: "btn btn-secondary" %>
-      <%= link_to "📊 View Reports", announcements_path, class: "btn btn-secondary" %>
+  <% if Announcement.any? %>
+    <table class="table">
+      <thead>
+        <tr>
+          <th>Title</th>
+          <th>Audience</th>
+          <th>Status</th>
+          <th>Delivery Date</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% Announcement.order(created_at: :desc).limit(5).each do |announcement| %>
+          <tr>
+            <td><strong><%= announcement.title %></strong></td>
+            <td><%= announcement.audience&.name || "N/A" %></td>
+            <td>
+              <% if announcement.status == 'delivered' %>
+                <span class="badge badge-success">Delivered</span>
+              <% elsif announcement.status == 'pending' %>
+                <span class="badge badge-warning">Pending</span>
+              <% elsif announcement.status == 'failed' %>
+                <span class="badge badge-danger">Failed</span>
+              <% else %>
+                <span class="badge badge-info"><%= announcement.status %></span>
+              <% end %>
+            </td>
+            <td><%= announcement.delivery_date ? announcement.delivery_date.strftime("%b %d, %Y") : "Not set" %></td>
+            <td>
+              <%= link_to "View", announcement_path(announcement), class: "btn btn-secondary btn--xs" %>
+            </td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+  <% else %>
+    <div class="empty-state">
+      <div class="empty-state__icon">📢</div>
+      <p>No announcements yet. Create your first announcement to get started!</p>
+      <div class="empty-state__actions">
+        <%= link_to "Create Announcement", new_announcement_path, class: "btn btn-primary" %>
+      </div>
     </div>
+  <% end %>
+</div>
+
+<div class="card">
+  <div class="card__header">
+    <h3 class="card__title">Quick Actions</h3>
+  </div>
+
+  <div class="grid-auto-fit-250">
+    <%= link_to new_announcement_path, class: "settings-card-link" do %>
+      <div class="quick-action-card">
+        <div class="quick-action-card__icon">📝</div>
+        <div class="quick-action-card__title">Create Announcement</div>
+        <div class="quick-action-card__desc">Draft a new communication</div>
+      </div>
+    <% end %>
+
+    <%= link_to audiences_path, class: "settings-card-link" do %>
+      <div class="quick-action-card">
+        <div class="quick-action-card__icon">👥</div>
+        <div class="quick-action-card__title">Manage Audiences</div>
+        <div class="quick-action-card__desc">Configure recipient groups</div>
+      </div>
+    <% end %>
+
+    <%= link_to announcements_path, class: "settings-card-link" do %>
+      <div class="quick-action-card">
+        <div class="quick-action-card__icon">📊</div>
+        <div class="quick-action-card__title">View All Announcements</div>
+        <div class="quick-action-card__desc">See complete history</div>
+      </div>
+    <% end %>
   </div>
 </div>

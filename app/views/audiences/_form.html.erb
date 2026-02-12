@@ -1,9 +1,10 @@
-<%= form_with(model: audience) do |form| %>
+<%= form_with(model: audience, local: true) do |form| %>
   <% if audience.errors.any? %>
-    <div style="color: red">
-      <h2><%= pluralize(audience.errors.count, "error") %> prohibited this audience from being saved:</h2>
-
-      <ul>
+    <div class="alert alert-danger error-list">
+      <strong class="error-list__title">
+        <%= pluralize(audience.errors.count, "error") %> prohibited this audience from being saved:
+      </strong>
+      <ul class="error-list__items">
         <% audience.errors.each do |error| %>
           <li><%= error.full_message %></li>
         <% end %>
@@ -11,27 +12,27 @@
     </div>
   <% end %>
 
-  <div>
-    <%= form.label :name, style: "display: block" %>
-    <%= form.text_field :name %>
+  <div class="form-group">
+    <%= form.label :name, class: "form-label" %>
+    <%= form.text_field :name, class: "form-control" %>
   </div>
 
-  <div>
-    <%= form.label :description, style: "display: block" %>
-    <%= form.text_field :description %>
+  <div class="form-group">
+    <%= form.label :description, class: "form-label" %>
+    <%= form.text_field :description, class: "form-control" %>
   </div>
 
-  <div>
-    <%= form.label :slack_channel, style: "display: block" %>
-    <%= form.text_field :slack_channel %>
+  <div class="form-group">
+    <%= form.label :slack_channel, class: "form-label" %>
+    <%= form.text_field :slack_channel, class: "form-control" %>
   </div>
 
-  <p>
-  <%= f.label :email_recipients, "Email recipients (one per line or comma-separated)" %><br>
-  <%= f.text_area :email_recipients, rows: 6, style: "width:100%;" %>
-</p>
+  <div class="form-group">
+    <%= form.label :email_recipients, "Email recipients (one per line or comma-separated)", class: "form-label" %>
+    <%= form.text_area :email_recipients, rows: 6, class: "form-control" %>
+  </div>
 
-  <div>
-    <%= form.submit %>
+  <div class="form-actions">
+    <%= form.submit class: "btn btn-primary" %>
   </div>
 <% end %>

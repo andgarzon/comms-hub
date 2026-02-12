@@ -1,0 +1,57 @@
+<div class="max-w-600">
+  <%= form_with(model: user, local: true) do |form| %>
+    <% if user.errors.any? %>
+      <div class="alert alert-danger error-list">
+        <strong class="error-list__title">
+          <%= pluralize(user.errors.count, "error") %> prevented this user from being saved:
+        </strong>
+        <ul class="error-list__items">
+          <% user.errors.full_messages.each do |message| %>
+            <li><%= message %></li>
+          <% end %>
+        </ul>
+      </div>
+    <% end %>
+
+    <div class="card mb-20">
+      <div class="card__header">
+        <h3 class="card__title">Account Information</h3>
+      </div>
+
+      <div class="form-group">
+        <%= form.label :email, class: "form-label" %>
+        <%= form.email_field :email, class: "form-control", placeholder: "user@example.com", autofocus: true %>
+      </div>
+
+      <div class="form-group">
+        <%= form.label :password, user.new_record? ? "Password" : "New Password", class: "form-label" %>
+        <%= form.password_field :password, class: "form-control", placeholder: user.new_record? ? "Minimum 6 characters" : "Leave blank to keep current password", autocomplete: "new-password" %>
+        <% unless user.new_record? %>
+          <small class="form-hint">Leave blank to keep the current password</small>
+        <% end %>
+      </div>
+
+      <div class="form-group mb-0">
+        <%= form.label :password_confirmation, "Confirm Password", class: "form-label" %>
+        <%= form.password_field :password_confirmation, class: "form-control", placeholder: "Re-enter password", autocomplete: "new-password" %>
+      </div>
+    </div>
+
+    <div class="card mb-20">
+      <div class="card__header">
+        <h3 class="card__title">Role & Permissions</h3>
+      </div>
+
+      <div class="form-group mb-0">
+        <%= form.label :role, class: "form-label" %>
+        <div data-react-component="RoleSelector"
+             data-react-props='<%= { roles: User::ROLES, selectedRole: user.role, fieldName: "user[role]" }.to_json %>'></div>
+      </div>
+    </div>
+
+    <div class="form-actions">
+      <%= link_to "Cancel", users_path, class: "btn btn-secondary" %>
+      <%= form.submit user.new_record? ? "Create User" : "Save Changes", class: "btn btn-primary" %>
+    </div>
+  <% end %>
+</div>

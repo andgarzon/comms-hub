@@ -1,36 +1,48 @@
 <% content_for :title, "Email Audiences" %>
 
-<p style="color: green"><%= notice %></p>
-<p style="color: red"><%= alert %></p>
-
-<h1>Email Audiences</h1>
+<div class="page-header page-header--row">
+  <div>
+    <h2 class="page-header__title">Email Audiences</h2>
+  </div>
+  <div>
+    <%= link_to "New Email Audience", new_email_audience_path, class: "btn btn-primary" %>
+  </div>
+</div>
 
 <% if @audiences.any? %>
-  <table style="width: 100%; border-collapse: collapse; margin-top: 12px;">
-    <thead>
-      <tr style="border-bottom: 2px solid #ddd;">
-        <th style="text-align: left; padding: 8px;">Name</th>
-        <th style="text-align: left; padding: 8px;">Recipients</th>
-        <th style="text-align: left; padding: 8px;">Actions</th>
-      </tr>
-    </thead>
-    <tbody>
-      <% @audiences.each do |audience| %>
-        <tr style="border-bottom: 1px solid #eee;">
-          <td style="padding: 8px;"><%= audience.name %></td>
-          <td style="padding: 8px;"><%= audience.email_list.length %> recipient<%= audience.email_list.length == 1 ? "" : "s" %></td>
-          <td style="padding: 8px;">
-            <%= link_to "Edit", edit_email_audience_path(audience) %> |
-            <%= button_to "Delete", audience, method: :delete, data: { confirm: "Are you sure?" }, style: "background: none; border: none; color: #c00; cursor: pointer; padding: 0;" %>
-          </td>
+  <div class="card">
+    <table class="table">
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Recipients</th>
+          <th>Actions</th>
         </tr>
-      <% end %>
-    </tbody>
-  </table>
+      </thead>
+      <tbody>
+        <% @audiences.each do |audience| %>
+          <tr>
+            <td class="font-medium"><%= audience.name %></td>
+            <td><%= audience.email_list.length %> recipient<%= audience.email_list.length == 1 ? "" : "s" %></td>
+            <td>
+              <div class="table-actions">
+                <%= link_to "Edit", edit_email_audience_path(audience), class: "btn btn--xs btn-secondary" %>
+                <%= button_to "Delete", audience, method: :delete, data: { confirm: "Are you sure?" }, class: "btn btn--xs btn-danger" %>
+              </div>
+            </td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+  </div>
 <% else %>
-  <p><em>No Email audiences yet.</em></p>
+  <div class="card">
+    <div class="empty-state">
+      <div class="empty-state__icon">📧</div>
+      <p>No Email audiences yet.</p>
+      <div class="empty-state__actions">
+        <%= link_to "Create Email Audience", new_email_audience_path, class: "btn btn-primary" %>
+      </div>
+    </div>
+  </div>
 <% end %>
-
-<p style="margin-top: 16px;">
-  <%= link_to "New Email Audience", new_email_audience_path %>
-</p>

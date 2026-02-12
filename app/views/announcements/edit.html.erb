@@ -1,0 +1,197 @@
+<% content_for :page_title, @announcement.new_record? ? "New Announcement" : "Edit Announcement" %>
+
+<div class="page-header">
+  <h2 class="page-header__title"><%= @announcement.new_record? ? "Create Announcement" : "Edit Announcement" %></h2>
+  <p class="page-header__description">
+    <%= @announcement.new_record? ? "Fill in the details to create your announcement" : "Update your announcement details" %>
+  </p>
+</div>
+
+<div class="max-w-900">
+  <%= form_with(model: @announcement, local: true, html: { id: "announcement-form" }) do |form| %>
+    <% if @announcement.errors.any? %>
+      <div class="alert alert-danger error-list">
+        <strong class="error-list__title">
+          <%= pluralize(@announcement.errors.count, "error") %> prevented this announcement from being saved:
+        </strong>
+        <ul class="error-list__items">
+          <% @announcement.errors.full_messages.each do |message| %>
+            <li><%= message %></li>
+          <% end %>
+        </ul>
+      </div>
+    <% end %>
+
+    <div class="card mb-20">
+      <div class="card__header">
+        <h3 class="card__title">Basic Information</h3>
+      </div>
+
+      <div class="form-group">
+        <%= form.label :title, class: "form-label" %>
+        <%= form.text_field :title, class: "form-control", placeholder: "e.g., Team Meeting Tomorrow at 3 PM" %>
+      </div>
+
+      <div class="form-group mb-0">
+        <%
+          message_field = if @announcement.respond_to?(:message)
+            :message
+          elsif @announcement.respond_to?(:body)
+            :body
+          elsif @announcement.respond_to?(:content)
+            :content
+          else
+            :message
+          end
+        %>
+        <div class="base-message-header">
+          <%= form.label message_field, "Message Content", class: "form-label form-label--inline" %>
+          <div data-react-component="AiImproveButton"
+               data-react-props='<%= { mode: "async", endpoint: "/announcements/ai_improve", textareaId: "message-textarea", csrfToken: form_authenticity_token }.to_json %>'></div>
+        </div>
+        <%= form.text_area message_field, rows: 8, class: "form-control", id: "message-textarea", placeholder: "Enter your announcement message..." %>
+        <small class="form-hint">This message will be sent to all recipients in the selected audiences</small>
+      </div>
+    </div>
+
+    <div class="card mb-20">
+      <div class="card__header">
+        <h3 class="card__title">Delivery Settings</h3>
+      </div>
+
+      <!-- Multi-Select Audiences -->
+      <div class="form-group">
+        <%= form.label :audience_ids, "Target Audiences", class: "form-label" %>
+        <div class="audience-list">
+          <% if Audience.any? %>
+            <% Audience.all.each do |audience| %>
+              <label class="audience-list__item">
+                <%
+                  is_selected = if @announcement.respond_to?(:audience_ids) && @announcement.audience_ids.present?
+                    @announcement.audience_ids.include?(audience.id)
+                  elsif @announcement.respond_to?(:audience_id) && @announcement.audience_id.present?
+                    @announcement.audience_id == audience.id
+                  else
+                    false
+                  end
+                %>
+                <%= check_box_tag 'announcement[audience_ids][]', audience.id, is_selected,
+                    id: "audience_#{audience.id}", class: "audience-list__item-checkbox" %>
+                <div class="audience-list__item-info">
+                  <div class="audience-list__item-name"><%= audience.name %></div>
+                  <div class="audience-list__item-meta">
+                    <%
+                      recipient_count = if audience.respond_to?(:recipients) && audience.recipients.respond_to?(:count)
+                        audience.recipients.count
+                      elsif audience.respond_to?(:users) && audience.users.respond_to?(:count)
+                        audience.users.count
+                      elsif audience.respond_to?(:members) && audience.members.respond_to?(:count)
+                        audience.members.count
+                      elsif audience.respond_to?(:recipient_count)
+                        audience.recipient_count
+                      else
+                        0
+                      end
+                    %>
+                    <%= recipient_count %> recipients
+                    <% if audience.type == 'DynamicAudience' %>
+                      • Dynamic
+                    <% end %>
+                  </div>
+                </div>
+              </label>
+            <% end %>
+          <% else %>
+            <div class="audience-list__empty">
+              No audiences available. <%= link_to "Create one", new_audience_path, class: "text-blue" %>
+            </div>
+          <% end %>
+        </div>
+        <small class="form-hint">Select one or more audiences to receive this announcement</small>
+      </div>
+
+      <!-- Multi-Select Channels -->
+      <div class="form-group">
+        <%= label_tag :delivery_channels, "Delivery Channels", class: "form-label" %>
+        <div class="grid-3-col">
+          <%
+            current_channels = if @announcement.message_type == 'both'
+              ['email', 'slack']
+            elsif @announcement.message_type.present?
+              [@announcement.message_type]
+            else
+              []
+            end
+          %>
+
+          <label class="channel-option-checkbox">
+            <%= check_box_tag 'announcement[channels][]', 'email', current_channels.include?('email'),
+                class: "channel-checkbox", id: "channel_email" %>
+            <div class="channel-content">
+              <div class="channel-icon">📧</div>
+              <div class="channel-name">Email</div>
+              <div class="channel-desc">Send via email</div>
+            </div>
+          </label>
+
+          <label class="channel-option-checkbox">
+            <%= check_box_tag 'announcement[channels][]', 'slack', current_channels.include?('slack'),
+                class: "channel-checkbox", id: "channel_slack" %>
+            <div class="channel-content">
+              <div class="channel-icon">💬</div>
+              <div class="channel-name">Slack</div>
+              <div class="channel-desc">Send to Slack</div>
+            </div>
+          </label>
+
+          <label class="channel-option-checkbox">
+            <%= check_box_tag 'announcement[channels][]', 'whatsapp', current_channels.include?('whatsapp'),
+                class: "channel-checkbox", id: "channel_whatsapp" %>
+            <div class="channel-content">
+              <div class="channel-icon">📱</div>
+              <div class="channel-name">WhatsApp</div>
+              <div class="channel-desc">Send via WhatsApp</div>
+            </div>
+          </label>
+        </div>
+        <small class="form-hint">Select one or more channels for delivery</small>
+      </div>
+
+      <div class="form-group mb-0">
+        <%= form.label :delivery_date, "Schedule Delivery", class: "form-label" %>
+        <%= form.datetime_local_field :delivery_date, class: "form-control" %>
+        <small class="form-hint">Leave empty to send immediately</small>
+      </div>
+    </div>
+
+    <% unless @announcement.new_record? %>
+      <div class="card mb-20">
+        <div class="card__header">
+          <h3 class="card__title">Status</h3>
+        </div>
+        <div class="form-group mb-0">
+          <%= form.label :status, class: "form-label" %>
+          <%= form.select :status,
+              [['Draft', 'draft'], ['Pending', 'pending'], ['Delivered', 'delivered'], ['Failed', 'failed']],
+              {},
+              { class: "form-control" } %>
+        </div>
+      </div>
+    <% end %>
+
+    <div class="form-actions form-actions--between">
+      <div>
+        <% unless @announcement.new_record? %>
+          <%= button_to "Delete Announcement", announcement_path(@announcement),
+              method: :delete,
+              data: { confirm: "Are you sure? This cannot be undone." },
+              class: "btn btn-danger" %>
+        <% end %>
+      </div>
+      <div class="flex-row gap-12">
+        <%= link_to "Cancel", @announcement.new_record? ? announcements_path : announcement_path(@announcement), class: "btn btn-secondary" %>
+        <%= form.submit @announcement.new_record? ? "Create Announcement" : "Save Changes", class: "btn btn-primary" %>
+      </div>
+    </div>
+  <% end %>
+</div>

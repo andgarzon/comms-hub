@@ -1,0 +1,111 @@
+<div class="page-header page-header--row">
+  <div>
+    <h2 class="page-header__title"><%= @user.email %></h2>
+    <p class="page-header__description">
+      <% if @user.role.present? %>
+        <span class="badge badge-info badge--uppercase"><%= @user.role %></span>
+      <% end %>
+      <% if @user == current_user %>
+        <span class="badge badge-success">You</span>
+      <% end %>
+    </p>
+  </div>
+  <div class="flex-row gap-8">
+    <%= link_to "Edit", edit_user_path(@user), class: "btn btn-secondary" %>
+    <%= link_to "Back to Users", users_path, class: "btn btn-secondary" %>
+  </div>
+</div>
+
+<div class="user-show-grid">
+  <!-- Account Details -->
+  <div class="card">
+    <div class="card__header">
+      <h3 class="card__title">Account Details</h3>
+    </div>
+
+    <div class="flex-col gap-20">
+      <div>
+        <div class="detail-label">Email</div>
+        <div class="detail-value"><%= @user.email %></div>
+      </div>
+
+      <div>
+        <div class="detail-label">Role</div>
+        <div>
+          <% if @user.role.present? %>
+            <span class="badge badge-info badge--uppercase"><%= @user.role %></span>
+          <% else %>
+            <span class="text-muted">No role assigned</span>
+          <% end %>
+        </div>
+      </div>
+
+      <div>
+        <div class="detail-label">Joined</div>
+        <div class="detail-value"><%= @user.created_at.strftime("%B %d, %Y at %I:%M %p") %></div>
+      </div>
+
+      <% if @user.updated_at != @user.created_at %>
+        <div>
+          <div class="detail-label">Last Updated</div>
+          <div class="detail-value"><%= @user.updated_at.strftime("%B %d, %Y at %I:%M %p") %></div>
+        </div>
+      <% end %>
+    </div>
+  </div>
+
+  <!-- Activity -->
+  <div class="card">
+    <div class="card__header">
+      <h3 class="card__title">Activity</h3>
+    </div>
+
+    <div class="flex-col gap-20">
+      <div>
+        <div class="detail-label">Announcements Created</div>
+        <div class="user-show-stat"><%= @user.announcements.count %></div>
+      </div>
+
+      <div>
+        <div class="detail-label">Groups</div>
+        <div class="user-show-stat"><%= @user.groups.count %></div>
+      </div>
+
+      <div>
+        <div class="detail-label">Audiences</div>
+        <div class="user-show-stat"><%= @user.audiences.count %></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Recent Announcements -->
+<% recent_announcements = @user.announcements.order(created_at: :desc).limit(5) %>
+<% if recent_announcements.any? %>
+  <div class="card max-w-900 mt-24">
+    <div class="card__header">
+      <h3 class="card__title">Recent Announcements</h3>
+    </div>
+
+    <table class="table">
+      <thead>
+        <tr>
+          <th>Title</th>
+          <th>Status</th>
+          <th>Created</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% recent_announcements.each do |announcement| %>
+          <tr class="cursor-pointer" onclick="window.location='<%= announcement_path(announcement) %>'">
+            <td class="font-medium"><%= announcement.title %></td>
+            <td>
+              <span class="badge badge-info"><%= announcement.status %></span>
+            </td>
+            <td class="text-secondary text-sm"><%= announcement.created_at.strftime("%b %d, %Y") %></td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+  </div>
+<% end %>

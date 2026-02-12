@@ -1,11 +1,87 @@
-<% content_for :title, "New audience" %>
+<% content_for :page_title, "New Audience" %>
 
-<h1>New audience</h1>
+<div class="page-header">
+  <h2 class="page-header__title">Create Audience</h2>
+  <p class="page-header__description">Define a new recipient group for your announcements</p>
+</div>
 
-<%= render "form", audience: @audience %>
+<div class="max-w-800">
+  <%= form_with(model: @audience, local: true) do |form| %>
+    <% if @audience.errors.any? %>
+      <div class="alert alert-danger error-list">
+        <strong class="error-list__title">
+          <%= pluralize(@audience.errors.count, "error") %> prevented this audience from being saved:
+        </strong>
+        <ul class="error-list__items">
+          <% @audience.errors.full_messages.each do |message| %>
+            <li><%= message %></li>
+          <% end %>
+        </ul>
+      </div>
+    <% end %>
 
-<br>
+    <div class="card mb-20">
+      <div class="card__header">
+        <h3 class="card__title">Audience Type</h3>
+      </div>
 
-<div>
-  <%= link_to "Back to audiences", audiences_path %>
+      <div class="grid-2-col">
+        <label class="audience-type-option">
+          <%= form.radio_button :type, 'StaticAudience', checked: true, class: "type-radio" %>
+          <div class="type-content">
+            <div class="type-icon">📋</div>
+            <div class="type-name">Static Audience</div>
+            <div class="type-desc">Manually curated list of recipients. Best for specific teams or departments.</div>
+          </div>
+        </label>
+
+        <label class="audience-type-option">
+          <%= form.radio_button :type, 'DynamicAudience', class: "type-radio" %>
+          <div class="type-content">
+            <div class="type-icon">🔄</div>
+            <div class="type-name">Dynamic Audience</div>
+            <div class="type-desc">Auto-updated based on criteria. Recipients calculated when sending.</div>
+          </div>
+        </label>
+      </div>
+
+      <!-- React component for audience type toggling -->
+      <div data-react-component="AudienceTypeToggle"
+           data-react-props='<%= { dynamicSectionSelector: ".dynamic-only" }.to_json %>'></div>
+    </div>
+
+    <div class="card mb-20">
+      <div class="card__header">
+        <h3 class="card__title">Basic Information</h3>
+      </div>
+
+      <div class="form-group">
+        <%= form.label :name, class: "form-label" %>
+        <%= form.text_field :name, class: "form-control", placeholder: "e.g., Engineering Team, All Employees" %>
+      </div>
+
+      <div class="form-group mb-0">
+        <%= form.label :description, class: "form-label" %>
+        <%= form.text_area :description, rows: 3, class: "form-control", placeholder: "Describe who this audience includes..." %>
+        <small class="form-hint">Optional: Help others understand who's in this audience</small>
+      </div>
+    </div>
+
+    <div class="card dynamic-only mb-20 hidden">
+      <div class="card__header">
+        <h3 class="card__title">Dynamic Query</h3>
+      </div>
+
+      <div class="form-group mb-0">
+        <%= form.label :query, "Filter Criteria", class: "form-label" %>
+        <%= form.text_area :query, rows: 4, class: "form-control", placeholder: "e.g., department:engineering OR role:developer" %>
+        <small class="form-hint">Define criteria for automatically selecting recipients</small>
+      </div>
+    </div>
+
+    <div class="form-actions">
+      <%= link_to "Cancel", audiences_path, class: "btn btn-secondary" %>
+      <%= form.submit "Create Audience", class: "btn btn-primary" %>
+    </div>
+  <% end %>
 </div>

@@ -1,0 +1,104 @@
+<div class="page-header page-header--row">
+  <div>
+    <div class="breadcrumb">
+      <%= link_to "Settings", settings_path, class: "breadcrumb__link" %>
+      <span class="breadcrumb__separator">/</span>
+      <%= link_to "Integrations", integrations_path, class: "breadcrumb__link" %>
+      <span class="breadcrumb__separator">/</span>
+      <span class="breadcrumb__current">Slack</span>
+    </div>
+    <h2 class="page-header__title">Slack Integration</h2>
+    <p class="page-header__description">Configure your Slack workspace connection</p>
+  </div>
+  <div>
+    <%= link_to "Back to Integrations", integrations_path, class: "btn btn-secondary" %>
+  </div>
+</div>
+
+<div class="max-w-700">
+
+  <!-- Status Card -->
+  <div class="card mb-24">
+    <div class="status-card">
+      <div class="status-card__icon <%= @setting.configured? ? 'status-card__icon--slack-success' : (@setting.last_error.present? ? 'status-card__icon--slack-error' : 'status-card__icon--slack-neutral') %>">
+        <svg width="28" height="28" viewBox="0 0 24 24" fill="<%= @setting.configured? ? '#4A154B' : (@setting.last_error.present? ? '#dc3545' : '#6c757d') %>">
+          <path d="M5.042 15.165a2.528 2.528 0 0 1-2.52 2.523A2.528 2.528 0 0 1 0 15.165a2.527 2.527 0 0 1 2.522-2.52h2.52v2.52zM6.313 15.165a2.527 2.527 0 0 1 2.521-2.52 2.527 2.527 0 0 1 2.521 2.52v6.313A2.528 2.528 0 0 1 8.834 24a2.528 2.528 0 0 1-2.521-2.522v-6.313zM8.834 5.042a2.528 2.528 0 0 1-2.521-2.52A2.528 2.528 0 0 1 8.834 0a2.528 2.528 0 0 1 2.521 2.522v2.52H8.834zM8.834 6.313a2.528 2.528 0 0 1 2.521 2.521 2.528 2.528 0 0 1-2.521 2.521H2.522A2.528 2.528 0 0 1 0 8.834a2.528 2.528 0 0 1 2.522-2.521h6.312zM18.956 8.834a2.528 2.528 0 0 1 2.522-2.521A2.528 2.528 0 0 1 24 8.834a2.528 2.528 0 0 1-2.522 2.521h-2.522V8.834zM17.688 8.834a2.528 2.528 0 0 1-2.523 2.521 2.527 2.527 0 0 1-2.52-2.521V2.522A2.527 2.527 0 0 1 15.165 0a2.528 2.528 0 0 1 2.523 2.522v6.312zM15.165 18.956a2.528 2.528 0 0 1 2.523 2.522A2.528 2.528 0 0 1 15.165 24a2.527 2.527 0 0 1-2.52-2.522v-2.522h2.52zM15.165 17.688a2.527 2.527 0 0 1-2.52-2.523 2.526 2.526 0 0 1 2.52-2.52h6.313A2.527 2.527 0 0 1 24 15.165a2.528 2.528 0 0 1-2.522 2.523h-6.313z"/>
+        </svg>
+      </div>
+      <div class="status-card__body">
+        <div class="status-card__header">
+          <h3 class="status-card__title">Connection Status</h3>
+          <% if @setting.configured? %>
+            <span class="badge badge-success">Connected</span>
+          <% elsif @setting.last_error.present? %>
+            <span class="badge badge-error">Error</span>
+          <% else %>
+            <span class="badge badge-neutral">Not Configured</span>
+          <% end %>
+        </div>
+        <% if @setting.last_error.present? %>
+          <p class="status-card__message status-card__message--error"><%= @setting.last_error %></p>
+        <% elsif @setting.configured? %>
+          <p class="status-card__message">Slack bot is configured and ready to send messages.</p>
+        <% else %>
+          <p class="status-card__message">Enter your Slack Bot Token to enable Slack messaging.</p>
+        <% end %>
+        <% if @setting.last_tested_at.present? %>
+          <p class="status-card__timestamp">Last tested: <%= @setting.last_tested_at.strftime("%B %d, %Y at %I:%M %p") %></p>
+        <% end %>
+      </div>
+    </div>
+  </div>
+
+  <!-- Configuration Form -->
+  <div class="card">
+    <div class="card__header">
+      <h3 class="card__title">Bot Configuration</h3>
+    </div>
+
+    <%= form_tag(slack_integration_path, method: :patch, data: { turbo: false }) do %>
+      <div class="form-field-row">
+        <div>
+          <label for="bot_token" class="form-field-label">
+            Bot User OAuth Token <span class="form-required">*</span>
+          </label>
+          <input type="password" id="bot_token" name="bot_token"
+                 value="<%= @setting.bot_token %>"
+                 placeholder="xoxb-..." required class="form-control">
+          <p class="form-hint">Found in your Slack App settings under <strong>OAuth & Permissions</strong>.</p>
+        </div>
+
+        <div>
+          <label for="default_channel" class="form-field-label">Default Channel</label>
+          <input type="text" id="default_channel" name="default_channel"
+                 value="<%= @setting.setting('default_channel') %>"
+                 placeholder="#general (optional)" class="form-control">
+          <p class="form-hint">Optional default channel for announcements. Audiences can override this.</p>
+        </div>
+
+        <div class="integration-actions">
+          <button type="submit" class="btn btn-primary">Save Configuration</button>
+          <div data-react-component="TestConnectionButton"
+               data-react-props='<%= { testUrl: test_slack_integration_path, csrfToken: form_authenticity_token, successColor: "#4A154B" }.to_json %>'></div>
+        </div>
+      </div>
+    <% end %>
+  </div>
+
+  <!-- Help Card -->
+  <div class="card mt-24">
+    <div class="card__header">
+      <h3 class="card__title">Setup Guide</h3>
+    </div>
+    <div class="setup-guide">
+      <ol>
+        <li>Go to <a href="https://api.slack.com/apps" target="_blank" class="text-blue">api.slack.com/apps</a> and create a new app (or select your existing one).</li>
+        <li>Under <strong>OAuth & Permissions</strong>, add the bot scopes: <code>chat:write</code>, <code>channels:read</code>.</li>
+        <li>Install the app to your workspace.</li>
+        <li>Copy the <strong>Bot User OAuth Token</strong> (starts with <code>xoxb-</code>) and paste it above.</li>
+        <li>Invite the bot to channels you want to post in: <code>/invite @YourBotName</code></li>
+      </ol>
+    </div>
+  </div>
+
+</div>

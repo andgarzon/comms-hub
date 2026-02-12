@@ -1,0 +1,54 @@
+<div class="page-header">
+  <h2 class="page-header__title">Settings</h2>
+  <p class="page-header__description">Manage your application configuration</p>
+</div>
+
+<div class="grid-auto-fill-280">
+
+  <!-- Users -->
+  <%= link_to users_path, class: "settings-card-link" do %>
+    <div class="card settings-card">
+      <div class="settings-card__header">
+        <div class="settings-card__icon">👤</div>
+        <div>
+          <h3 class="settings-card__title">Users</h3>
+          <span class="settings-card__subtitle"><%= @user_count %> <%= 'member'.pluralize(@user_count) %></span>
+        </div>
+      </div>
+      <p class="settings-card__desc">Add, edit, and manage team members and their roles.</p>
+      <div class="settings-card__action">Manage Users →</div>
+    </div>
+  <% end %>
+
+  <!-- Integrations -->
+  <%= link_to integrations_path, class: "settings-card-link" do %>
+    <div class="card settings-card">
+      <div class="settings-card__header">
+        <div class="settings-card__icon">🔗</div>
+        <div>
+          <h3 class="settings-card__title">Integrations</h3>
+          <% if @whatsapp_setting&.configured? %>
+            <span class="badge badge-success badge--sm">WhatsApp Connected</span>
+          <% else %>
+            <span class="settings-card__subtitle">Configure channels</span>
+          <% end %>
+        </div>
+      </div>
+      <p class="settings-card__desc">Configure Slack, Email, and WhatsApp connections.</p>
+      <div class="settings-card__action">Manage Integrations -></div>
+    </div>
+  <% end %>
+
+  <!-- Placeholder: Notifications (coming soon) -->
+  <div class="card opacity-50">
+    <div class="settings-card__header">
+      <div class="settings-card__icon">🔔</div>
+      <div>
+        <h3 class="settings-card__title">Notifications</h3>
+        <span class="badge badge-info badge--sm">Coming Soon</span>
+      </div>
+    </div>
+    <p class="settings-card__desc">Manage notification preferences and alerts.</p>
+  </div>
+
+</div>
