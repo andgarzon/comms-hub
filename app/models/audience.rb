@@ -15,4 +15,17 @@ class Audience < ApplicationRecord
       .uniq
   end
 
+  def recipients_count
+    case type
+    when "EmailAudience"
+      email_list.size
+    when "SlackAudience"
+      1
+    when "WhatsappAudience"
+      whatsapp_list.size
+    else
+      users.count
+    end
+  end
+
 end
