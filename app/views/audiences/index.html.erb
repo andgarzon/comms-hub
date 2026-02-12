@@ -1,311 +1,155 @@
-<style>
-  .audiences-container {
-    max-width: 1200px;
-    margin: 0 auto;
-    padding: 40px 20px;
-  }
-  
-  .page-header {
-    text-align: center;
-    margin-bottom: 48px;
-  }
-  
-  .page-header h1 {
-    font-size: 42px;
-    font-weight: 700;
-    color: #1a1a1a;
-    margin: 0 0 12px 0;
-  }
-  
-  .page-header p {
-    font-size: 18px;
-    color: #6c757d;
-    margin: 0;
-  }
-  
-  .stats-row {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-    gap: 20px;
-    margin-bottom: 48px;
-  }
-  
-  .stat-card {
-    background: white;
-    padding: 24px;
-    border-radius: 12px;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.08);
-    text-align: center;
-  }
-  
-  .stat-icon {
-    font-size: 36px;
-    margin-bottom: 12px;
-  }
-  
-  .stat-number {
-    font-size: 32px;
-    font-weight: 700;
-    color: #1a1a1a;
-    margin: 0 0 4px 0;
-  }
-  
-  .stat-label {
-    font-size: 14px;
-    color: #6c757d;
-    margin: 0;
-  }
-  
-  .channels-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-    gap: 24px;
-  }
-  
-  .channel-card {
-    background: white;
-    border-radius: 16px;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.08);
-    padding: 0;
-    overflow: hidden;
-    transition: all 0.3s;
-    text-decoration: none;
-    display: block;
-  }
-  
-  .channel-card:hover {
-    transform: translateY(-8px);
-    box-shadow: 0 12px 32px rgba(0,0,0,0.15);
-  }
-  
-  .channel-header {
-    padding: 32px;
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-    color: white;
-    text-align: center;
-  }
-  
-  .channel-icon {
-    font-size: 56px;
-    margin-bottom: 16px;
-  }
-  
-  .channel-header h2 {
-    font-size: 24px;
-    font-weight: 600;
-    margin: 0 0 8px 0;
-  }
-  
-  .channel-header p {
-    margin: 0;
-    opacity: 0.9;
-    font-size: 14px;
-  }
-  
-  .channel-body {
-    padding: 24px;
-  }
-  
-  .channel-stat {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 12px 0;
-    border-bottom: 1px solid #e9ecef;
-  }
-  
-  .channel-stat:last-child {
-    border-bottom: none;
-  }
-  
-  .channel-stat-label {
-    color: #6c757d;
-    font-size: 14px;
-  }
-  
-  .channel-stat-value {
-    font-weight: 600;
-    color: #1a1a1a;
-    font-size: 16px;
-  }
-  
-  .channel-actions {
-    padding: 20px 24px;
-    background: #f8f9fa;
-    display: flex;
-    gap: 12px;
-  }
-  
-  .btn {
-    flex: 1;
-    padding: 12px;
-    border-radius: 8px;
-    font-weight: 600;
-    font-size: 14px;
-    text-decoration: none;
-    text-align: center;
-    transition: all 0.2s;
-    display: block;
-  }
-  
-  .btn-primary {
-    background: #667eea;
-    color: white;
-  }
-  
-  .btn-primary:hover {
-    background: #5568d3;
-  }
-  
-  .btn-secondary {
-    background: white;
-    color: #667eea;
-    border: 2px solid #e9ecef;
-  }
-  
-  .btn-secondary:hover {
-    border-color: #667eea;
-    background: #f8f9ff;
-  }
-  
-  .slack-gradient {
-    background: linear-gradient(135deg, #4A154B 0%, #611f69 100%);
-  }
-  
-  .email-gradient {
-    background: linear-gradient(135deg, #EA4335 0%, #FBBC04 100%);
-  }
-  
-  .whatsapp-gradient {
-    background: linear-gradient(135deg, #25D366 0%, #128C7E 100%);
-  }
-</style>
+<% content_for :page_title, "Audiences" %>
 
-<div class="audiences-container">
-  <div class="page-header">
-    <h1>👥 Manage Audiences</h1>
-    <p>Organize your recipients by channel and group</p>
+<div class="page-header">
+  <h2 class="page-header__title">Audiences</h2>
+  <p class="page-header__description">Manage your recipient groups and distribution lists</p>
+  <div class="page-header__actions">
+    <%= link_to "Create New Audience", new_audience_path, class: "btn btn-primary" %>
   </div>
+</div>
 
-  <!-- Stats Row -->
-  <div class="stats-row">
-    <div class="stat-card">
-      <div class="stat-icon">👥</div>
-      <p class="stat-number"><%= Audience.count %></p>
-      <p class="stat-label">Total Audiences</p>
-    </div>
-    
-    <div class="stat-card">
-      <div class="stat-icon">💬</div>
-      <p class="stat-number"><%= SlackAudience.count %></p>
-      <p class="stat-label">Slack Audiences</p>
-    </div>
-    
-    <div class="stat-card">
-      <div class="stat-icon">📧</div>
-      <p class="stat-number"><%= EmailAudience.count %></p>
-      <p class="stat-label">Email Audiences</p>
-    </div>
-    
-    <div class="stat-card">
-      <div class="stat-icon">📲</div>
-      <p class="stat-number"><%= WhatsappAudience.count %></p>
-      <p class="stat-label">WhatsApp Audiences</p>
+<% if @audiences.any? %>
+  <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 24px;">
+    <% @audiences.each do |audience| %>
+      <div class="card" style="padding: 0; overflow: hidden; transition: all 0.2s; cursor: pointer;" 
+           onclick="window.location='<%= audience_path(audience) %>'"
+           onmouseover="this.style.transform='translateY(-4px)'; this.style.boxShadow='var(--shadow-lg)'"
+           onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='var(--shadow-sm)'">
+        
+        <!-- Card Header with Color Bar -->
+        <div style="height: 6px; background: linear-gradient(90deg, var(--primary-blue), var(--primary-blue-light));"></div>
+        
+        <div style="padding: 24px;">
+          <!-- Audience Type Badge -->
+          <div style="margin-bottom: 16px;">
+            <% if audience.type == 'DynamicAudience' %>
+              <span class="badge badge-info" style="font-size: 11px;">🔄 Dynamic</span>
+            <% else %>
+              <span class="badge badge-success" style="font-size: 11px;">📋 Static</span>
+            <% end %>
+          </div>
+          
+          <!-- Audience Name -->
+          <h3 style="font-size: 18px; font-weight: 600; margin-bottom: 8px; color: var(--dark-text);">
+            <%= audience.name %>
+          </h3>
+          
+          <!-- Description -->
+          <% if audience.description.present? %>
+            <p style="color: var(--secondary-text); font-size: 14px; margin-bottom: 16px; line-height: 1.5;">
+              <%= truncate(audience.description, length: 100) %>
+            </p>
+          <% else %>
+            <p style="color: var(--dark-gray); font-size: 14px; margin-bottom: 16px; font-style: italic;">
+              No description provided
+            </p>
+          <% end %>
+          
+          <!-- Stats -->
+          <div style="display: flex; gap: 16px; padding: 12px 0; border-top: 1px solid var(--light-gray); border-bottom: 1px solid var(--light-gray); margin-bottom: 16px;">
+            <div style="flex: 1; text-align: center;">
+              <div style="font-size: 20px; font-weight: 700; color: var(--primary-blue);">
+                <% 
+                  recipient_count = if audience.respond_to?(:recipients) && audience.recipients.respond_to?(:count)
+                    audience.recipients.count
+                  elsif audience.respond_to?(:users) && audience.users.respond_to?(:count)
+                    audience.users.count
+                  elsif audience.respond_to?(:members) && audience.members.respond_to?(:count)
+                    audience.members.count
+                  elsif audience.respond_to?(:recipient_count)
+                    audience.recipient_count
+                  else
+                    0
+                  end
+                %>
+                <%= recipient_count %>
+              </div>
+              <div style="font-size: 11px; color: var(--secondary-text); text-transform: uppercase; letter-spacing: 0.5px;">
+                Recipients
+              </div>
+            </div>
+            
+            <div style="flex: 1; text-align: center;">
+              <div style="font-size: 20px; font-weight: 700; color: var(--success-green);">
+                <%= audience.announcements.count %>
+              </div>
+              <div style="font-size: 11px; color: var(--secondary-text); text-transform: uppercase; letter-spacing: 0.5px;">
+                Announcements
+              </div>
+            </div>
+          </div>
+          
+          <!-- Dynamic Audience Details -->
+          <% if audience.type == 'DynamicAudience' && audience.query.present? %>
+            <div style="background: rgba(188, 232, 241, 0.1); padding: 12px; border-radius: var(--radius-sm); margin-bottom: 16px;">
+              <div style="font-size: 11px; color: var(--secondary-text); margin-bottom: 4px; text-transform: uppercase; letter-spacing: 0.5px;">
+                Query
+              </div>
+              <div style="font-size: 13px; color: var(--dark-text); font-family: monospace;">
+                <%= truncate(audience.query, length: 50) %>
+              </div>
+            </div>
+          <% end %>
+          
+          <!-- Actions -->
+          <div style="display: flex; gap: 8px;">
+            <%= link_to "View", audience_path(audience), 
+                class: "btn btn-secondary", 
+                style: "flex: 1; justify-content: center; font-size: 13px; padding: 8px;",
+                onclick: "event.stopPropagation()" %>
+            <%= link_to "Edit", edit_audience_path(audience), 
+                class: "btn btn-secondary", 
+                style: "flex: 1; justify-content: center; font-size: 13px; padding: 8px;",
+                onclick: "event.stopPropagation()" %>
+          </div>
+        </div>
+      </div>
+    <% end %>
+  </div>
+  
+  <!-- Summary Card -->
+  <div class="card" style="margin-top: 24px;">
+    <div style="text-align: center; padding: 16px;">
+      <span style="color: var(--secondary-text); font-size: 14px;">
+        Showing <%= @audiences.count %> <%= 'audience'.pluralize(@audiences.count) %>
+      </span>
     </div>
   </div>
+<% else %>
+  <div class="card">
+    <div style="text-align: center; padding: 64px 24px;">
+      <div style="font-size: 64px; margin-bottom: 16px;">👥</div>
+      <h3 style="margin-bottom: 8px; font-size: 20px;">No audiences yet</h3>
+      <p style="color: var(--secondary-text); margin-bottom: 24px; max-width: 400px; margin-left: auto; margin-right: auto;">
+        Audiences help you organize and target your communications. Create your first audience to get started.
+      </p>
+      <%= link_to "Create Your First Audience", new_audience_path, class: "btn btn-primary" %>
+    </div>
+  </div>
+<% end %>
 
-  <!-- Channels Grid -->
-  <div class="channels-grid">
-    <!-- Slack Card -->
-    <div class="channel-card">
-      <div class="channel-header slack-gradient">
-        <div class="channel-icon">💬</div>
-        <h2>Slack Audiences</h2>
-        <p>Manage your Slack channels</p>
-      </div>
-      
-      <div class="channel-body">
-        <div class="channel-stat">
-          <span class="channel-stat-label">Total audiences</span>
-          <span class="channel-stat-value"><%= SlackAudience.count %></span>
-        </div>
-        <div class="channel-stat">
-          <span class="channel-stat-label">Announcements sent</span>
-          <span class="channel-stat-value">
-            <%= Announcement.joins(:audiences).where(audiences: { type: 'SlackAudience' }).where(status: 'sent').count %>
-          </span>
-        </div>
-      </div>
-      
-      <div class="channel-actions">
-        <%= link_to "View All", slack_audiences_path, class: "btn btn-primary" %>
-        <%= link_to "Create New", new_slack_audience_path, class: "btn btn-secondary" %>
+<!-- Info Cards -->
+<div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 24px; margin-top: 24px;">
+  <div class="card">
+    <div style="display: flex; align-items: start; gap: 16px;">
+      <div style="font-size: 32px;">📋</div>
+      <div>
+        <h4 style="font-weight: 600; margin-bottom: 8px;">Static Audiences</h4>
+        <p style="font-size: 13px; color: var(--secondary-text); line-height: 1.5;">
+          Manually curated lists of recipients. Perfect for specific teams or departments.
+        </p>
       </div>
     </div>
-
-    <!-- Email Card -->
-    <div class="channel-card">
-      <div class="channel-header email-gradient">
-        <div class="channel-icon">📧</div>
-        <h2>Email Audiences</h2>
-        <p>Manage your email lists</p>
-      </div>
-      
-      <div class="channel-body">
-        <div class="channel-stat">
-          <span class="channel-stat-label">Total audiences</span>
-          <span class="channel-stat-value"><%= EmailAudience.count %></span>
-        </div>
-        <div class="channel-stat">
-          <span class="channel-stat-label">Total recipients</span>
-          <span class="channel-stat-value">
-            <%= EmailAudience.sum { |a| a.email_list.length } %>
-          </span>
-        </div>
-        <div class="channel-stat">
-          <span class="channel-stat-label">Announcements sent</span>
-          <span class="channel-stat-value">
-            <%= Announcement.joins(:audiences).where(audiences: { type: 'EmailAudience' }).where(status: 'sent').count %>
-          </span>
-        </div>
-      </div>
-      
-      <div class="channel-actions">
-        <%= link_to "View All", email_audiences_path, class: "btn btn-primary" %>
-        <%= link_to "Create New", new_email_audience_path, class: "btn btn-secondary" %>
-      </div>
-    </div>
-
-    <!-- WhatsApp Card -->
-    <div class="channel-card">
-      <div class="channel-header whatsapp-gradient">
-        <div class="channel-icon">📲</div>
-        <h2>WhatsApp Audiences</h2>
-        <p>Manage your WhatsApp contacts</p>
-      </div>
-      
-      <div class="channel-body">
-        <div class="channel-stat">
-          <span class="channel-stat-label">Total audiences</span>
-          <span class="channel-stat-value"><%= WhatsappAudience.count %></span>
-        </div>
-        <div class="channel-stat">
-          <span class="channel-stat-label">Total contacts</span>
-          <span class="channel-stat-value">
-            <%= WhatsappAudience.sum { |a| a.phone_numbers.length } %>
-          </span>
-        </div>
-        <div class="channel-stat">
-          <span class="channel-stat-label">Announcements sent</span>
-          <span class="channel-stat-value">
-            <%= Announcement.joins(:audiences).where(audiences: { type: 'WhatsappAudience' }).where(status: 'sent').count %>
-          </span>
-        </div>
-      </div>
-      
-      <div class="channel-actions">
-        <%= link_to "View All", whatsapp_audiences_path, class: "btn btn-primary" %>
-        <%= link_to "Create New", new_whatsapp_audience_path, class: "btn btn-secondary" %>
+  </div>
+  
+  <div class="card">
+    <div style="display: flex; align-items: start; gap: 16px;">
+      <div style="font-size: 32px;">🔄</div>
+      <div>
+        <h4 style="font-weight: 600; margin-bottom: 8px;">Dynamic Audiences</h4>
+        <p style="font-size: 13px; color: var(--secondary-text); line-height: 1.5;">
+          Automatically updated based on criteria. Recipients are calculated when sending.
+        </p>
       </div>
     </div>
   </div>

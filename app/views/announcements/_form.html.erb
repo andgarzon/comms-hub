@@ -41,6 +41,10 @@
             :body
           elsif @announcement.respond_to?(:content)
             :content
+          elsif @announcement.respond_to?(:description)
+            :description
+          elsif @announcement.respond_to?(:text)
+            :text
           else
             :message  # fallback
           end
@@ -96,7 +100,20 @@
                 <div style="flex: 1;">
                   <div style="font-weight: 500;"><%= audience.name %></div>
                   <div style="font-size: 12px; color: var(--text-secondary);">
-                    <%= audience.recipients.count %> recipients
+                    <% 
+                      recipient_count = if audience.respond_to?(:recipients) && audience.recipients.respond_to?(:count)
+                        audience.recipients.count
+                      elsif audience.respond_to?(:users) && audience.users.respond_to?(:count)
+                        audience.users.count
+                      elsif audience.respond_to?(:members) && audience.members.respond_to?(:count)
+                        audience.members.count
+                      elsif audience.respond_to?(:recipient_count)
+                        audience.recipient_count
+                      else
+                        0
+                      end
+                    %>
+                    <%= recipient_count %> recipients
                     <% if audience.type == 'DynamicAudience' %>
                       • Dynamic
                     <% end %>

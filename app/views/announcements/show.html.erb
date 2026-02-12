@@ -1,493 +1,250 @@
-<style>
-  .show-container {
-    max-width: 900px;
-    margin: 0 auto;
-    padding: 40px 20px;
-  }
-  
-  .breadcrumb {
-    font-size: 14px;
-    color: #6c757d;
-    margin-bottom: 24px;
-  }
-  
-  .breadcrumb a {
-    color: #667eea;
-    text-decoration: none;
-  }
-  
-  .breadcrumb a:hover {
-    text-decoration: underline;
-  }
-  
-  .announcement-header {
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-    color: white;
-    padding: 40px;
-    border-radius: 16px;
-    margin-bottom: 32px;
-  }
-  
-  .header-top {
-    display: flex;
-    justify-content: space-between;
-    align-items: start;
-    margin-bottom: 16px;
-    gap: 16px;
-  }
-  
-  .announcement-header h1 {
-    font-size: 32px;
-    font-weight: 700;
-    margin: 0;
-  }
-  
-  .status-badge {
-    padding: 8px 16px;
-    border-radius: 20px;
-    font-size: 13px;
-    font-weight: 600;
-    text-transform: uppercase;
-    background: rgba(255,255,255,0.2);
-    backdrop-filter: blur(10px);
-  }
-  
-  .header-meta {
-    display: flex;
-    gap: 24px;
-    flex-wrap: wrap;
-    font-size: 14px;
-    opacity: 0.95;
-  }
-  
-  .card {
-    background: white;
-    border-radius: 12px;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.08);
-    padding: 32px;
-    margin-bottom: 24px;
-  }
-  
-  .card-header {
-    display: flex;
-    align-items: center;
-    margin-bottom: 24px;
-    padding-bottom: 16px;
-    border-bottom: 2px solid #f0f0f0;
-  }
-  
-  .card-header-icon {
-    width: 40px;
-    height: 40px;
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-    border-radius: 8px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    margin-right: 16px;
-    font-size: 20px;
-  }
-  
-  .card-header h2 {
-    font-size: 20px;
-    font-weight: 600;
-    color: #1a1a1a;
-    margin: 0;
-  }
-  
-  .message-content {
-    background: #f8f9fa;
-    padding: 24px;
-    border-radius: 8px;
-    margin-bottom: 16px;
-  }
-  
-  .message-content h3 {
-    font-size: 14px;
-    font-weight: 600;
-    color: #495057;
-    margin: 0 0 12px 0;
-    text-transform: uppercase;
-    letter-spacing: 0.5px;
-  }
-  
-  .message-content p {
-    margin: 0;
-    color: #333;
-    line-height: 1.6;
-    white-space: pre-wrap;
-  }
-  
-  .channels-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-    gap: 16px;
-    margin-bottom: 24px;
-  }
-  
-  .channel-card {
-    padding: 16px;
-    background: #f8f9fa;
-    border-radius: 8px;
-    text-align: center;
-  }
-  
-  .channel-card.active {
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-    color: white;
-  }
-  
-  .channel-card .icon {
-    font-size: 32px;
-    margin-bottom: 8px;
-  }
-  
-  .channel-card .label {
-    font-size: 14px;
-    font-weight: 600;
-  }
-  
-  .audiences-list {
-    display: grid;
-    gap: 12px;
-  }
-  
-  .audience-item {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    padding: 12px;
-    background: #f8f9fa;
-    border-radius: 8px;
-  }
-  
-  .audience-icon {
-    width: 36px;
-    height: 36px;
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-    border-radius: 6px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 16px;
-  }
-  
-  .audience-info {
-    flex: 1;
-  }
-  
-  .audience-name {
-    font-weight: 600;
-    color: #1a1a1a;
-    margin: 0 0 4px 0;
-  }
-  
-  .audience-detail {
-    font-size: 13px;
-    color: #6c757d;
-    margin: 0;
-  }
-  
-  .delivery-logs {
-    max-height: 400px;
-    overflow-y: auto;
-  }
-  
-  .log-item {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    padding: 12px;
-    background: #f8f9fa;
-    border-radius: 8px;
-    margin-bottom: 8px;
-  }
-  
-  .log-status {
-    width: 8px;
-    height: 8px;
-    border-radius: 50%;
-  }
-  
-  .log-status.sent {
-    background: #28a745;
-  }
-  
-  .log-status.error {
-    background: #dc3545;
-  }
-  
-  .log-info {
-    flex: 1;
-  }
-  
-  .log-channel {
-    font-weight: 600;
-    color: #1a1a1a;
-  }
-  
-  .log-detail {
-    font-size: 13px;
-    color: #6c757d;
-  }
-  
-  .action-buttons {
-    display: flex;
-    gap: 12px;
-    flex-wrap: wrap;
-  }
-  
-  .btn {
-    padding: 12px 24px;
-    border-radius: 8px;
-    font-weight: 600;
-    font-size: 15px;
-    text-decoration: none;
-    display: inline-block;
-    transition: all 0.2s;
-    border: none;
-    cursor: pointer;
-  }
-  
-  .btn-primary {
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-    color: white;
-  }
-  
-  .btn-primary:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 8px 24px rgba(102, 126, 234, 0.4);
-  }
-  
-  .btn-secondary {
-    background: white;
-    color: #667eea;
-    border: 2px solid #667eea;
-  }
-  
-  .btn-secondary:hover {
-    background: #f8f9ff;
-  }
-  
-  .btn-danger {
-    background: #dc3545;
-    color: white;
-  }
-  
-  .btn-danger:hover {
-    background: #c82333;
-  }
-  
-  .schedule-form {
-    display: flex;
-    gap: 12px;
-    align-items: end;
-  }
-  
-  .form-group {
-    flex: 1;
-  }
-  
-  .form-label {
-    display: block;
-    font-weight: 600;
-    color: #333;
-    margin-bottom: 8px;
-    font-size: 14px;
-  }
-  
-  .form-input {
-    width: 100%;
-    padding: 10px 14px;
-    border: 2px solid #e9ecef;
-    border-radius: 6px;
-    font-size: 14px;
-  }
-  
-  .form-input:focus {
-    outline: none;
-    border-color: #667eea;
-  }
-</style>
+<% content_for :page_title, @announcement.title %>
 
-<div class="show-container">
-  <div class="breadcrumb">
-    <%= link_to "← Back to Announcements", announcements_path %>
-  </div>
-
-  <!-- Header Section -->
-  <div class="announcement-header">
-    <div class="header-top">
-      <h1><%= @announcement.title %></h1>
-      <span class="status-badge"><%= @announcement.status %></span>
-    </div>
-    <div class="header-meta">
-      <span>🕒 Created <%= @announcement.created_at.strftime("%B %d, %Y at %I:%M %p") %></span>
-      <% if @announcement.scheduled_for.present? %>
-        <span>📅 Scheduled for <%= @announcement.scheduled_for.strftime("%B %d, %Y at %I:%M %p") %></span>
-      <% end %>
-      <span>👥 <%= @announcement.audiences.count %> <%= 'audience'.pluralize(@announcement.audiences.count) %></span>
-    </div>
-  </div>
-
-  <!-- Messages Card -->
-  <div class="card">
-    <div class="card-header">
-      <div class="card-header-icon">📝</div>
-      <h2>Messages</h2>
-    </div>
-
-    <div class="message-content">
-      <h3>Base Message</h3>
-      <p><%= @announcement.base_body %></p>
-    </div>
-
-    <% if @announcement.email_body.present? %>
-      <div class="message-content">
-        <h3>📧 Email Version</h3>
-        <p><%= @announcement.email_body %></p>
-      </div>
-    <% end %>
-
-    <% if @announcement.slack_body.present? %>
-      <div class="message-content">
-        <h3>💬 Slack Version</h3>
-        <p><%= @announcement.slack_body %></p>
-      </div>
-    <% end %>
-
-    <% if @announcement.whatsapp_body.present? %>
-      <div class="message-content">
-        <h3>📲 WhatsApp Version</h3>
-        <p><%= @announcement.whatsapp_body %></p>
-      </div>
+<!-- Status Banner -->
+<% if @announcement.status == 'delivered' %>
+  <div class="alert alert-success" style="margin-bottom: 24px;">
+    ✓ This announcement was successfully delivered
+    <% if @announcement.delivery_date %>
+      on <%= @announcement.delivery_date.strftime("%B %d, %Y at %I:%M %p") %>
     <% end %>
   </div>
-
-  <!-- Channels Card -->
-  <div class="card">
-    <div class="card-header">
-      <div class="card-header-icon">📱</div>
-      <h2>Delivery Channels</h2>
-    </div>
-
-    <div class="channels-grid">
-      <div class="channel-card <%= 'active' if @announcement.send_to_slack %>">
-        <div class="icon">💬</div>
-        <div class="label">Slack</div>
-      </div>
-      
-      <div class="channel-card <%= 'active' if @announcement.send_to_email %>">
-        <div class="icon">📧</div>
-        <div class="label">Email</div>
-      </div>
-      
-      <div class="channel-card <%= 'active' if @announcement.send_to_whatsapp %>">
-        <div class="icon">📲</div>
-        <div class="label">WhatsApp</div>
-      </div>
-    </div>
+<% elsif @announcement.status == 'pending' %>
+  <div class="alert alert-warning" style="margin-bottom: 24px;">
+    ⏳ This announcement is scheduled for delivery
+    <% if @announcement.delivery_date %>
+      on <%= @announcement.delivery_date.strftime("%B %d, %Y at %I:%M %p") %>
+    <% end %>
   </div>
+<% elsif @announcement.status == 'failed' %>
+  <div class="alert alert-danger" style="margin-bottom: 24px;">
+    ✕ This announcement failed to deliver. Please review and try again.
+  </div>
+<% end %>
 
-  <!-- Target Audiences Card -->
-  <% if @announcement.audiences.any? %>
-    <div class="card">
-      <div class="card-header">
-        <div class="card-header-icon">👥</div>
-        <h2>Target Audiences</h2>
-      </div>
-
-      <div class="audiences-list">
-        <% @announcement.audiences.each do |audience| %>
-          <div class="audience-item">
-            <div class="audience-icon">
-              <% if audience.type == 'SlackAudience' %>💬
-              <% elsif audience.type == 'EmailAudience' %>📧
-              <% elsif audience.type == 'WhatsappAudience' %>📲
-              <% end %>
-            </div>
-            <div class="audience-info">
-              <p class="audience-name"><%= audience.name %></p>
-              <p class="audience-detail">
-                <% if audience.type == 'SlackAudience' %>
-                  <%= audience.slack_channel %>
-                <% elsif audience.type == 'EmailAudience' %>
-                  <%= audience.email_list.count %> recipients
-                <% elsif audience.type == 'WhatsappAudience' %>
-                  <%= audience.phone_numbers.count %> contacts
-                <% end %>
-              </p>
-            </div>
-          </div>
+<div class="page-header">
+  <div style="display: flex; justify-content: space-between; align-items: start; gap: 16px; flex-wrap: wrap;">
+    <div style="flex: 1;">
+      <h2 class="page-header__title"><%= @announcement.title %></h2>
+      <div style="display: flex; gap: 12px; align-items: center; margin-top: 8px; flex-wrap: wrap;">
+        <% if @announcement.status == 'delivered' %>
+          <span class="badge badge-success">✓ Delivered</span>
+        <% elsif @announcement.status == 'pending' %>
+          <span class="badge badge-warning">⏳ Pending</span>
+        <% elsif @announcement.status == 'failed' %>
+          <span class="badge badge-danger">✕ Failed</span>
+        <% else %>
+          <span class="badge badge-info"><%= @announcement.status&.titleize || "Draft" %></span>
         <% end %>
+        
+        <span style="color: var(--text-secondary); font-size: 13px;">
+          Created <%= @announcement.created_at.strftime("%b %d, %Y") %>
+        </span>
       </div>
     </div>
-  <% end %>
+    <div style="display: flex; gap: 12px;">
+      <%= link_to "Edit", edit_announcement_path(@announcement), class: "btn btn-secondary" %>
+      <%= button_to "Delete", announcement_path(@announcement), 
+          method: :delete, 
+          data: { confirm: "Are you sure? This cannot be undone." },
+          class: "btn btn-danger" %>
+    </div>
+  </div>
+</div>
 
-  <!-- Delivery Logs Card -->
-  <% if @announcement.delivery_logs.any? %>
-    <div class="card">
-      <div class="card-header">
-        <div class="card-header-icon">📊</div>
-        <h2>Delivery Logs</h2>
+<div style="display: grid; grid-template-columns: 2fr 1fr; gap: 24px;">
+  <!-- Main Content -->
+  <div>
+    <!-- Message Content -->
+    <div class="card" style="margin-bottom: 20px;">
+      <div class="card__header">
+        <h3 class="card__title">Message</h3>
       </div>
-
-      <div class="delivery-logs">
-        <% @announcement.delivery_logs.order(created_at: :desc).each do |log| %>
-          <div class="log-item">
-            <div class="log-status <%= log.status %>"></div>
-            <div class="log-info">
-              <div class="log-channel"><%= log.channel.capitalize %> → <%= log.destination %></div>
-              <div class="log-detail">
-                <%= log.status.capitalize %> • <%= log.created_at.strftime("%b %d at %I:%M %p") %>
-                <% if log.error_message.present? %>
-                  • <%= log.error_message %>
-                <% end %>
-              </div>
-            </div>
-          </div>
-        <% end %>
+      <div style="line-height: 1.6; white-space: pre-wrap;">
+        <% 
+          message_text = if @announcement.respond_to?(:message) && @announcement.message.present?
+            @announcement.message
+          elsif @announcement.respond_to?(:body) && @announcement.body.present?
+            @announcement.body
+          elsif @announcement.respond_to?(:content) && @announcement.content.present?
+            @announcement.content
+          elsif @announcement.respond_to?(:description) && @announcement.description.present?
+            @announcement.description
+          elsif @announcement.respond_to?(:text) && @announcement.text.present?
+            @announcement.text
+          else
+            "No message content"
+          end
+        %>
+        <%= message_text %>
       </div>
     </div>
-  <% end %>
-
-  <!-- Actions Card -->
-  <div class="card">
-    <div class="card-header">
-      <div class="card-header-icon">⚡</div>
-      <h2>Actions</h2>
-    </div>
-
-    <% if @announcement.status == 'draft' %>
-      <h3 style="margin-bottom: 16px;">Schedule for Later</h3>
-      <%= form_with url: schedule_announcement_path(@announcement), method: :patch, data: { turbo: false } do |f| %>
-        <div class="schedule-form">
-          <div class="form-group">
-            <label class="form-label">Select Date & Time</label>
-            <%= f.datetime_local_field :scheduled_for, class: "form-input", name: "announcement[scheduled_for]" %>
-          </div>
-          <%= f.submit "📅 Schedule", class: "btn btn-primary" %>
+    
+    <!-- Delivery Schedule -->
+    <% if @announcement.delivery_date %>
+      <div class="card">
+        <div class="card__header">
+          <h3 class="card__title">📅 Scheduled Delivery</h3>
         </div>
-      <% end %>
-
-      <hr style="margin: 24px 0; border: none; border-top: 1px solid #e9ecef;">
-
-      <h3 style="margin-bottom: 16px;">Or Send Immediately</h3>
-      <div class="action-buttons">
-        <%= button_to "🚀 Send Now", send_now_announcement_path(@announcement), method: :patch, class: "btn btn-primary" %>
-        <%= link_to "✏️ Edit", edit_announcement_path(@announcement), class: "btn btn-secondary" %>
-        <%= button_to "🗑️ Delete", announcement_path(@announcement), method: :delete, data: { confirm: "Are you sure?" }, class: "btn btn-danger" %>
-      </div>
-    <% elsif @announcement.status == 'scheduled' %>
-      <div class="action-buttons">
-        <%= link_to "✏️ Edit Schedule", edit_announcement_path(@announcement), class: "btn btn-secondary" %>
-        <%= button_to "❌ Cancel Schedule", announcement_path(@announcement), method: :patch, params: { announcement: { status: 'draft' } }, class: "btn btn-danger" %>
-      </div>
-    <% else %>
-      <div class="action-buttons">
-        <%= link_to "📊 View Report", announcement_path(@announcement), class: "btn btn-secondary" %>
-        <%= button_to "🗑️ Delete", announcement_path(@announcement), method: :delete, data: { confirm: "Are you sure?" }, class: "btn btn-danger" %>
+        <div style="display: flex; align-items: center; gap: 16px;">
+          <div style="background: rgba(30, 174, 219, 0.1); padding: 16px; border-radius: 8px; text-align: center; min-width: 100px;">
+            <div style="font-size: 24px; font-weight: 700; color: var(--primary-blue);">
+              <%= @announcement.delivery_date.strftime("%d") %>
+            </div>
+            <div style="font-size: 12px; color: var(--text-secondary); text-transform: uppercase;">
+              <%= @announcement.delivery_date.strftime("%b %Y") %>
+            </div>
+          </div>
+          <div>
+            <div style="font-weight: 600; margin-bottom: 4px;">
+              <%= @announcement.delivery_date.strftime("%A, %B %d, %Y") %>
+            </div>
+            <div style="color: var(--text-secondary); font-size: 14px;">
+              at <%= @announcement.delivery_date.strftime("%I:%M %p") %>
+            </div>
+          </div>
+        </div>
       </div>
     <% end %>
+  </div>
+  
+  <!-- Sidebar -->
+  <div>
+    <!-- Details Card -->
+    <div class="card" style="margin-bottom: 20px;">
+      <div class="card__header">
+        <h3 class="card__title">Details</h3>
+      </div>
+      
+      <div style="display: flex; flex-direction: column; gap: 20px;">
+        <div>
+          <div style="font-size: 11px; color: var(--text-muted); margin-bottom: 4px; text-transform: uppercase; letter-spacing: 0.5px;">
+            Audience
+          </div>
+          <div style="font-weight: 600; color: var(--text-primary);">
+            <% 
+              audience = if @announcement.respond_to?(:audience) && @announcement.audience.present?
+                @announcement.audience
+              elsif @announcement.respond_to?(:audience_id) && @announcement.audience_id.present?
+                begin
+                  Audience.find(@announcement.audience_id)
+                rescue
+                  nil
+                end
+              else
+                nil
+              end
+            %>
+            <% if audience %>
+              <%= link_to audience.name, audience_path(audience), 
+                  style: "color: var(--primary-blue); text-decoration: none;" %>
+            <% else %>
+              <span style="color: var(--text-muted);">No audience</span>
+            <% end %>
+          </div>
+          <% if audience && audience.respond_to?(:recipients) %>
+            <div style="font-size: 12px; color: var(--text-secondary); margin-top: 2px;">
+              <%= audience.recipients.count %> recipients
+            </div>
+          <% end %>
+        </div>
+        
+        <div>
+          <div style="font-size: 11px; color: var(--text-muted); margin-bottom: 4px; text-transform: uppercase; letter-spacing: 0.5px;">
+            Delivery Channel
+          </div>
+          <div style="font-weight: 600;">
+            <% if @announcement.respond_to?(:message_type) && @announcement.message_type.present? %>
+              <% if @announcement.message_type == 'email' %>
+                📧 Email
+              <% elsif @announcement.message_type == 'slack' %>
+                💬 Slack
+              <% elsif @announcement.message_type == 'both' %>
+                📧💬 Email & Slack
+              <% else %>
+                <%= @announcement.message_type.titleize %>
+              <% end %>
+            <% elsif @announcement.respond_to?(:channel) && @announcement.channel.present? %>
+              <% if @announcement.channel == 'email' %>
+                📧 Email
+              <% elsif @announcement.channel == 'slack' %>
+                💬 Slack
+              <% elsif @announcement.channel == 'whatsapp' %>
+                📱 WhatsApp
+              <% else %>
+                <%= @announcement.channel.titleize %>
+              <% end %>
+            <% else %>
+              <span style="color: var(--text-muted);">Not specified</span>
+            <% end %>
+          </div>
+        </div>
+        
+        <div>
+          <div style="font-size: 11px; color: var(--text-muted); margin-bottom: 4px; text-transform: uppercase; letter-spacing: 0.5px;">
+            Status
+          </div>
+          <div>
+            <% if @announcement.status == 'delivered' %>
+              <span class="badge badge-success">✓ Delivered</span>
+            <% elsif @announcement.status == 'pending' %>
+              <span class="badge badge-warning">⏳ Pending</span>
+            <% elsif @announcement.status == 'failed' %>
+              <span class="badge badge-danger">✕ Failed</span>
+            <% else %>
+              <span class="badge badge-info"><%= @announcement.status&.titleize || "Draft" %></span>
+            <% end %>
+          </div>
+        </div>
+        
+        <div>
+          <div style="font-size: 11px; color: var(--text-muted); margin-bottom: 4px; text-transform: uppercase; letter-spacing: 0.5px;">
+            Created
+          </div>
+          <div style="font-weight: 500;">
+            <%= @announcement.created_at.strftime("%B %d, %Y at %I:%M %p") %>
+          </div>
+        </div>
+        
+        <% if @announcement.updated_at != @announcement.created_at %>
+          <div>
+            <div style="font-size: 11px; color: var(--text-muted); margin-bottom: 4px; text-transform: uppercase; letter-spacing: 0.5px;">
+              Last Updated
+            </div>
+            <div style="font-weight: 500;">
+              <%= @announcement.updated_at.strftime("%B %d, %Y at %I:%M %p") %>
+            </div>
+          </div>
+        <% end %>
+      </div>
+    </div>
+    
+    <!-- Actions Card -->
+    <div class="card">
+      <div class="card__header">
+        <h3 class="card__title">Actions</h3>
+      </div>
+      
+      <div style="display: flex; flex-direction: column; gap: 8px;">
+        <%= link_to edit_announcement_path(@announcement), 
+            class: "btn btn-secondary", 
+            style: "width: 100%; justify-content: center;" do %>
+          <span>✏️ Edit Announcement</span>
+        <% end %>
+        
+        <% if @announcement.status == 'draft' || @announcement.status == 'failed' %>
+          <%= button_to "Send Now", announcement_path(@announcement, announcement: { status: 'pending' }), 
+              method: :patch,
+              data: { confirm: "Send this announcement now?" },
+              class: "btn btn-primary",
+              style: "width: 100%; justify-content: center;" %>
+        <% end %>
+        
+        <%= link_to announcements_path, 
+            class: "btn btn-secondary", 
+            style: "width: 100%; justify-content: center;" do %>
+          <span>← Back to Announcements</span>
+        <% end %>
+      </div>
+    </div>
   </div>
 </div>

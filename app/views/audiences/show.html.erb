@@ -1,10 +1,229 @@
-<p style="color: green"><%= notice %></p>
+<% content_for :page_title, @audience.name %>
 
-<%= render @audience %>
+<% 
+  # Safe recipient access helper
+  recipients_collection = if @audience.respond_to?(:recipients)
+    recipients_collection
+  elsif @audience.respond_to?(:users)
+    @audience.users
+  elsif @audience.respond_to?(:members)
+    @audience.members
+  else
+    []
+  end
+%>
 
-<div>
-  <%= link_to "Edit this audience", edit_audience_path(@audience) %> |
-  <%= link_to "Back to audiences", audiences_path %>
+<div class="page-header">
+  <div style="display: flex; justify-content: space-between; align-items: start; flex-wrap: wrap; gap: 16px;">
+    <div style="flex: 1;">
+      <div style="display: flex; align-items: center; gap: 12px; margin-bottom: 8px;">
+        <h2 class="page-header__title" style="margin: 0;"><%= @audience.name %></h2>
+        <% if @audience.type == 'DynamicAudience' %>
+          <span class="badge badge-info">🔄 Dynamic</span>
+        <% else %>
+          <span class="badge badge-success">📋 Static</span>
+        <% end %>
+      </div>
+      <% if @audience.description.present? %>
+        <p class="page-header__description"><%= @audience.description %></p>
+      <% end %>
+    </div>
+    <div style="display: flex; gap: 12px;">
+      <%= link_to "Edit", edit_audience_path(@audience), class: "btn btn-secondary" %>
+      <%= button_to "Delete", audience_path(@audience), method: :delete, 
+          data: { confirm: "Are you sure? This will affect all associated announcements." }, 
+          class: "btn btn-danger" %>
+    </div>
+  </div>
+</div>
 
-  <%= button_to "Destroy this audience", @audience, method: :delete %>
+<div style="display: grid; grid-template-columns: 2fr 1fr; gap: 24px;">
+  <!-- Main Content -->
+  <div>
+    <div class="card">
+      <div class="card__header">
+        <h3 class="card__title">Recipients</h3>
+      </div>
+      
+      <% if recipients_collection.any? %>
+        <table class="table">
+          <thead>
+            <tr>
+              <th>Name</th>
+              <th>Email</th>
+              <th>Department</th>
+              <th>Added</th>
+            </tr>
+          </thead>
+          <tbody>
+            <% recipients_collection.limit(20).each do |recipient| %>
+              <tr>
+                <td><strong><%= recipient.name || recipient.email.split('@').first.titleize %></strong></td>
+                <td><%= recipient.email %></td>
+                <td><%= recipient.department || "—" %></td>
+                <td><%= recipient.created_at.strftime("%b %d, %Y") %></td>
+              </tr>
+            <% end %>
+          </tbody>
+        </table>
+        
+        <% if recipients_collection.count > 20 %>
+          <div style="padding: 16px; border-top: 1px solid var(--border-light); text-align: center; color: var(--text-secondary); font-size: 13px;">
+            Showing first 20 of <%= recipients_collection.count %> recipients
+          </div>
+        <% end %>
+      <% else %>
+        <div style="text-align: center; padding: 48px 24px;">
+          <div style="font-size: 48px; margin-bottom: 12px;">👥</div>
+          <p style="color: var(--text-secondary); margin-bottom: 16px;">No recipients yet</p>
+          <% if @audience.type == 'StaticAudience' %>
+            <%= link_to "Add Recipients", edit_audience_path(@audience), class: "btn btn-primary" %>
+          <% else %>
+            <p style="font-size: 13px; color: var(--text-muted);">Recipients will be calculated dynamically based on your query</p>
+          <% end %>
+        </div>
+      <% end %>
+    </div>
+    
+    <% if @audience.type == 'DynamicAudience' && @audience.query.present? %>
+      <div class="card">
+        <div class="card__header">
+          <h3 class="card__title">Dynamic Query</h3>
+        </div>
+        
+        <div style="background: var(--bg-page); padding: 16px; border-radius: var(--radius-sm); font-family: monospace; font-size: 13px; line-height: 1.6; overflow-x: auto;">
+          <%= @audience.query %>
+        </div>
+        
+        <div style="margin-top: 16px; padding: 12px; background: rgba(24, 144, 255, 0.05); border-left: 3px solid var(--info); border-radius: var(--radius-sm);">
+          <div style="font-weight: 600; margin-bottom: 4px; font-size: 13px;">ℹ️ How it works</div>
+          <div style="font-size: 12px; color: var(--text-secondary); line-height: 1.5;">
+            This query is evaluated each time an announcement is sent. Recipients matching the criteria will automatically receive the message.
+          </div>
+        </div>
+      </div>
+    <% end %>
+    
+    <div class="card">
+      <div class="card__header">
+        <h3 class="card__title">Announcements Sent</h3>
+      </div>
+      
+      <% if @audience.announcements.any? %>
+        <table class="table">
+          <thead>
+            <tr>
+              <th>Title</th>
+              <th>Status</th>
+              <th>Sent Date</th>
+            </tr>
+          </thead>
+          <tbody>
+            <% @audience.announcements.order(created_at: :desc).limit(10).each do |announcement| %>
+              <tr onclick="window.location='<%= announcement_path(announcement) %>'" style="cursor: pointer;">
+                <td><strong><%= announcement.title %></strong></td>
+                <td>
+                  <% if announcement.status == 'delivered' %>
+                    <span class="badge badge-success">Delivered</span>
+                  <% elsif announcement.status == 'pending' %>
+                    <span class="badge badge-warning">Pending</span>
+                  <% elsif announcement.status == 'failed' %>
+                    <span class="badge badge-danger">Failed</span>
+                  <% else %>
+                    <span class="badge badge-info"><%= announcement.status&.titleize || "Draft" %></span>
+                  <% end %>
+                </td>
+                <td><%= announcement.delivery_date ? announcement.delivery_date.strftime("%b %d, %Y") : "Not scheduled" %></td>
+              </tr>
+            <% end %>
+          </tbody>
+        </table>
+      <% else %>
+        <div style="text-align: center; padding: 32px 24px;">
+          <div style="font-size: 32px; margin-bottom: 8px;">📢</div>
+          <p style="color: var(--text-secondary); font-size: 13px;">No announcements sent to this audience yet</p>
+        </div>
+      <% end %>
+    </div>
+  </div>
+  
+  <!-- Sidebar -->
+  <div>
+    <div class="card" style="margin-bottom: 20px;">
+      <div class="card__header">
+        <h3 class="card__title">Statistics</h3>
+      </div>
+      
+      <div style="display: flex; flex-direction: column; gap: 20px;">
+        <div style="text-align: center; padding: 20px; background: rgba(30, 174, 219, 0.05); border-radius: var(--radius-md);">
+          <div style="font-size: 36px; font-weight: 700; color: var(--primary-blue); margin-bottom: 4px;">
+            <%= recipients_collection.count %>
+          </div>
+          <div style="font-size: 12px; color: var(--text-secondary); text-transform: uppercase; letter-spacing: 0.5px;">
+            Total Recipients
+          </div>
+        </div>
+        
+        <div style="text-align: center; padding: 20px; background: rgba(82, 196, 26, 0.05); border-radius: var(--radius-md);">
+          <div style="font-size: 36px; font-weight: 700; color: var(--success); margin-bottom: 4px;">
+            <%= @audience.announcements.count %>
+          </div>
+          <div style="font-size: 12px; color: var(--text-secondary); text-transform: uppercase; letter-spacing: 0.5px;">
+            Announcements Sent
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    <div class="card" style="margin-bottom: 20px;">
+      <div class="card__header">
+        <h3 class="card__title">Details</h3>
+      </div>
+      
+      <div style="display: flex; flex-direction: column; gap: 16px;">
+        <div>
+          <div style="font-size: 11px; color: var(--text-muted); margin-bottom: 4px; text-transform: uppercase; letter-spacing: 0.5px;">Type</div>
+          <div style="font-weight: 500;">
+            <%= @audience.type == 'DynamicAudience' ? '🔄 Dynamic Audience' : '📋 Static Audience' %>
+          </div>
+        </div>
+        
+        <div>
+          <div style="font-size: 11px; color: var(--text-muted); margin-bottom: 4px; text-transform: uppercase; letter-spacing: 0.5px;">Created</div>
+          <div style="font-weight: 500;">
+            <%= @audience.created_at.strftime("%B %d, %Y") %>
+          </div>
+        </div>
+        
+        <% if @audience.updated_at != @audience.created_at %>
+          <div>
+            <div style="font-size: 11px; color: var(--text-muted); margin-bottom: 4px; text-transform: uppercase; letter-spacing: 0.5px;">Last Updated</div>
+            <div style="font-weight: 500;">
+              <%= @audience.updated_at.strftime("%B %d, %Y") %>
+            </div>
+          </div>
+        <% end %>
+      </div>
+    </div>
+    
+    <div class="card">
+      <div class="card__header">
+        <h3 class="card__title">Actions</h3>
+      </div>
+      
+      <div style="display: flex; flex-direction: column; gap: 8px;">
+        <%= link_to edit_audience_path(@audience), class: "btn btn-secondary", style: "width: 100%; justify-content: center;" do %>
+          <span>✏️ Edit Audience</span>
+        <% end %>
+        
+        <%= link_to new_announcement_path(audience_id: @audience.id), class: "btn btn-primary", style: "width: 100%; justify-content: center;" do %>
+          <span>📢 Create Announcement</span>
+        <% end %>
+        
+        <%= link_to audiences_path, class: "btn btn-secondary", style: "width: 100%; justify-content: center;" do %>
+          <span>← Back to Audiences</span>
+        <% end %>
+      </div>
+    </div>
+  </div>
 </div>

@@ -29,6 +29,7 @@ Rails.application.routes.draw do
     end
 end
 
+resources :announcements
 resources :slack_audiences
 resources :email_audiences
 resources :whatsapp_audiences
