@@ -24,6 +24,11 @@ module CommsHub
     # Common ones are `templates`, `generators`, or `middleware`, for example.
     config.autoload_lib(ignore: %w[assets tasks])
 
+    # Active Record Encryption — keys stored in credentials.yml.enc
+    config.active_record.encryption.primary_key = credentials.dig(:active_record_encryption, :primary_key)
+    config.active_record.encryption.deterministic_key = credentials.dig(:active_record_encryption, :deterministic_key)
+    config.active_record.encryption.key_derivation_salt = credentials.dig(:active_record_encryption, :key_derivation_salt)
+
     # Configuration for the application, engines, and railties goes here.
     #
     # These settings can be overridden in specific environments using the files

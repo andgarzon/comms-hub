@@ -65,6 +65,9 @@
           <input type="password" id="api_key" name="api_key"
                  value="<%= @setting.api_key %>"
                  placeholder="sk-..." required class="form-control">
+          <% if @setting.masked_api_key.present? %>
+            <p class="form-hint">Saved: <code><%= @setting.masked_api_key %></code></p>
+          <% end %>
           <p class="form-hint">Your OpenAI API key. Get one at <a href="https://platform.openai.com/api-keys" target="_blank" class="text-blue">platform.openai.com</a>.</p>
         </div>
 

@@ -65,13 +65,16 @@
           <input type="password" id="bot_token" name="bot_token"
                  value="<%= @setting.bot_token %>"
                  placeholder="xoxb-..." required class="form-control">
+          <% if @setting.masked_bot_token.present? %>
+            <p class="form-hint">Saved: <code><%= @setting.masked_bot_token %></code></p>
+          <% end %>
           <p class="form-hint">Found in your Slack App settings under <strong>OAuth & Permissions</strong>.</p>
         </div>
 
         <div>
           <label for="default_channel" class="form-field-label">Default Channel</label>
           <input type="text" id="default_channel" name="default_channel"
-                 value="<%= @setting.setting('default_channel') %>"
+                 value="<%= @setting.default_channel %>"
                  placeholder="#general (optional)" class="form-control">
           <p class="form-hint">Optional default channel for announcements. Audiences can override this.</p>
         </div>

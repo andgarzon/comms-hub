@@ -1,13 +1,57 @@
 # app/controllers/announcements_controller.rb
 class AnnouncementsController < ApplicationController
-  before_action :set_audiences, only: %i[new create]
-  before_action :set_announcement, only: %i[show schedule cancel_schedule send_now]
+  before_action :set_audiences, only: %i[new create edit update]
+  before_action :set_announcement, only: %i[show edit update schedule cancel_schedule send_now]
 
   def index
+    @current_status = params[:status].presence
     @announcements = Announcement.order(created_at: :desc).includes(:user)
+    @announcements = @announcements.by_status(@current_status) if @current_status.present?
+
+    # Counts for filter tabs
+    @status_counts = {
+      all: Announcement.count,
+      draft: Announcement.drafts.count,
+      scheduled: Announcement.scheduled_items.count,
+      sent: Announcement.sent_items.count,
+      failed: Announcement.failed_items.count
+    }
   end
 
   def show
+  end
+
+  def edit
+    unless @announcement.status.in?(%w[draft failed])
+      redirect_to @announcement, alert: "Only draft or failed announcements can be edited."
+    end
+  end
+
+  def update
+    unless @announcement.status.in?(%w[draft failed])
+      redirect_to @announcement, alert: "Only draft or failed announcements can be edited."
+      return
+    end
+
+    @announcement.assign_attributes(announcement_params)
+
+    # Save as Draft flow
+    if params[:save_draft]
+      @announcement.status = "draft"
+      if @announcement.save
+        redirect_to @announcement, notice: "Draft updated successfully."
+      else
+        render :edit, status: :unprocessable_content
+      end
+      return
+    end
+
+    # Send / Schedule flow
+    if @announcement.save
+      enqueue_or_schedule(@announcement)
+    else
+      render :edit, status: :unprocessable_content
+    end
   end
 
   def new
@@ -50,7 +94,18 @@ class AnnouncementsController < ApplicationController
       return
     end
 
-    # 2) Normal create flow (save + enqueue)
+    # 2) Save as Draft flow
+    if params[:save_draft]
+      @announcement.status = "draft"
+      if @announcement.save
+        redirect_to @announcement, notice: "Announcement saved as draft."
+      else
+        render :new, status: :unprocessable_content
+      end
+      return
+    end
+
+    # 3) Normal create flow (save + enqueue)
     if @announcement.save
       enqueue_or_schedule(@announcement)
     else

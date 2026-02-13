@@ -147,6 +147,12 @@
     </div>
 
     <% if @announcement.status == 'draft' %>
+      <div class="action-buttons mb-16">
+        <%= link_to "Edit Draft", edit_announcement_path(@announcement), class: "btn btn-secondary" %>
+      </div>
+
+      <hr class="show-divider">
+
       <h3 class="show-section-heading">Schedule for Later</h3>
       <%= form_with url: schedule_announcement_path(@announcement), method: :patch, data: { turbo: false } do |f| %>
         <div class="schedule-form">
@@ -173,6 +179,7 @@
     <% else %>
       <div class="action-buttons">
         <% if @announcement.status == 'failed' %>
+          <%= link_to "Edit", edit_announcement_path(@announcement), class: "btn btn-secondary" %>
           <%= button_to "Retry", send_now_announcement_path(@announcement), method: :patch, class: "btn btn-primary" %>
         <% end %>
         <%= link_to "Back to Announcements", announcements_path, class: "btn btn-secondary" %>

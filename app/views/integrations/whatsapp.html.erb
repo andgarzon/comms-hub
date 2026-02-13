@@ -75,6 +75,9 @@
           <input type="password" id="access_token" name="access_token"
                  value="<%= @setting.access_token %>"
                  placeholder="Your permanent or temporary access token" required class="form-control">
+          <% if @setting.masked_access_token.present? %>
+            <p class="form-hint">Saved: <code><%= @setting.masked_access_token %></code></p>
+          <% end %>
           <p class="form-hint">Generate a permanent token in your Meta Business Settings > System Users.</p>
         </div>
 

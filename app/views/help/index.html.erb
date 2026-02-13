@@ -93,11 +93,36 @@
       <div class="help-topic">
         <h4 class="help-topic__title">Creating an Announcement</h4>
         <ul class="help-topic__list">
-          <li>Navigate to <%= link_to "Announcements", announcements_path %> and click <strong>"New Announcement"</strong></li>
+          <li>Navigate to <%= link_to "Announcements", announcements_path %> and click <strong>"Create New"</strong></li>
           <li>Enter a <strong>title</strong> and <strong>base message</strong> for your announcement</li>
           <li>Select which <strong>channels</strong> to send through (Slack, Email, WhatsApp)</li>
           <li>Customize the message for each channel if needed, or use the base message for all</li>
           <li>Select one or more <strong>audiences</strong> to receive the announcement</li>
+          <li>Click <strong>"Send / Schedule"</strong> to deliver immediately or at a scheduled time</li>
+          <li>Click <strong>"Save as Draft"</strong> to save without sending (you can edit and send later)</li>
+        </ul>
+      </div>
+
+      <div class="help-topic">
+        <h4 class="help-topic__title">Drafts & Editing</h4>
+        <ul class="help-topic__list">
+          <li><strong>Save as Draft</strong> — saves your announcement without sending it, letting you come back and edit later</li>
+          <li>Draft and failed announcements can be <strong>edited</strong> from the announcement detail page or from the announcements list</li>
+          <li>From the draft detail page, you can <strong>schedule</strong> for later or <strong>send immediately</strong></li>
+          <li>Use the <strong>"Update Draft"</strong> button in the edit page to save changes without sending</li>
+        </ul>
+      </div>
+
+      <div class="help-topic">
+        <h4 class="help-topic__title">Filtering Announcements</h4>
+        <ul class="help-topic__list">
+          <li>Use the <strong>filter tabs</strong> at the top of the <%= link_to "Announcements", announcements_path %> page to view announcements by status</li>
+          <li><strong>All</strong> — shows every announcement regardless of status</li>
+          <li><strong>Drafts</strong> — shows announcements saved as drafts (not yet sent). <%= link_to "View Drafts", announcements_path(status: "draft") %></li>
+          <li><strong>Scheduled</strong> — shows announcements scheduled for future delivery. <%= link_to "View Scheduled", announcements_path(status: "scheduled") %></li>
+          <li><strong>Sent</strong> — shows successfully delivered announcements. <%= link_to "View Sent", announcements_path(status: "sent") %></li>
+          <li><strong>Failed</strong> — shows announcements that encountered errors (can be retried). <%= link_to "View Failed", announcements_path(status: "failed") %></li>
+          <li>Each tab shows a <strong>count badge</strong> with the number of announcements in that status</li>
         </ul>
       </div>
 
@@ -114,8 +139,9 @@
       <div class="help-topic">
         <h4 class="help-topic__title">Scheduling</h4>
         <ul class="help-topic__list">
-          <li><strong>Send Now</strong> — delivers the announcement immediately</li>
-          <li><strong>Schedule</strong> — pick a future date and time for automatic delivery</li>
+          <li><strong>Send / Schedule</strong> — when creating or editing, use this to send immediately (no date) or schedule for later (with a date)</li>
+          <li><strong>Send Now</strong> — from the draft detail page, immediately send the announcement</li>
+          <li><strong>Schedule</strong> — from the draft detail page, pick a future date and time for automatic delivery</li>
           <li>You can <strong>reschedule</strong> or <strong>cancel</strong> a scheduled announcement before it's sent</li>
         </ul>
       </div>
@@ -123,10 +149,11 @@
       <div class="help-topic">
         <h4 class="help-topic__title">Statuses</h4>
         <ul class="help-topic__list">
-          <li><strong>Draft</strong> — created but not yet sent</li>
-          <li><strong>Scheduled</strong> — queued for future delivery</li>
-          <li><strong>Delivered</strong> — successfully sent to recipients</li>
-          <li><strong>Failed</strong> — delivery encountered an error (can be retried)</li>
+          <li><strong>Draft</strong> — saved but not yet sent; can be edited, scheduled, or sent immediately</li>
+          <li><strong>Scheduled</strong> — queued for future delivery at a specific date and time</li>
+          <li><strong>Sending</strong> — currently being delivered to recipients</li>
+          <li><strong>Sent</strong> — successfully delivered to recipients</li>
+          <li><strong>Failed</strong> — delivery encountered an error; can be edited and retried</li>
         </ul>
       </div>
     </div>
@@ -410,11 +437,23 @@
       </div>
 
       <div class="help-topic">
+        <h4 class="help-topic__title">Managing Credentials</h4>
+        <ul class="help-topic__list">
+          <li>All integration credentials (API keys, tokens, passwords) are stored <strong>encrypted in the database</strong></li>
+          <li>Credentials are managed exclusively through the <strong>Integrations settings pages</strong> - no manual file editing needed</li>
+          <li>Only <strong>admin users</strong> can access and modify integration settings</li>
+          <li>Sensitive values are <strong>masked</strong> in the UI (e.g., <code>sk-p****...jT0A</code>) for security</li>
+          <li>Changes take effect <strong>immediately</strong> - no server restart required</li>
+        </ul>
+      </div>
+
+      <div class="help-topic">
         <h4 class="help-topic__title">Testing a Connection</h4>
         <ul class="help-topic__list">
           <li>After entering your credentials, click <strong>"Test Connection"</strong></li>
           <li>A success or error message will appear indicating the connection status</li>
           <li>If it fails, double-check your credentials and try again</li>
+          <li>The connection status badge on the <%= link_to "Integrations overview", integrations_path %> page updates after testing</li>
         </ul>
       </div>
     </div>
