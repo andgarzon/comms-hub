@@ -26,12 +26,14 @@
       <p class="page-header__description"><%= @audience.description %></p>
     <% end %>
   </div>
-  <div class="flex-row gap-12">
-    <%= link_to "Edit", edit_audience_path(@audience), class: "btn btn-secondary" %>
-    <%= button_to "Delete", audience_path(@audience), method: :delete,
-        data: { confirm: "Are you sure? This will affect all associated announcements." },
-        class: "btn btn-danger" %>
-  </div>
+  <% if @audience.editable_by?(current_user) %>
+    <div class="flex-row gap-12">
+      <%= link_to "Edit", edit_audience_path(@audience), class: "btn btn-secondary" %>
+      <%= button_to "Delete", audience_path(@audience), method: :delete,
+          data: { confirm: "Are you sure? This will affect all associated announcements." },
+          class: "btn btn-danger" %>
+    </div>
+  <% end %>
 </div>
 
 <div class="audience-show-grid">
@@ -174,6 +176,29 @@
         </div>
 
         <div>
+          <div class="detail-label">Scope</div>
+          <div class="detail-value">
+            <% case @audience.scope_type %>
+            <% when "personal" %>
+              <span class="badge badge-warning badge--sm">🔒 Personal</span>
+            <% when "role" %>
+              <span class="badge badge-info badge--sm">👥 <%= @audience.scope_value&.upcase %> Role</span>
+            <% when "system" %>
+              <span class="badge badge-success badge--sm">🌐 System-wide</span>
+            <% else %>
+              <span class="text-muted">Not set</span>
+            <% end %>
+          </div>
+        </div>
+
+        <% if @audience.creator.present? %>
+          <div>
+            <div class="detail-label">Created By</div>
+            <div class="detail-value"><%= @audience.creator.email %></div>
+          </div>
+        <% end %>
+
+        <div>
           <div class="detail-label">Created</div>
           <div class="detail-value"><%= @audience.created_at.strftime("%B %d, %Y") %></div>
         </div>
@@ -193,8 +218,10 @@
       </div>
 
       <div class="flex-col gap-8">
-        <%= link_to edit_audience_path(@audience), class: "btn btn-secondary btn--full" do %>
-          ✏️ Edit Audience
+        <% if @audience.editable_by?(current_user) %>
+          <%= link_to edit_audience_path(@audience), class: "btn btn-secondary btn--full" do %>
+            ✏️ Edit Audience
+          <% end %>
         <% end %>
 
         <%= link_to new_announcement_path(audience_id: @audience.id), class: "btn btn-primary btn--full" do %>

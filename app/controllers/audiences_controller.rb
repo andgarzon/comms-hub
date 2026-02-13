@@ -1,53 +1,65 @@
 class AudiencesController < ApplicationController
   before_action :set_audience, only: %i[ show edit update destroy ]
+  before_action :authorize_view!, only: %i[ show ]
+  before_action :authorize_edit!, only: %i[ edit update destroy ]
 
-  # GET /audiences or /audiences.json
   def index
-    @audiences = Audience.all
+    @audiences = Audience.visible_to(current_user).order(:name)
   end
 
-  # GET /audiences/1 or /audiences/1.json
   def show
   end
 
-  # GET /audiences/new
   def new
     @audience = Audience.new
+    @available_scope_types = available_scope_types
+    @available_roles = available_roles_for_scope
   end
 
-  # GET /audiences/1/edit
   def edit
+    @available_scope_types = available_scope_types
+    @available_roles = available_roles_for_scope
   end
 
-  # POST /audiences or /audiences.json
   def create
     @audience = Audience.new(audience_params)
+    @audience.creator = current_user
+
+    # Enforce scope authorization
+    authorize_audience_create!(@audience.scope_type || "personal", @audience.scope_value)
+
+    # Non-admins creating role audiences are forced to their own role
+    if @audience.scope_type == "role" && !current_user.admin?
+      @audience.scope_value = current_user.role
+    end
 
     respond_to do |format|
       if @audience.save
         format.html { redirect_to @audience, notice: "Audience was successfully created." }
         format.json { render :show, status: :created, location: @audience }
       else
+        @available_scope_types = available_scope_types
+        @available_roles = available_roles_for_scope
         format.html { render :new, status: :unprocessable_entity }
         format.json { render json: @audience.errors, status: :unprocessable_entity }
       end
     end
   end
 
-  # PATCH/PUT /audiences/1 or /audiences/1.json
   def update
     respond_to do |format|
       if @audience.update(audience_params)
         format.html { redirect_to @audience, notice: "Audience was successfully updated.", status: :see_other }
         format.json { render :show, status: :ok, location: @audience }
       else
+        @available_scope_types = available_scope_types
+        @available_roles = available_roles_for_scope
         format.html { render :edit, status: :unprocessable_entity }
         format.json { render json: @audience.errors, status: :unprocessable_entity }
       end
     end
   end
 
-  # DELETE /audiences/1 or /audiences/1.json
   def destroy
     @audience.destroy!
 
@@ -58,13 +70,36 @@ class AudiencesController < ApplicationController
   end
 
   private
-    # Use callbacks to share common setup or constraints between actions.
-    def set_audience
-      @audience = Audience.find(params.expect(:id))
-    end
 
-    # Only allow a list of trusted parameters through.
-    def audience_params
-      params.expect(audience: [ :name, :description, :slack_channel ])
+  def set_audience
+    @audience = Audience.find(params.expect(:id))
+  end
+
+  def authorize_view!
+    authorize_audience_access!(@audience)
+  end
+
+  def authorize_edit!
+    authorize_audience_modify!(@audience)
+  end
+
+  def audience_params
+    params.expect(audience: [ :name, :description, :slack_channel, :type, :scope_type, :scope_value, :email_recipients, :whatsapp_recipients ])
+  end
+
+  def available_scope_types
+    if current_user.admin?
+      Audience::SCOPE_TYPES
+    else
+      %w[personal role]
     end
+  end
+
+  def available_roles_for_scope
+    if current_user.admin?
+      User::ROLES.reject { |r| r == "admin" }
+    else
+      [ current_user.role ].compact
+    end
+  end
 end

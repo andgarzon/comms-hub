@@ -1,9 +1,9 @@
 class EmailAudiencesController < ApplicationController
-  before_action :authenticate_user!
-  before_action :set_audience, only: %i[edit update destroy]
+  before_action :set_audience, only: %i[ edit update destroy ]
+  before_action :authorize_edit!, only: %i[ edit update destroy ]
 
   def index
-    @audiences = EmailAudience.order(:name)
+    @audiences = EmailAudience.merge(Audience.visible_to(current_user)).order(:name)
   end
 
   def new
@@ -12,6 +12,11 @@ class EmailAudiencesController < ApplicationController
 
   def create
     @audience = EmailAudience.new(audience_params)
+    @audience.creator = current_user
+    @audience.scope_type ||= "personal"
+
+    authorize_audience_create!(@audience.scope_type, @audience.scope_value)
+
     if @audience.save
       redirect_to email_audiences_path, notice: "Email audience created."
     else
@@ -31,7 +36,7 @@ class EmailAudiencesController < ApplicationController
 
   def destroy
     @audience.destroy
-    redirect_to email_audiences_path, notice: "Email audience deleted."
+    redirect_to email_audiences_path, notice: "Email audience deleted.", status: :see_other
   end
 
   private
@@ -40,8 +45,11 @@ class EmailAudiencesController < ApplicationController
     @audience = EmailAudience.find(params[:id])
   end
 
+  def authorize_edit!
+    authorize_audience_modify!(@audience)
+  end
+
   def audience_params
-    params.require(:email_audience).permit(:name, :email_recipients)
+    params.require(:email_audience).permit(:name, :email_recipients, :scope_type, :scope_value)
   end
 end
-

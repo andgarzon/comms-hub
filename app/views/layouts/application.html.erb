@@ -39,7 +39,7 @@
                   <div class="app-topbar__user-role"><%= current_user.role %></div>
                 <% end %>
               </div>
-              <%= link_to "👤 Manage Users", users_path, class: "app-topbar__user-action" %>
+              <%= link_to "👤 Manage Users", manage_users_path, class: "app-topbar__user-action" %>
               <%= button_to "Logout", destroy_user_session_path, method: :delete, class: "app-topbar__user-action" %>
             </div>
           </div>
@@ -71,6 +71,11 @@
       </div>
 
       <div class="app-drawer__settings">
+        <%= link_to help_index_path, class: "app-drawer__link #{controller_name == 'help' ? 'is-active' : ''}" do %>
+          <span class="app-drawer__link-icon">❓</span>
+          <span>Help</span>
+        <% end %>
+
         <%= link_to settings_path, class: "app-drawer__link #{%w[settings users integrations].include?(controller_name) ? 'is-active' : ''}" do %>
           <span class="app-drawer__link-icon">⚙️</span>
           <span>Settings</span>

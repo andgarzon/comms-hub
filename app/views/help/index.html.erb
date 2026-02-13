@@ -1,0 +1,461 @@
+<% content_for :page_title, "Help & Documentation" %>
+
+<div class="page-header">
+  <h2 class="page-header__title">Help & Documentation</h2>
+  <p class="page-header__description">Learn how to use CommsHub to manage your team communications</p>
+</div>
+
+<!-- Quick Navigation -->
+<div class="card mb-24">
+  <div class="card__header">
+    <h3 class="card__title">Quick Navigation</h3>
+  </div>
+  <div class="help-nav">
+    <a href="#getting-started" class="help-nav__link">
+      <span class="help-nav__icon">🚀</span>
+      <span>Getting Started</span>
+    </a>
+    <a href="#announcements" class="help-nav__link">
+      <span class="help-nav__icon">📢</span>
+      <span>Announcements</span>
+    </a>
+    <a href="#audiences" class="help-nav__link">
+      <span class="help-nav__icon">👥</span>
+      <span>Audiences</span>
+    </a>
+    <a href="#roles" class="help-nav__link">
+      <span class="help-nav__icon">🔑</span>
+      <span>Roles & Permissions</span>
+    </a>
+    <a href="#users" class="help-nav__link">
+      <span class="help-nav__icon">👤</span>
+      <span>User Management</span>
+    </a>
+    <a href="#integrations" class="help-nav__link">
+      <span class="help-nav__icon">🔗</span>
+      <span>Integrations</span>
+    </a>
+  </div>
+</div>
+
+<!-- Getting Started -->
+<div id="getting-started" class="card mb-24">
+  <div class="card__header">
+    <h3 class="card__title">🚀 Getting Started</h3>
+  </div>
+  <div class="help-section">
+    <p class="help-section__intro">
+      CommsHub is your central platform for managing team communications. Send announcements via Slack, Email, and WhatsApp from one place.
+    </p>
+
+    <div class="help-steps">
+      <div class="help-step">
+        <div class="help-step__number">1</div>
+        <div class="help-step__content">
+          <h4 class="help-step__title">Set up your audiences</h4>
+          <p>Create audience groups to organize who receives your messages. You can create audiences for your team, your role, or just for yourself.</p>
+          <%= link_to "Go to Audiences →", audiences_path, class: "help-step__link" %>
+        </div>
+      </div>
+
+      <div class="help-step">
+        <div class="help-step__number">2</div>
+        <div class="help-step__content">
+          <h4 class="help-step__title">Configure integrations</h4>
+          <p>Connect your Slack workspace, email server, or WhatsApp Business account to enable multi-channel announcements.</p>
+          <%= link_to "Go to Integrations →", integrations_path, class: "help-step__link" %>
+        </div>
+      </div>
+
+      <div class="help-step">
+        <div class="help-step__number">3</div>
+        <div class="help-step__content">
+          <h4 class="help-step__title">Send your first announcement</h4>
+          <p>Create an announcement, select your audiences and channels, and send or schedule it for later.</p>
+          <%= link_to "Create Announcement →", new_announcement_path, class: "help-step__link" %>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Announcements -->
+<div id="announcements" class="card mb-24">
+  <div class="card__header">
+    <h3 class="card__title">📢 Announcements</h3>
+  </div>
+  <div class="help-section">
+    <p class="help-section__intro">
+      Announcements are the core of CommsHub. Create a message once and deliver it across multiple channels simultaneously.
+    </p>
+
+    <div class="help-topics">
+      <div class="help-topic">
+        <h4 class="help-topic__title">Creating an Announcement</h4>
+        <ul class="help-topic__list">
+          <li>Navigate to <%= link_to "Announcements", announcements_path %> and click <strong>"New Announcement"</strong></li>
+          <li>Enter a <strong>title</strong> and <strong>base message</strong> for your announcement</li>
+          <li>Select which <strong>channels</strong> to send through (Slack, Email, WhatsApp)</li>
+          <li>Customize the message for each channel if needed, or use the base message for all</li>
+          <li>Select one or more <strong>audiences</strong> to receive the announcement</li>
+        </ul>
+      </div>
+
+      <div class="help-topic">
+        <h4 class="help-topic__title">AI-Powered Improvements</h4>
+        <ul class="help-topic__list">
+          <li>Click <strong>"Improve with AI"</strong> to enhance your message automatically</li>
+          <li>The AI will optimize your message for clarity and tone across each channel</li>
+          <li>Review the AI suggestions before sending — you can always edit further</li>
+          <li>Requires OpenAI integration to be configured (see <%= link_to "Integrations", integrations_path %>)</li>
+        </ul>
+      </div>
+
+      <div class="help-topic">
+        <h4 class="help-topic__title">Scheduling</h4>
+        <ul class="help-topic__list">
+          <li><strong>Send Now</strong> — delivers the announcement immediately</li>
+          <li><strong>Schedule</strong> — pick a future date and time for automatic delivery</li>
+          <li>You can <strong>reschedule</strong> or <strong>cancel</strong> a scheduled announcement before it's sent</li>
+        </ul>
+      </div>
+
+      <div class="help-topic">
+        <h4 class="help-topic__title">Statuses</h4>
+        <ul class="help-topic__list">
+          <li><strong>Draft</strong> — created but not yet sent</li>
+          <li><strong>Scheduled</strong> — queued for future delivery</li>
+          <li><strong>Delivered</strong> — successfully sent to recipients</li>
+          <li><strong>Failed</strong> — delivery encountered an error (can be retried)</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="help-actions">
+      <%= link_to "View All Announcements", announcements_path, class: "btn btn-secondary" %>
+      <%= link_to "Create New Announcement", new_announcement_path, class: "btn btn-primary" %>
+    </div>
+  </div>
+</div>
+
+<!-- Audiences -->
+<div id="audiences" class="card mb-24">
+  <div class="card__header">
+    <h3 class="card__title">👥 Audiences</h3>
+  </div>
+  <div class="help-section">
+    <p class="help-section__intro">
+      Audiences define who receives your announcements. Organize recipients into groups for targeted communications.
+    </p>
+
+    <div class="help-topics">
+      <div class="help-topic">
+        <h4 class="help-topic__title">Audience Types</h4>
+        <ul class="help-topic__list">
+          <li><strong>📋 Static Audiences</strong> — Manually curated lists of recipients. Best for specific teams or departments.</li>
+          <li><strong>🔄 Dynamic Audiences</strong> — Auto-updated based on criteria. Recipients are calculated each time you send.</li>
+          <li><strong>📧 Email Audiences</strong> — Lists of email addresses for email-only announcements. <%= link_to "Manage →", email_audiences_path %></li>
+          <li><strong>💬 Slack Audiences</strong> — Slack channels where announcements are posted. <%= link_to "Manage →", slack_audiences_path %></li>
+          <li><strong>📱 WhatsApp Audiences</strong> — WhatsApp phone number lists. <%= link_to "Manage →", whatsapp_audiences_path %></li>
+        </ul>
+      </div>
+
+      <div class="help-topic">
+        <h4 class="help-topic__title">Audience Scope</h4>
+        <p>Each audience has a visibility scope that controls who can see and use it:</p>
+        <ul class="help-topic__list">
+          <li><strong>🔒 Personal</strong> — Only visible to you. Create private audiences for your own use.</li>
+          <li><strong>👥 Role</strong> — Visible to everyone with that role. For example, an HR audience is visible to all HR users.</li>
+          <li><strong>🌐 System</strong> — Visible to everyone. Only admins can create system-wide audiences.</li>
+        </ul>
+      </div>
+
+      <div class="help-topic">
+        <h4 class="help-topic__title">Creating an Audience</h4>
+        <ul class="help-topic__list">
+          <li>Go to <%= link_to "Audiences", audiences_path %> and click <strong>"Create New Audience"</strong></li>
+          <li>Choose the <strong>type</strong> (Static or Dynamic)</li>
+          <li>Set the <strong>scope</strong> (Personal, Role, or System)</li>
+          <li>If scope is <strong>Role</strong>, select which role it's for (regular users can only create for their own role)</li>
+          <li>Fill in the name, description, and add recipients</li>
+        </ul>
+      </div>
+
+      <div class="help-topic">
+        <h4 class="help-topic__title">Who Can Edit?</h4>
+        <ul class="help-topic__list">
+          <li>You can always edit and delete audiences <strong>you created</strong></li>
+          <li><strong>Admins</strong> can edit and delete any audience</li>
+          <li>You cannot edit audiences created by other users (unless you're an admin)</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="help-actions">
+      <%= link_to "View All Audiences", audiences_path, class: "btn btn-secondary" %>
+      <%= link_to "Create New Audience", new_audience_path, class: "btn btn-primary" %>
+    </div>
+  </div>
+</div>
+
+<!-- Roles & Permissions -->
+<div id="roles" class="card mb-24">
+  <div class="card__header">
+    <h3 class="card__title">🔑 Roles & Permissions</h3>
+  </div>
+  <div class="help-section">
+    <p class="help-section__intro">
+      CommsHub uses roles to control what users can see and do. Each user is assigned exactly one role.
+    </p>
+
+    <div class="help-topics">
+      <div class="help-topic">
+        <h4 class="help-topic__title">Available Roles</h4>
+        <table class="table">
+          <thead>
+            <tr>
+              <th>Role</th>
+              <th>Description</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><span class="badge badge-danger badge--sm">ADMIN</span></td>
+              <td>Full access. Can manage all users, create system-wide audiences, and edit any audience. Can assign roles to other users.</td>
+            </tr>
+            <tr>
+              <td><span class="badge badge-info badge--sm">CEO</span></td>
+              <td>Chief Executive Officer. Can create personal and CEO-role audiences.</td>
+            </tr>
+            <tr>
+              <td><span class="badge badge-info badge--sm">COO</span></td>
+              <td>Chief Operating Officer. Can create personal and COO-role audiences.</td>
+            </tr>
+            <tr>
+              <td><span class="badge badge-info badge--sm">CTO</span></td>
+              <td>Chief Technology Officer. Can create personal and CTO-role audiences.</td>
+            </tr>
+            <tr>
+              <td><span class="badge badge-info badge--sm">CFO</span></td>
+              <td>Chief Financial Officer. Can create personal and CFO-role audiences.</td>
+            </tr>
+            <tr>
+              <td><span class="badge badge-info badge--sm">HR</span></td>
+              <td>Human Resources. Can create personal and HR-role audiences.</td>
+            </tr>
+            <tr>
+              <td><span class="badge badge-info badge--sm">MANAGER</span></td>
+              <td>Team Manager. Can create personal and Manager-role audiences.</td>
+            </tr>
+            <tr>
+              <td><span class="badge badge-info badge--sm">BASIC</span></td>
+              <td>Standard user. Can create personal and Basic-role audiences.</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="help-topic">
+        <h4 class="help-topic__title">Admin vs. Regular User</h4>
+        <table class="table">
+          <thead>
+            <tr>
+              <th>Action</th>
+              <th>Admin</th>
+              <th>Regular User</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Create announcements</td>
+              <td>✅</td>
+              <td>✅</td>
+            </tr>
+            <tr>
+              <td>Create personal audiences</td>
+              <td>✅</td>
+              <td>✅</td>
+            </tr>
+            <tr>
+              <td>Create role audiences (own role)</td>
+              <td>✅ (any role)</td>
+              <td>✅ (own role only)</td>
+            </tr>
+            <tr>
+              <td>Create system-wide audiences</td>
+              <td>✅</td>
+              <td>❌</td>
+            </tr>
+            <tr>
+              <td>Edit/delete any audience</td>
+              <td>✅</td>
+              <td>❌ (own only)</td>
+            </tr>
+            <tr>
+              <td>Manage users</td>
+              <td>✅</td>
+              <td>❌</td>
+            </tr>
+            <tr>
+              <td>Access settings & integrations</td>
+              <td>✅</td>
+              <td>✅</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- User Management -->
+<div id="users" class="card mb-24">
+  <div class="card__header">
+    <h3 class="card__title">👤 User Management</h3>
+  </div>
+  <div class="help-section">
+    <p class="help-section__intro">
+      Admins can add, edit, and remove team members from the User Management page.
+    </p>
+
+    <div class="help-topics">
+      <div class="help-topic">
+        <h4 class="help-topic__title">Adding a New User</h4>
+        <ul class="help-topic__list">
+          <li>Navigate to <%= link_to "Manage Users", manage_users_path %> (admin only)</li>
+          <li>Click <strong>"+ Add User"</strong></li>
+          <li>Enter the user's <strong>email</strong> and <strong>password</strong></li>
+          <li>Select a <strong>role</strong> from the available options</li>
+          <li>Click <strong>"Create User"</strong></li>
+        </ul>
+      </div>
+
+      <div class="help-topic">
+        <h4 class="help-topic__title">Editing a User</h4>
+        <ul class="help-topic__list">
+          <li>From the users list, click <strong>"Edit"</strong> next to the user</li>
+          <li>Update their email, password, or role as needed</li>
+          <li>Leave the password blank to keep their current password</li>
+        </ul>
+      </div>
+
+      <div class="help-topic">
+        <h4 class="help-topic__title">Filtering Users</h4>
+        <ul class="help-topic__list">
+          <li>Use the <strong>search bar</strong> to filter by email address</li>
+          <li>Use the <strong>role dropdown</strong> to filter by role</li>
+          <li>Click <strong>"Clear"</strong> to remove all filters</li>
+        </ul>
+      </div>
+    </div>
+
+    <% if current_user.admin? %>
+      <div class="help-actions">
+        <%= link_to "Manage Users", manage_users_path, class: "btn btn-primary" %>
+      </div>
+    <% end %>
+  </div>
+</div>
+
+<!-- Integrations -->
+<div id="integrations" class="card mb-24">
+  <div class="card__header">
+    <h3 class="card__title">🔗 Integrations</h3>
+  </div>
+  <div class="help-section">
+    <p class="help-section__intro">
+      Connect external services to enable multi-channel announcement delivery.
+    </p>
+
+    <div class="help-topics">
+      <div class="help-topic">
+        <h4 class="help-topic__title">Available Integrations</h4>
+        <div class="help-integration-grid">
+          <div class="help-integration">
+            <div class="help-integration__header">
+              <span class="help-integration__icon">💬</span>
+              <h5 class="help-integration__name">Slack</h5>
+            </div>
+            <p class="help-integration__desc">Post announcements directly to Slack channels. Requires a Slack Bot Token.</p>
+            <%= link_to "Configure →", slack_integration_path, class: "help-step__link" %>
+          </div>
+
+          <div class="help-integration">
+            <div class="help-integration__header">
+              <span class="help-integration__icon">📧</span>
+              <h5 class="help-integration__name">Email (SMTP)</h5>
+            </div>
+            <p class="help-integration__desc">Send announcements via email. Configure your SMTP server settings.</p>
+            <%= link_to "Configure →", email_integration_path, class: "help-step__link" %>
+          </div>
+
+          <div class="help-integration">
+            <div class="help-integration__header">
+              <span class="help-integration__icon">📱</span>
+              <h5 class="help-integration__name">WhatsApp</h5>
+            </div>
+            <p class="help-integration__desc">Send announcements via WhatsApp Business API. Requires Meta Business credentials.</p>
+            <%= link_to "Configure →", whatsapp_integration_path, class: "help-step__link" %>
+          </div>
+
+          <div class="help-integration">
+            <div class="help-integration__header">
+              <span class="help-integration__icon">🤖</span>
+              <h5 class="help-integration__name">OpenAI</h5>
+            </div>
+            <p class="help-integration__desc">Enable AI-powered message improvements. Requires an OpenAI API key.</p>
+            <%= link_to "Configure →", openai_integration_path, class: "help-step__link" %>
+          </div>
+        </div>
+      </div>
+
+      <div class="help-topic">
+        <h4 class="help-topic__title">Testing a Connection</h4>
+        <ul class="help-topic__list">
+          <li>After entering your credentials, click <strong>"Test Connection"</strong></li>
+          <li>A success or error message will appear indicating the connection status</li>
+          <li>If it fails, double-check your credentials and try again</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="help-actions">
+      <%= link_to "Go to Integrations", integrations_path, class: "btn btn-primary" %>
+    </div>
+  </div>
+</div>
+
+<!-- FAQ -->
+<div class="card mb-24">
+  <div class="card__header">
+    <h3 class="card__title">💡 Frequently Asked Questions</h3>
+  </div>
+  <div class="help-section">
+    <div class="help-faq">
+      <div class="help-faq__item">
+        <h4 class="help-faq__question">Why can't I see certain audiences?</h4>
+        <p class="help-faq__answer">Audiences have visibility scopes. You can see: <strong>system-wide</strong> audiences (visible to everyone), audiences for <strong>your role</strong>, and your own <strong>personal</strong> audiences. Admins can see all audiences.</p>
+      </div>
+
+      <div class="help-faq__item">
+        <h4 class="help-faq__question">Why can't I edit an audience?</h4>
+        <p class="help-faq__answer">You can only edit audiences that <strong>you created</strong>. Admins can edit any audience. If you need changes to an audience you didn't create, ask the creator or an admin.</p>
+      </div>
+
+      <div class="help-faq__item">
+        <h4 class="help-faq__question">Why can't I access User Management?</h4>
+        <p class="help-faq__answer">User management is restricted to <strong>admin</strong> users only. Contact your admin if you need user changes.</p>
+      </div>
+
+      <div class="help-faq__item">
+        <h4 class="help-faq__question">Can I send to multiple channels at once?</h4>
+        <p class="help-faq__answer">Yes! When creating an announcement, you can enable <strong>Slack</strong>, <strong>Email</strong>, and <strong>WhatsApp</strong> simultaneously. Each channel can have a customized version of the message.</p>
+      </div>
+
+      <div class="help-faq__item">
+        <h4 class="help-faq__question">What happens if a scheduled announcement fails?</h4>
+        <p class="help-faq__answer">Failed announcements show a <strong>"Failed"</strong> status. You can click <strong>"Retry"</strong> on the announcement detail page to attempt redelivery.</p>
+      </div>
+    </div>
+  </div>
+</div>

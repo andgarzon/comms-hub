@@ -1,5 +1,5 @@
 <div class="max-w-600">
-  <%= form_with(model: user, local: true) do |form| %>
+  <%= form_with(model: user, url: user.new_record? ? manage_users_path : manage_user_path(user), local: true) do |form| %>
     <% if user.errors.any? %>
       <div class="alert alert-danger error-list">
         <strong class="error-list__title">
@@ -50,7 +50,7 @@
     </div>
 
     <div class="form-actions">
-      <%= link_to "Cancel", users_path, class: "btn btn-secondary" %>
+      <%= link_to "Cancel", manage_users_path, class: "btn btn-secondary" %>
       <%= form.submit user.new_record? ? "Create User" : "Save Changes", class: "btn btn-primary" %>
     </div>
   <% end %>

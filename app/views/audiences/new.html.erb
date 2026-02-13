@@ -50,6 +50,37 @@
            data-react-props='<%= { dynamicSectionSelector: ".dynamic-only" }.to_json %>'></div>
     </div>
 
+    <!-- Audience Scope -->
+    <div class="card mb-20">
+      <div class="card__header">
+        <h3 class="card__title">Audience Scope</h3>
+      </div>
+      <p class="text-secondary text-sm mb-16">Who should be able to see and use this audience?</p>
+
+      <div class="form-group">
+        <%= form.label :scope_type, "Scope", class: "form-label" %>
+        <%= form.select :scope_type,
+            @available_scope_types.map { |st| [st.titleize, st] },
+            { prompt: "Select scope..." },
+            class: "form-control", id: "audience_scope_type" %>
+        <small class="form-hint">
+          Personal = only you. Role = everyone with that role. System = everyone (admin only).
+        </small>
+      </div>
+
+      <div class="form-group mb-0" id="role-scope-field" style="display: none;">
+        <%= form.label :scope_value, "Target Role", class: "form-label" %>
+        <%= form.select :scope_value,
+            @available_roles.map { |r| [r.upcase, r] },
+            { include_blank: "Select role..." },
+            class: "form-control" %>
+      </div>
+
+      <!-- React component for scope toggling -->
+      <div data-react-component="AudienceScopeToggle"
+           data-react-props='<%= { scopeSelector: "#audience_scope_type", roleFieldSelector: "#role-scope-field" }.to_json %>'></div>
+    </div>
+
     <div class="card mb-20">
       <div class="card__header">
         <h3 class="card__title">Basic Information</h3>

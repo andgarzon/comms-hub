@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_01_09_032334) do
+ActiveRecord::Schema[8.1].define(version: 2026_02_13_012709) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -61,13 +61,19 @@ ActiveRecord::Schema[8.1].define(version: 2026_01_09_032334) do
 
   create_table "audiences", force: :cascade do |t|
     t.datetime "created_at", null: false
+    t.bigint "created_by_id"
     t.string "description"
     t.text "email_recipients"
     t.string "name"
+    t.string "scope_type", default: "personal"
+    t.string "scope_value"
     t.string "slack_channel"
     t.string "type"
     t.datetime "updated_at", null: false
     t.text "whatsapp_recipients"
+    t.index ["created_by_id"], name: "index_audiences_on_created_by_id"
+    t.index ["scope_type"], name: "index_audiences_on_scope_type"
+    t.index ["scope_value"], name: "index_audiences_on_scope_value"
   end
 
   create_table "delivery_logs", force: :cascade do |t|
@@ -99,6 +105,17 @@ ActiveRecord::Schema[8.1].define(version: 2026_01_09_032334) do
     t.datetime "updated_at", null: false
   end
 
+  create_table "integration_settings", force: :cascade do |t|
+    t.jsonb "config_data", default: {}
+    t.datetime "created_at", null: false
+    t.text "last_error"
+    t.datetime "last_tested_at"
+    t.string "provider", null: false
+    t.string "status", default: "inactive"
+    t.datetime "updated_at", null: false
+    t.index ["provider"], name: "index_integration_settings_on_provider", unique: true
+  end
+
   create_table "users", force: :cascade do |t|
     t.datetime "created_at", null: false
     t.string "email", default: "", null: false
@@ -119,6 +136,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_01_09_032334) do
   add_foreign_key "announcements", "users"
   add_foreign_key "audience_memberships", "audiences"
   add_foreign_key "audience_memberships", "users"
+  add_foreign_key "audiences", "users", column: "created_by_id"
   add_foreign_key "delivery_logs", "announcements"
   add_foreign_key "group_memberships", "groups"
   add_foreign_key "group_memberships", "users"
