@@ -2,7 +2,11 @@ class SlackAnnouncementSender
   def initialize(announcement, channel:)
     @announcement = announcement
     @channel = channel
-    @client = Slack::Web::Client.new
+
+    setting = IntegrationSetting.for("slack")
+    raise "Slack bot token missing. Configure it in Settings > Integrations > Slack." if setting.bot_token.blank?
+
+    @client = Slack::Web::Client.new(token: setting.bot_token)
   end
 
   def call

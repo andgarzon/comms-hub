@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="300" height="300" viewBox="0 0 300 300" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <!-- Background -->
+  <circle cx="150" cy="150" r="120" fill="#F5F7FA"/>
+  <circle cx="150" cy="150" r="100" fill="#E6F7FF"/>
+  
+  <!-- Three people silhouettes -->
+  
+  <!-- Person 1 (center, front) -->
+  <circle cx="150" cy="140" r="25" fill="#1EAEDB"/>
+  <path d="M 150 165 Q 125 180 115 220 L 115 240 L 185 240 L 185 220 Q 175 180 150 165 Z" fill="#1EAEDB"/>
+  
+  <!-- Person 2 (left, back) -->
+  <circle cx="100" cy="130" r="20" fill="#52C41A" opacity="0.7"/>
+  <path d="M 100 150 Q 80 162 73 195 L 73 215 L 127 215 L 127 195 Q 120 162 100 150 Z" fill="#52C41A" opacity="0.7"/>
+  
+  <!-- Person 3 (right, back) -->
+  <circle cx="200" cy="130" r="20" fill="#FAAD14" opacity="0.7"/>
+  <path d="M 200 150 Q 180 162 173 195 L 173 215 L 227 215 L 227 195 Q 220 162 200 150 Z" fill="#FAAD14" opacity="0.7"/>
+  
+  <!-- Plus sign (to add more people) -->
+  <circle cx="240" cy="90" r="25" fill="#FFFFFF" stroke="#1EAEDB" stroke-width="3"/>
+  <line x1="240" y1="80" x2="240" y2="100" stroke="#1EAEDB" stroke-width="4" stroke-linecap="round"/>
+  <line x1="230" y1="90" x2="250" y2="90" stroke="#1EAEDB" stroke-width="4" stroke-linecap="round"/>
+  
+  <!-- Decorative dots -->
+  <circle cx="60" cy="80" r="6" fill="#1EAEDB" opacity="0.3"/>
+  <circle cx="250" cy="180" r="8" fill="#52C41A" opacity="0.3"/>
+  <circle cx="70" cy="220" r="5" fill="#FAAD14" opacity="0.3"/>
+</svg>

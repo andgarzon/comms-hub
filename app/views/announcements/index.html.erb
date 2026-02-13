@@ -6,11 +6,21 @@
 
   <!-- Filter Tabs -->
   <div class="filter-tabs">
-    <div class="filter-tab active">All</div>
-    <div class="filter-tab">Drafts</div>
-    <div class="filter-tab">Scheduled</div>
-    <div class="filter-tab">Sent</div>
-    <div class="filter-tab">Failed</div>
+    <%= link_to announcements_path, class: "filter-tab #{@current_status.nil? ? 'active' : ''}" do %>
+      All <span class="filter-tab__count"><%= @status_counts[:all] %></span>
+    <% end %>
+    <%= link_to announcements_path(status: "draft"), class: "filter-tab #{@current_status == 'draft' ? 'active' : ''}" do %>
+      Drafts <span class="filter-tab__count"><%= @status_counts[:draft] %></span>
+    <% end %>
+    <%= link_to announcements_path(status: "scheduled"), class: "filter-tab #{@current_status == 'scheduled' ? 'active' : ''}" do %>
+      Scheduled <span class="filter-tab__count"><%= @status_counts[:scheduled] %></span>
+    <% end %>
+    <%= link_to announcements_path(status: "sent"), class: "filter-tab #{@current_status == 'sent' ? 'active' : ''}" do %>
+      Sent <span class="filter-tab__count"><%= @status_counts[:sent] %></span>
+    <% end %>
+    <%= link_to announcements_path(status: "failed"), class: "filter-tab #{@current_status == 'failed' ? 'active' : ''}" do %>
+      Failed <span class="filter-tab__count"><%= @status_counts[:failed] %></span>
+    <% end %>
   </div>
 
   <% if @announcements.any? %>
@@ -62,6 +72,9 @@
 
             <div class="announcement-actions">
               <%= link_to "View Details", announcement_path(announcement), class: "btn btn--sm btn-primary" %>
+              <% if announcement.status.in?(%w[draft failed]) %>
+                <%= link_to "Edit", edit_announcement_path(announcement), class: "btn btn--sm btn-secondary" %>
+              <% end %>
             </div>
           </div>
         </div>
@@ -70,11 +83,20 @@
   <% else %>
     <div class="empty-state">
       <div class="empty-state__icon">📢</div>
-      <h3>No announcements yet</h3>
-      <p>Create your first announcement to get started</p>
-      <div class="empty-state__actions">
-        <%= link_to "Create Announcement", new_announcement_path, class: "btn btn-primary" %>
-      </div>
+      <% if @current_status.present? %>
+        <h3>No <%= @current_status %> announcements</h3>
+        <p>There are no announcements with "<%= @current_status %>" status</p>
+        <div class="empty-state__actions">
+          <%= link_to "View All Announcements", announcements_path, class: "btn btn-secondary" %>
+          <%= link_to "Create Announcement", new_announcement_path, class: "btn btn-primary" %>
+        </div>
+      <% else %>
+        <h3>No announcements yet</h3>
+        <p>Create your first announcement to get started</p>
+        <div class="empty-state__actions">
+          <%= link_to "Create Announcement", new_announcement_path, class: "btn btn-primary" %>
+        </div>
+      <% end %>
     </div>
   <% end %>
 </div>

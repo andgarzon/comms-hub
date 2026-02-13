@@ -4,8 +4,11 @@ class AnnouncementAiRewriter
   end
 
   def call
-    api_key = Rails.application.credentials.dig(:openai, :api_key)
-    raise "OpenAI API key missing. Set it in credentials with: rails credentials:edit" if api_key.blank?
+    setting = IntegrationSetting.for("openai")
+    api_key = setting.api_key
+    raise "OpenAI API key missing. Configure it in Settings > Integrations > OpenAI." if api_key.blank?
+
+    model = setting.model_name
 
     prompt = <<~PROMPT
       You are a professional executive communications assistant.
@@ -33,10 +36,10 @@ class AnnouncementAiRewriter
     PROMPT
 
     client = OpenAI::Client.new(access_token: api_key)
-    
+
     resp = client.chat(
       parameters: {
-        model: "gpt-4o-mini",
+        model: model,
         messages: [{ role: "user", content: prompt }],
         temperature: 0.4
       }

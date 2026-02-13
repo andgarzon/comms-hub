@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="400" height="300" viewBox="0 0 400 300" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <!-- Background elements -->
+  <circle cx="50" cy="50" r="30" fill="#E6F7FF" opacity="0.5"/>
+  <circle cx="350" cy="250" r="40" fill="#F0F5FF" opacity="0.5"/>
+  
+  <!-- Dashboard mockup -->
+  <rect x="50" y="80" width="300" height="180" rx="12" fill="#FFFFFF" stroke="#D1D8DD" stroke-width="2"/>
+  
+  <!-- Dashboard header -->
+  <rect x="50" y="80" width="300" height="40" rx="12" fill="#1EAEDB"/>
+  <rect x="70" y="95" width="80" height="10" rx="5" fill="#FFFFFF"/>
+  
+  <!-- Stats cards -->
+  <rect x="70" y="140" width="80" height="60" rx="6" fill="#E6F7FF"/>
+  <rect x="80" y="150" width="30" height="15" rx="3" fill="#1EAEDB"/>
+  <rect x="80" y="172" width="40" height="8" rx="4" fill="#D1D8DD"/>
+  
+  <rect x="160" y="140" width="80" height="60" rx="6" fill="#F6FFED"/>
+  <rect x="170" y="150" width="30" height="15" rx="3" fill="#52C41A"/>
+  <rect x="170" y="172" width="40" height="8" rx="4" fill="#D1D8DD"/>
+  
+  <rect x="250" y="140" width="80" height="60" rx="6" fill="#FFFBE6"/>
+  <rect x="260" y="150" width="30" height="15" rx="3" fill="#FAAD14"/>
+  <rect x="260" y="172" width="40" height="8" rx="4" fill="#D1D8DD"/>
+  
+  <!-- Chart/Graph -->
+  <path d="M 70 230 L 90 220 L 120 215 L 150 225 L 180 210 L 210 205 L 240 218 L 270 208 L 310 195" 
+        stroke="#1EAEDB" stroke-width="3" fill="none" stroke-linecap="round"/>
+  
+  <!-- Checkmarks -->
+  <circle cx="360" cy="100" r="18" fill="#52C41A"/>
+  <path d="M 353 100 L 358 105 L 367 96" stroke="#FFFFFF" stroke-width="3" stroke-linecap="round" fill="none"/>
+  
+  <circle cx="370" cy="160" r="18" fill="#52C41A"/>
+  <path d="M 363 160 L 368 165 L 377 156" stroke="#FFFFFF" stroke-width="3" stroke-linecap="round" fill="none"/>
+  
+  <!-- Notification bell -->
+  <path d="M 30 180 Q 25 175 25 168 L 25 160 Q 25 150 35 150 Q 45 150 45 160 L 45 168 Q 45 175 40 180" 
+        fill="#1EAEDB"/>
+  <ellipse cx="35" cy="180" rx="8" ry="3" fill="#1EAEDB"/>
+  <circle cx="42" cy="148" r="4" fill="#F5222D"/>
+</svg>

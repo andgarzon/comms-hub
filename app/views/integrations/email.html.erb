@@ -103,6 +103,9 @@
           <input type="password" id="smtp_password" name="smtp_password"
                  value="<%= @setting.smtp_password %>"
                  placeholder="App password or SMTP password" class="form-control">
+          <% if @setting.masked_smtp_password.present? %>
+            <p class="form-hint">Saved: <code><%= @setting.masked_smtp_password %></code></p>
+          <% end %>
         </div>
 
         <div>

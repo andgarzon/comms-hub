@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_02_13_012709) do
+ActiveRecord::Schema[8.1].define(version: 2026_02_13_030001) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -106,7 +106,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_02_13_012709) do
   end
 
   create_table "integration_settings", force: :cascade do |t|
-    t.jsonb "config_data", default: {}
+    t.text "config_data", default: "{}"
     t.datetime "created_at", null: false
     t.text "last_error"
     t.datetime "last_tested_at"

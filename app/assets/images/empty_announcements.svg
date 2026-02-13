@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="300" height="300" viewBox="0 0 300 300" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <!-- Background circle -->
+  <circle cx="150" cy="150" r="120" fill="#F5F7FA"/>
+  <circle cx="150" cy="150" r="100" fill="#E6F7FF"/>
+  
+  <!-- Megaphone -->
+  <path d="M 80 130 L 120 110 L 160 110 L 160 190 L 120 190 L 80 170 Z" fill="#1EAEDB"/>
+  <ellipse cx="80" cy="150" rx="15" ry="40" fill="#17a2ce"/>
+  
+  <!-- Sound waves -->
+  <path d="M 170 120 Q 185 120 190 135" stroke="#1EAEDB" stroke-width="4" stroke-linecap="round" fill="none" opacity="0.6"/>
+  <path d="M 170 150 Q 195 150 205 150" stroke="#1EAEDB" stroke-width="4" stroke-linecap="round" fill="none" opacity="0.6"/>
+  <path d="M 170 180 Q 185 180 190 165" stroke="#1EAEDB" stroke-width="4" stroke-linecap="round" fill="none" opacity="0.6"/>
+  
+  <path d="M 175 110 Q 200 110 215 125" stroke="#1EAEDB" stroke-width="3" stroke-linecap="round" fill="none" opacity="0.4"/>
+  <path d="M 175 150 Q 210 150 230 150" stroke="#1EAEDB" stroke-width="3" stroke-linecap="round" fill="none" opacity="0.4"/>
+  <path d="M 175 190 Q 200 190 215 175" stroke="#1EAEDB" stroke-width="3" stroke-linecap="round" fill="none" opacity="0.4"/>
+  
+  <!-- Handle -->
+  <rect x="110" y="135" width="30" height="30" rx="5" fill="#333333"/>
+  
+  <!-- Decorative elements -->
+  <circle cx="60" cy="80" r="8" fill="#1EAEDB" opacity="0.3"/>
+  <circle cx="240" cy="100" r="10" fill="#52C41A" opacity="0.3"/>
+  <circle cx="220" cy="220" r="12" fill="#FAAD14" opacity="0.3"/>
+  <circle cx="70" cy="230" r="6" fill="#1EAEDB" opacity="0.3"/>
+</svg>

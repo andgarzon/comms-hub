@@ -409,6 +409,17 @@ a {
   border-color: var(--primary-blue);
 }
 
+.btn-outline {
+  background: white;
+  color: var(--primary-blue);
+  border: 2px solid var(--primary-blue);
+}
+
+.btn-outline:hover {
+  background: var(--primary-blue);
+  color: white;
+}
+
 .btn-success {
   background: var(--success);
   color: white;
@@ -1238,6 +1249,9 @@ a {
 }
 
 .filter-tab {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
   padding: 10px 20px;
   background: white;
   border: 2px solid var(--border-medium);
@@ -1246,6 +1260,7 @@ a {
   color: var(--text-secondary);
   cursor: pointer;
   transition: all 0.2s;
+  text-decoration: none;
 }
 
 .filter-tab.active {
@@ -1254,9 +1269,29 @@ a {
   border-color: var(--primary-blue);
 }
 
+.filter-tab.active .filter-tab__count {
+  background: rgba(255, 255, 255, 0.25);
+  color: white;
+}
+
 .filter-tab:hover {
   border-color: var(--primary-blue);
   color: var(--primary-blue);
+  text-decoration: none;
+}
+
+.filter-tab__count {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 22px;
+  height: 22px;
+  padding: 0 6px;
+  background: var(--bg-subtle);
+  border-radius: 12px;
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--text-secondary);
 }
 
 .announcements-grid {

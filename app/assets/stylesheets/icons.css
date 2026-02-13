@@ -1,0 +1,97 @@
+/* CommsHub Icon System */
+
+.icon {
+  display: inline-block;
+  width: 1em;
+  height: 1em;
+  vertical-align: middle;
+  fill: currentColor;
+  flex-shrink: 0;
+}
+
+/* Icon sizes */
+.icon-sm {
+  width: 16px;
+  height: 16px;
+}
+
+.icon-md {
+  width: 20px;
+  height: 20px;
+}
+
+.icon-lg {
+  width: 24px;
+  height: 24px;
+}
+
+.icon-xl {
+  width: 32px;
+  height: 32px;
+}
+
+/* Icon colors */
+.icon-primary {
+  color: var(--primary-blue);
+}
+
+.icon-success {
+  color: var(--success);
+}
+
+.icon-warning {
+  color: var(--warning);
+}
+
+.icon-danger {
+  color: var(--error);
+}
+
+.icon-muted {
+  color: var(--text-muted);
+}
+
+/* Icon in buttons */
+.btn .icon {
+  margin-right: 6px;
+}
+
+.btn-icon-only {
+  padding: 8px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.btn-icon-only .icon {
+  margin: 0;
+}
+
+/* Icon in navigation */
+.app-drawer__link .icon {
+  width: 20px;
+  height: 20px;
+}
+
+/* Animated icons */
+.icon-spin {
+  animation: icon-spin 1s linear infinite;
+}
+
+@keyframes icon-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* Icon hover effects */
+.icon-hover {
+  transition: transform 0.2s;
+}
+
+.icon-hover:hover {
+  transform: scale(1.1);
+}

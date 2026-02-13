@@ -3,7 +3,7 @@ Rails.application.routes.draw do
 
   root "announcements#index"
 
-  resources :announcements, only: [ :index, :new, :create, :show ] do
+  resources :announcements, only: [ :index, :new, :create, :show, :edit, :update ] do
     member do
       patch :schedule
       patch :cancel_schedule
