@@ -1,9 +1,9 @@
 class SlackAudiencesController < ApplicationController
-  before_action :authenticate_user!
-  before_action :set_audience, only: %i[edit update destroy]
+  before_action :set_audience, only: %i[ edit update destroy ]
+  before_action :authorize_edit!, only: %i[ edit update destroy ]
 
   def index
-    @audiences = SlackAudience.order(:name)
+    @audiences = SlackAudience.merge(Audience.visible_to(current_user)).order(:name)
   end
 
   def new
@@ -12,6 +12,11 @@ class SlackAudiencesController < ApplicationController
 
   def create
     @audience = SlackAudience.new(audience_params)
+    @audience.creator = current_user
+    @audience.scope_type ||= "personal"
+
+    authorize_audience_create!(@audience.scope_type, @audience.scope_value)
+
     if @audience.save
       redirect_to slack_audiences_path, notice: "Slack audience created."
     else
@@ -31,7 +36,7 @@ class SlackAudiencesController < ApplicationController
 
   def destroy
     @audience.destroy
-    redirect_to slack_audiences_path, notice: "Slack audience deleted."
+    redirect_to slack_audiences_path, notice: "Slack audience deleted.", status: :see_other
   end
 
   private
@@ -40,7 +45,11 @@ class SlackAudiencesController < ApplicationController
     @audience = SlackAudience.find(params[:id])
   end
 
+  def authorize_edit!
+    authorize_audience_modify!(@audience)
+  end
+
   def audience_params
-    params.require(:slack_audience).permit(:name, :slack_channel)
+    params.require(:slack_audience).permit(:name, :slack_channel, :scope_type, :scope_value)
   end
 end

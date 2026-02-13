@@ -12,34 +12,26 @@
   <div class="card__header">
     <h3 class="card__title">Quick Stats</h3>
   </div>
-  
-  <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 24px;">
-    <div style="text-align: center; padding: 24px; background: rgba(51, 122, 183, 0.05); border-radius: 8px;">
-      <div style="font-size: 32px; font-weight: 700; color: var(--primary-blue); margin-bottom: 8px;">
-        <%= Announcement.count %>
-      </div>
-      <div style="color: var(--secondary-text); font-size: 14px;">Total Announcements</div>
+
+  <div class="grid-auto-fit-200">
+    <div class="stat-card stat-card--blue">
+      <div class="stat-card__value text-blue"><%= Announcement.count %></div>
+      <div class="stat-card__label">Total Announcements</div>
     </div>
-    
-    <div style="text-align: center; padding: 24px; background: rgba(141, 197, 114, 0.05); border-radius: 8px;">
-      <div style="font-size: 32px; font-weight: 700; color: var(--success-green); margin-bottom: 8px;">
-        <%= Announcement.where(status: 'delivered').count %>
-      </div>
-      <div style="color: var(--secondary-text); font-size: 14px;">Delivered</div>
+
+    <div class="stat-card stat-card--green">
+      <div class="stat-card__value text-success"><%= Announcement.where(status: 'delivered').count %></div>
+      <div class="stat-card__label">Delivered</div>
     </div>
-    
-    <div style="text-align: center; padding: 24px; background: rgba(240, 173, 78, 0.05); border-radius: 8px;">
-      <div style="font-size: 32px; font-weight: 700; color: var(--warning-orange); margin-bottom: 8px;">
-        <%= Announcement.where(status: 'pending').count %>
-      </div>
-      <div style="color: var(--secondary-text); font-size: 14px;">Pending</div>
+
+    <div class="stat-card stat-card--orange">
+      <div class="stat-card__value text-warning"><%= Announcement.where(status: 'pending').count %></div>
+      <div class="stat-card__label">Pending</div>
     </div>
-    
-    <div style="text-align: center; padding: 24px; background: rgba(188, 232, 241, 0.05); border-radius: 8px;">
-      <div style="font-size: 32px; font-weight: 700; color: var(--info-blue); margin-bottom: 8px;">
-        <%= Audience.count %>
-      </div>
-      <div style="color: var(--secondary-text); font-size: 14px;">Audiences</div>
+
+    <div class="stat-card stat-card--info">
+      <div class="stat-card__value text-info"><%= Audience.count %></div>
+      <div class="stat-card__label">Audiences</div>
     </div>
   </div>
 </div>
@@ -48,7 +40,7 @@
   <div class="card__header">
     <h3 class="card__title">Recent Announcements</h3>
   </div>
-  
+
   <% if Announcement.any? %>
     <table class="table">
       <thead>
@@ -78,17 +70,17 @@
             </td>
             <td><%= announcement.delivery_date ? announcement.delivery_date.strftime("%b %d, %Y") : "Not set" %></td>
             <td>
-              <%= link_to "View", announcement_path(announcement), class: "btn btn-secondary", style: "padding: 4px 12px; font-size: 13px;" %>
+              <%= link_to "View", announcement_path(announcement), class: "btn btn-secondary btn--xs" %>
             </td>
           </tr>
         <% end %>
       </tbody>
     </table>
   <% else %>
-    <div style="text-align: center; padding: 48px; color: var(--secondary-text);">
-      <div style="font-size: 48px; margin-bottom: 16px;">📢</div>
+    <div class="empty-state">
+      <div class="empty-state__icon">📢</div>
       <p>No announcements yet. Create your first announcement to get started!</p>
-      <div style="margin-top: 24px;">
+      <div class="empty-state__actions">
         <%= link_to "Create Announcement", new_announcement_path, class: "btn btn-primary" %>
       </div>
     </div>
@@ -99,29 +91,29 @@
   <div class="card__header">
     <h3 class="card__title">Quick Actions</h3>
   </div>
-  
-  <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 16px;">
-    <%= link_to new_announcement_path, style: "text-decoration: none; color: inherit;" do %>
-      <div style="padding: 24px; background: var(--light-gray); border-radius: 8px; transition: all 0.2s; cursor: pointer;" onmouseover="this.style.background='var(--light-gray-2)'; this.style.transform='translateY(-2px)'" onmouseout="this.style.background='var(--light-gray)'; this.style.transform='translateY(0)'">
-        <div style="font-size: 32px; margin-bottom: 12px;">📝</div>
-        <div style="font-weight: 600; margin-bottom: 4px;">Create Announcement</div>
-        <div style="font-size: 13px; color: var(--secondary-text);">Draft a new communication</div>
+
+  <div class="grid-auto-fit-250">
+    <%= link_to new_announcement_path, class: "settings-card-link" do %>
+      <div class="quick-action-card">
+        <div class="quick-action-card__icon">📝</div>
+        <div class="quick-action-card__title">Create Announcement</div>
+        <div class="quick-action-card__desc">Draft a new communication</div>
       </div>
     <% end %>
-    
-    <%= link_to audiences_path, style: "text-decoration: none; color: inherit;" do %>
-      <div style="padding: 24px; background: var(--light-gray); border-radius: 8px; transition: all 0.2s; cursor: pointer;" onmouseover="this.style.background='var(--light-gray-2)'; this.style.transform='translateY(-2px)'" onmouseout="this.style.background='var(--light-gray)'; this.style.transform='translateY(0)'">
-        <div style="font-size: 32px; margin-bottom: 12px;">👥</div>
-        <div style="font-weight: 600; margin-bottom: 4px;">Manage Audiences</div>
-        <div style="font-size: 13px; color: var(--secondary-text);">Configure recipient groups</div>
+
+    <%= link_to audiences_path, class: "settings-card-link" do %>
+      <div class="quick-action-card">
+        <div class="quick-action-card__icon">👥</div>
+        <div class="quick-action-card__title">Manage Audiences</div>
+        <div class="quick-action-card__desc">Configure recipient groups</div>
       </div>
     <% end %>
-    
-    <%= link_to announcements_path, style: "text-decoration: none; color: inherit;" do %>
-      <div style="padding: 24px; background: var(--light-gray); border-radius: 8px; transition: all 0.2s; cursor: pointer;" onmouseover="this.style.background='var(--light-gray-2)'; this.style.transform='translateY(-2px)'" onmouseout="this.style.background='var(--light-gray)'; this.style.transform='translateY(0)'">
-        <div style="font-size: 32px; margin-bottom: 12px;">📊</div>
-        <div style="font-weight: 600; margin-bottom: 4px;">View All Announcements</div>
-        <div style="font-size: 13px; color: var(--secondary-text);">See complete history</div>
+
+    <%= link_to announcements_path, class: "settings-card-link" do %>
+      <div class="quick-action-card">
+        <div class="quick-action-card__icon">📊</div>
+        <div class="quick-action-card__title">View All Announcements</div>
+        <div class="quick-action-card__desc">See complete history</div>
       </div>
     <% end %>
   </div>

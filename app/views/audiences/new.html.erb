@@ -5,14 +5,14 @@
   <p class="page-header__description">Define a new recipient group for your announcements</p>
 </div>
 
-<div style="max-width: 800px;">
+<div class="max-w-800">
   <%= form_with(model: @audience, local: true) do |form| %>
     <% if @audience.errors.any? %>
-      <div class="alert alert-danger" style="margin-bottom: 24px;">
-        <strong style="font-size: 15px; display: block; margin-bottom: 8px;">
+      <div class="alert alert-danger error-list">
+        <strong class="error-list__title">
           <%= pluralize(@audience.errors.count, "error") %> prevented this audience from being saved:
         </strong>
-        <ul style="margin: 8px 0 0 20px;">
+        <ul class="error-list__items">
           <% @audience.errors.full_messages.each do |message| %>
             <li><%= message %></li>
           <% end %>
@@ -20,12 +20,12 @@
       </div>
     <% end %>
 
-    <div class="card" style="margin-bottom: 20px;">
+    <div class="card mb-20">
       <div class="card__header">
         <h3 class="card__title">Audience Type</h3>
       </div>
-      
-      <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px;">
+
+      <div class="grid-2-col">
         <label class="audience-type-option">
           <%= form.radio_button :type, 'StaticAudience', checked: true, class: "type-radio" %>
           <div class="type-content">
@@ -34,7 +34,7 @@
             <div class="type-desc">Manually curated list of recipients. Best for specific teams or departments.</div>
           </div>
         </label>
-        
+
         <label class="audience-type-option">
           <%= form.radio_button :type, 'DynamicAudience', class: "type-radio" %>
           <div class="type-content">
@@ -44,116 +44,75 @@
           </div>
         </label>
       </div>
+
+      <!-- React component for audience type toggling -->
+      <div data-react-component="AudienceTypeToggle"
+           data-react-props='<%= { dynamicSectionSelector: ".dynamic-only" }.to_json %>'></div>
     </div>
 
-    <div class="card" style="margin-bottom: 20px;">
+    <!-- Audience Scope -->
+    <div class="card mb-20">
+      <div class="card__header">
+        <h3 class="card__title">Audience Scope</h3>
+      </div>
+      <p class="text-secondary text-sm mb-16">Who should be able to see and use this audience?</p>
+
+      <div class="form-group">
+        <%= form.label :scope_type, "Scope", class: "form-label" %>
+        <%= form.select :scope_type,
+            @available_scope_types.map { |st| [st.titleize, st] },
+            { prompt: "Select scope..." },
+            class: "form-control", id: "audience_scope_type" %>
+        <small class="form-hint">
+          Personal = only you. Role = everyone with that role. System = everyone (admin only).
+        </small>
+      </div>
+
+      <div class="form-group mb-0" id="role-scope-field" style="display: none;">
+        <%= form.label :scope_value, "Target Role", class: "form-label" %>
+        <%= form.select :scope_value,
+            @available_roles.map { |r| [r.upcase, r] },
+            { include_blank: "Select role..." },
+            class: "form-control" %>
+      </div>
+
+      <!-- React component for scope toggling -->
+      <div data-react-component="AudienceScopeToggle"
+           data-react-props='<%= { scopeSelector: "#audience_scope_type", roleFieldSelector: "#role-scope-field" }.to_json %>'></div>
+    </div>
+
+    <div class="card mb-20">
       <div class="card__header">
         <h3 class="card__title">Basic Information</h3>
       </div>
-      
+
       <div class="form-group">
         <%= form.label :name, class: "form-label" %>
         <%= form.text_field :name, class: "form-control", placeholder: "e.g., Engineering Team, All Employees" %>
       </div>
 
-      <div class="form-group" style="margin-bottom: 0;">
+      <div class="form-group mb-0">
         <%= form.label :description, class: "form-label" %>
         <%= form.text_area :description, rows: 3, class: "form-control", placeholder: "Describe who this audience includes..." %>
-        <small style="color: var(--text-muted); font-size: 12px; margin-top: 4px; display: block;">
-          Optional: Help others understand who's in this audience
-        </small>
+        <small class="form-hint">Optional: Help others understand who's in this audience</small>
       </div>
     </div>
 
-    <div class="card dynamic-only" style="margin-bottom: 20px; display: none;">
+    <div class="card dynamic-only mb-20 hidden">
       <div class="card__header">
         <h3 class="card__title">Dynamic Query</h3>
       </div>
-      
-      <div class="form-group" style="margin-bottom: 0;">
+
+      <div class="form-group mb-0">
         <%= form.label :query, "Filter Criteria", class: "form-label" %>
         <%= form.text_area :query, rows: 4, class: "form-control", placeholder: "e.g., department:engineering OR role:developer" %>
-        <small style="color: var(--text-muted); font-size: 12px; margin-top: 4px; display: block;">
-          Define criteria for automatically selecting recipients
-        </small>
+        <small class="form-hint">Define criteria for automatically selecting recipients</small>
       </div>
     </div>
 
-    <div style="display: flex; gap: 12px; justify-content: flex-end;">
+    <div class="form-actions">
       <%= link_to "Cancel", audiences_path, class: "btn btn-secondary" %>
       <%= form.submit "Create Audience", class: "btn btn-primary" %>
     </div>
   <% end %>
 </div>
-
-<style>
-  .audience-type-option {
-    position: relative;
-    cursor: pointer;
-    border: 2px solid var(--border-medium);
-    border-radius: var(--radius-md);
-    padding: 20px;
-    transition: all 0.2s;
-    background: white;
-    display: block;
-  }
-  
-  .audience-type-option:hover {
-    border-color: var(--primary-blue);
-    box-shadow: var(--shadow-sm);
-  }
-  
-  .audience-type-option:has(.type-radio:checked) {
-    border-color: var(--primary-blue);
-    background: rgba(30, 174, 219, 0.05);
-  }
-  
-  .type-radio {
-    position: absolute;
-    opacity: 0;
-    pointer-events: none;
-  }
-  
-  .type-content {
-    text-align: center;
-  }
-  
-  .type-icon {
-    font-size: 32px;
-    margin-bottom: 12px;
-  }
-  
-  .type-name {
-    font-weight: 600;
-    color: var(--text-primary);
-    margin-bottom: 6px;
-    font-size: 16px;
-  }
-  
-  .type-desc {
-    font-size: 13px;
-    color: var(--text-secondary);
-    line-height: 1.4;
-  }
-</style>
-
-<script>
-  document.addEventListener('DOMContentLoaded', () => {
-    const staticRadio = document.querySelector('input[value="StaticAudience"]');
-    const dynamicRadio = document.querySelector('input[value="DynamicAudience"]');
-    const dynamicSection = document.querySelector('.dynamic-only');
-    
-    function updateVisibility() {
-      if (dynamicRadio && dynamicRadio.checked) {
-        dynamicSection.style.display = 'block';
-      } else {
-        dynamicSection.style.display = 'none';
-      }
-    }
-    
-    if (staticRadio) staticRadio.addEventListener('change', updateVisibility);
-    if (dynamicRadio) dynamicRadio.addEventListener('change', updateVisibility);
-    
-    updateVisibility();
-  });
-</script>

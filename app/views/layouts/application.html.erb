@@ -3,497 +3,12 @@
   <head>
     <title>CommsHub - Communication Management</title>
     <meta name="viewport" content="width=device-width,initial-scale=1">
+    <link rel="icon" href="/favicon.png" type="image/png">
     <%= csrf_meta_tags %>
     <%= csp_meta_tag %>
 
     <%= stylesheet_link_tag "application", "data-turbo-track": "reload" %>
-    <%= javascript_importmap_tags %>
-    
-    <style>
-      /* Jobsity Design System - Accurate from Screenshots */
-      * {
-        margin: 0;
-        padding: 0;
-        box-sizing: border-box;
-      }
-      
-      :root {
-        /* Primary Colors - From Screenshots */
-        --primary-blue: #1EAEDB;
-        --primary-blue-hover: #17a2ce;
-        --primary-dark: #2C3E50;
-        
-        /* Backgrounds */
-        --bg-page: #FAFBFC;
-        --bg-sidebar: #F5F7FA;
-        --bg-white: #FFFFFF;
-        --bg-hover: #E8EEF3;
-        
-        /* Text Colors */
-        --text-primary: #333333;
-        --text-secondary: #6C757D;
-        --text-muted: #999999;
-        
-        /* Border Colors */
-        --border-light: #E0E6EB;
-        --border-medium: #D1D8DD;
-        
-        /* Status Colors */
-        --success: #52C41A;
-        --warning: #FAAD14;
-        --error: #F5222D;
-        --info: #1890FF;
-        
-        /* Spacing */
-        --spacing-xs: 4px;
-        --spacing-sm: 8px;
-        --spacing-md: 16px;
-        --spacing-lg: 24px;
-        --spacing-xl: 32px;
-        
-        /* Border Radius */
-        --radius-sm: 4px;
-        --radius-md: 6px;
-        --radius-lg: 8px;
-        
-        /* Shadows */
-        --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.05);
-        --shadow-md: 0 2px 6px rgba(0, 0, 0, 0.08);
-        --shadow-lg: 0 4px 12px rgba(0, 0, 0, 0.10);
-      }
-      
-      body {
-        font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
-        font-size: 14px;
-        line-height: 1.5;
-        color: var(--text-primary);
-        background: var(--bg-page);
-        min-height: 100vh;
-      }
-      
-      /* Top App Bar - White background like screenshots */
-      .app-topbar {
-        background: var(--bg-white);
-        height: 70px;
-        display: flex;
-        align-items: center;
-        padding: 0 var(--spacing-lg);
-        box-shadow: var(--shadow-sm);
-        border-bottom: 1px solid var(--border-light);
-        position: sticky;
-        top: 0;
-        z-index: 100;
-      }
-      
-      .app-topbar__logo {
-        display: flex;
-        align-items: center;
-        margin-right: var(--spacing-xl);
-      }
-      
-      .app-topbar__logo-img {
-        height: 32px;
-        width: auto;
-      }
-      
-      .app-topbar__spacer {
-        flex: 1;
-      }
-      
-      .app-topbar__notification {
-        margin-right: var(--spacing-md);
-        position: relative;
-      }
-      
-      .app-topbar__notification-btn {
-        background: none;
-        border: none;
-        font-size: 20px;
-        cursor: pointer;
-        padding: var(--spacing-sm);
-        color: var(--text-secondary);
-        transition: color 0.2s;
-      }
-      
-      .app-topbar__notification-btn:hover {
-        color: var(--text-primary);
-      }
-      
-      .app-topbar__user-avatar {
-        width: 32px;
-        height: 32px;
-        border-radius: 4px;
-        background: var(--bg-sidebar);
-        color: var(--text-primary);
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        font-weight: 600;
-        font-size: 14px;
-        cursor: pointer;
-        border: 1px solid var(--border-light);
-        transition: all 0.2s;
-      }
-      
-      .app-topbar__user-avatar:hover {
-        border-color: var(--primary-blue);
-      }
-      
-      .app-topbar__user-menu {
-        position: relative;
-      }
-      
-      .app-topbar__user-dropdown {
-        display: none;
-        position: absolute;
-        top: calc(100% + 8px);
-        right: 0;
-        background: white;
-        border-radius: var(--radius-md);
-        box-shadow: var(--shadow-lg);
-        min-width: 200px;
-        padding: var(--spacing-sm) 0;
-        z-index: 1000;
-        border: 1px solid var(--border-light);
-      }
-      
-      .app-topbar__user-menu:hover .app-topbar__user-dropdown {
-        display: block;
-      }
-      
-      .app-topbar__user-info {
-        padding: var(--spacing-md);
-        border-bottom: 1px solid var(--border-light);
-      }
-      
-      .app-topbar__user-email {
-        font-size: 13px;
-        color: var(--text-secondary);
-      }
-      
-      .app-topbar__user-action {
-        display: block;
-        width: 100%;
-        padding: var(--spacing-sm) var(--spacing-md);
-        background: none;
-        border: none;
-        text-align: left;
-        color: var(--text-primary);
-        cursor: pointer;
-        font-size: 14px;
-        transition: background 0.2s;
-      }
-      
-      .app-topbar__user-action:hover {
-        background: var(--bg-hover);
-      }
-      
-      /* Side Drawer - Light gray background like screenshots */
-      .app-drawer {
-        position: fixed;
-        left: 0;
-        top: 70px;
-        bottom: 0;
-        width: 240px;
-        background: var(--bg-sidebar);
-        overflow-y: auto;
-        z-index: 90;
-        border-right: 1px solid var(--border-light);
-      }
-      
-      .app-drawer__nav {
-        padding: var(--spacing-lg) 0;
-      }
-      
-      .app-drawer__section {
-        margin-bottom: var(--spacing-lg);
-      }
-      
-      .app-drawer__section-title {
-        padding: var(--spacing-sm) var(--spacing-lg);
-        font-size: 11px;
-        font-weight: 600;
-        color: var(--text-muted);
-        text-transform: uppercase;
-        letter-spacing: 0.5px;
-      }
-      
-      .app-drawer__link {
-        display: flex;
-        align-items: center;
-        gap: var(--spacing-md);
-        padding: 10px var(--spacing-lg);
-        color: var(--text-primary);
-        text-decoration: none;
-        transition: all 0.2s;
-        font-size: 14px;
-        margin: 2px var(--spacing-md);
-        border-radius: var(--radius-sm);
-      }
-      
-      .app-drawer__link:hover {
-        background: var(--bg-hover);
-      }
-      
-      .app-drawer__link.is-active {
-        background: var(--bg-white);
-        color: var(--primary-blue);
-        font-weight: 500;
-        box-shadow: var(--shadow-sm);
-      }
-      
-      .app-drawer__link-icon {
-        font-size: 18px;
-        width: 22px;
-        text-align: center;
-      }
-      
-      .app-drawer__settings {
-        position: absolute;
-        bottom: 0;
-        left: 0;
-        right: 0;
-        padding: var(--spacing-lg);
-        border-top: 1px solid var(--border-light);
-        background: var(--bg-sidebar);
-      }
-      
-      /* Main Content Area */
-      .app-layout {
-        margin-left: 240px;
-        padding: var(--spacing-xl);
-        min-height: calc(100vh - 70px);
-      }
-      
-      .app-content {
-        max-width: 1200px;
-        margin: 0 auto;
-      }
-      
-      /* Page Header */
-      .page-header {
-        margin-bottom: var(--spacing-xl);
-      }
-      
-      .page-header__title {
-        font-size: 28px;
-        font-weight: 600;
-        color: var(--text-primary);
-        margin-bottom: var(--spacing-sm);
-      }
-      
-      .page-header__description {
-        color: var(--text-secondary);
-        font-size: 14px;
-      }
-      
-      .page-header__actions {
-        margin-top: var(--spacing-md);
-      }
-      
-      /* Cards */
-      .card {
-        background: var(--bg-white);
-        border-radius: var(--radius-lg);
-        box-shadow: var(--shadow-sm);
-        border: 1px solid var(--border-light);
-        padding: var(--spacing-lg);
-        margin-bottom: var(--spacing-lg);
-      }
-      
-      .card__header {
-        margin-bottom: var(--spacing-md);
-        padding-bottom: var(--spacing-md);
-        border-bottom: 1px solid var(--border-light);
-      }
-      
-      .card__title {
-        font-size: 18px;
-        font-weight: 600;
-        color: var(--text-primary);
-      }
-      
-      /* Buttons - Matching Jobsity blue */
-      .btn {
-        display: inline-flex;
-        align-items: center;
-        gap: var(--spacing-sm);
-        padding: 10px 20px;
-        border: none;
-        border-radius: var(--radius-sm);
-        font-size: 14px;
-        font-weight: 500;
-        cursor: pointer;
-        transition: all 0.2s;
-        text-decoration: none;
-      }
-      
-      .btn-primary {
-        background: var(--primary-blue);
-        color: white;
-      }
-      
-      .btn-primary:hover {
-        background: var(--primary-blue-hover);
-      }
-      
-      .btn-secondary {
-        background: white;
-        color: var(--text-primary);
-        border: 1px solid var(--border-medium);
-      }
-      
-      .btn-secondary:hover {
-        background: var(--bg-hover);
-        border-color: var(--primary-blue);
-      }
-      
-      .btn-success {
-        background: var(--success);
-        color: white;
-      }
-      
-      .btn-danger {
-        background: var(--error);
-        color: white;
-      }
-      
-      /* Forms */
-      .form-group {
-        margin-bottom: var(--spacing-md);
-      }
-      
-      .form-label {
-        display: block;
-        margin-bottom: var(--spacing-xs);
-        font-weight: 500;
-        color: var(--text-primary);
-        font-size: 14px;
-      }
-      
-      .form-control {
-        width: 100%;
-        padding: 10px 12px;
-        border: 1px solid var(--border-medium);
-        border-radius: var(--radius-sm);
-        font-size: 14px;
-        font-family: inherit;
-        transition: all 0.2s;
-        background: white;
-      }
-      
-      .form-control:focus {
-        outline: none;
-        border-color: var(--primary-blue);
-        box-shadow: 0 0 0 3px rgba(30, 174, 219, 0.1);
-      }
-      
-      .form-control::placeholder {
-        color: var(--text-muted);
-      }
-      
-      /* Tables */
-      .table {
-        width: 100%;
-        border-collapse: collapse;
-      }
-      
-      .table th {
-        padding: var(--spacing-md);
-        text-align: left;
-        font-weight: 600;
-        color: var(--text-primary);
-        border-bottom: 2px solid var(--border-light);
-        font-size: 13px;
-        background: var(--bg-page);
-      }
-      
-      .table td {
-        padding: var(--spacing-md);
-        border-bottom: 1px solid var(--border-light);
-        color: var(--text-primary);
-      }
-      
-      .table tr:hover {
-        background: var(--bg-page);
-      }
-      
-      /* Alerts */
-      .alert {
-        padding: var(--spacing-md);
-        border-radius: var(--radius-sm);
-        margin-bottom: var(--spacing-md);
-        border-left: 4px solid;
-      }
-      
-      .alert-success {
-        background: #F6FFED;
-        border-color: var(--success);
-        color: #52C41A;
-      }
-      
-      .alert-warning {
-        background: #FFFBE6;
-        border-color: var(--warning);
-        color: #D48806;
-      }
-      
-      .alert-danger {
-        background: #FFF1F0;
-        border-color: var(--error);
-        color: #CF1322;
-      }
-      
-      .alert-info {
-        background: #E6F7FF;
-        border-color: var(--info);
-        color: #096DD9;
-      }
-      
-      /* Badge */
-      .badge {
-        display: inline-block;
-        padding: 4px 8px;
-        border-radius: 4px;
-        font-size: 12px;
-        font-weight: 500;
-      }
-      
-      .badge-success {
-        background: #F6FFED;
-        color: var(--success);
-        border: 1px solid var(--success);
-      }
-      
-      .badge-warning {
-        background: #FFFBE6;
-        color: var(--warning);
-        border: 1px solid var(--warning);
-      }
-      
-      .badge-danger {
-        background: #FFF1F0;
-        color: var(--error);
-        border: 1px solid var(--error);
-      }
-      
-      .badge-info {
-        background: #E6F7FF;
-        color: var(--info);
-        border: 1px solid var(--info);
-      }
-      
-      /* Responsive */
-      @media (max-width: 768px) {
-        .app-drawer {
-          transform: translateX(-100%);
-        }
-        
-        .app-layout {
-          margin-left: 0;
-        }
-      }
-    </style>
+    <%= javascript_include_tag "application", "data-turbo-track": "reload", type: "module" %>
   </head>
 
   <body>
@@ -502,15 +17,15 @@
       <div class="app-topbar__logo">
         <%= image_tag "jobsity_logo.png", class: "app-topbar__logo-img", alt: "CommsHub" %>
       </div>
-      
+
       <div class="app-topbar__spacer"></div>
-      
+
       <div class="app-topbar__notification">
         <button class="app-topbar__notification-btn" aria-label="Notifications">
           🔔
         </button>
       </div>
-      
+
       <div class="app-topbar__user">
         <% if user_signed_in? %>
           <div class="app-topbar__user-menu">
@@ -520,7 +35,11 @@
             <div class="app-topbar__user-dropdown">
               <div class="app-topbar__user-info">
                 <div class="app-topbar__user-email"><%= current_user.email %></div>
+                <% if current_user.role.present? %>
+                  <div class="app-topbar__user-role"><%= current_user.role %></div>
+                <% end %>
               </div>
+              <%= link_to "👤 Manage Users", manage_users_path, class: "app-topbar__user-action" %>
               <%= button_to "Logout", destroy_user_session_path, method: :delete, class: "app-topbar__user-action" %>
             </div>
           </div>
@@ -529,7 +48,7 @@
         <% end %>
       </div>
     </div>
-    
+
     <!-- Side Drawer -->
     <nav class="app-drawer">
       <div class="app-drawer__nav">
@@ -538,38 +57,42 @@
             <span class="app-drawer__link-icon">🏠</span>
             <span>Home</span>
           <% end %>
-          
+
           <%= link_to announcements_path, class: "app-drawer__link #{controller_name == 'announcements' ? 'is-active' : ''}" do %>
             <span class="app-drawer__link-icon">📢</span>
             <span>Announcements</span>
           <% end %>
-          
+
           <%= link_to audiences_path, class: "app-drawer__link #{controller_name == 'audiences' ? 'is-active' : ''}" do %>
             <span class="app-drawer__link-icon">👥</span>
             <span>Audiences</span>
           <% end %>
         </div>
       </div>
-      
+
       <div class="app-drawer__settings">
-        <%= link_to "#", class: "app-drawer__link" do %>
+        <%= link_to help_index_path, class: "app-drawer__link #{controller_name == 'help' ? 'is-active' : ''}" do %>
+          <span class="app-drawer__link-icon">❓</span>
+          <span>Help</span>
+        <% end %>
+
+        <%= link_to settings_path, class: "app-drawer__link #{%w[settings users integrations].include?(controller_name) ? 'is-active' : ''}" do %>
           <span class="app-drawer__link-icon">⚙️</span>
           <span>Settings</span>
         <% end %>
       </div>
     </nav>
-    
+
     <!-- Main Content -->
     <div class="app-layout">
       <div class="app-content">
-        <!-- Flash Messages -->
         <% if notice %>
           <div class="alert alert-success"><%= notice %></div>
         <% end %>
         <% if alert %>
           <div class="alert alert-danger"><%= alert %></div>
         <% end %>
-        
+
         <%= yield %>
       </div>
     </div>

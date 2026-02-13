@@ -1,55 +1,52 @@
 <% content_for :page_title, "Audiences" %>
 
-<div class="page-header">
-  <h2 class="page-header__title">Audiences</h2>
-  <p class="page-header__description">Manage your recipient groups and distribution lists</p>
-  <div class="page-header__actions">
+<div class="page-header page-header--row">
+  <div>
+    <h2 class="page-header__title">Audiences</h2>
+    <p class="page-header__description">Manage your recipient groups and distribution lists</p>
+  </div>
+  <div>
     <%= link_to "Create New Audience", new_audience_path, class: "btn btn-primary" %>
   </div>
 </div>
 
 <% if @audiences.any? %>
-  <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 24px;">
+  <div class="grid-auto-fill-300">
     <% @audiences.each do |audience| %>
-      <div class="card" style="padding: 0; overflow: hidden; transition: all 0.2s; cursor: pointer;" 
-           onclick="window.location='<%= audience_path(audience) %>'"
-           onmouseover="this.style.transform='translateY(-4px)'; this.style.boxShadow='var(--shadow-lg)'"
-           onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='var(--shadow-sm)'">
-        
-        <!-- Card Header with Color Bar -->
-        <div style="height: 6px; background: linear-gradient(90deg, var(--primary-blue), var(--primary-blue-light));"></div>
-        
-        <div style="padding: 24px;">
-          <!-- Audience Type Badge -->
-          <div style="margin-bottom: 16px;">
+      <div class="card audience-card" onclick="window.location='<%= audience_path(audience) %>'">
+        <div class="audience-card__bar"></div>
+        <div class="audience-card__body">
+          <!-- Audience Type & Scope Badges -->
+          <div class="mb-16 flex-row gap-8">
             <% if audience.type == 'DynamicAudience' %>
-              <span class="badge badge-info" style="font-size: 11px;">🔄 Dynamic</span>
+              <span class="badge badge-info badge--sm">🔄 Dynamic</span>
             <% else %>
-              <span class="badge badge-success" style="font-size: 11px;">📋 Static</span>
+              <span class="badge badge-success badge--sm">📋 Static</span>
+            <% end %>
+
+            <% case audience.scope_type %>
+            <% when "personal" %>
+              <span class="badge badge-warning badge--sm">🔒 Personal</span>
+            <% when "role" %>
+              <span class="badge badge-info badge--sm">👥 <%= audience.scope_value&.upcase %></span>
+            <% when "system" %>
+              <span class="badge badge-success badge--sm">🌐 System</span>
             <% end %>
           </div>
-          
-          <!-- Audience Name -->
-          <h3 style="font-size: 18px; font-weight: 600; margin-bottom: 8px; color: var(--dark-text);">
-            <%= audience.name %>
-          </h3>
-          
-          <!-- Description -->
+
+          <h3 class="audience-card__name"><%= audience.name %></h3>
+
           <% if audience.description.present? %>
-            <p style="color: var(--secondary-text); font-size: 14px; margin-bottom: 16px; line-height: 1.5;">
-              <%= truncate(audience.description, length: 100) %>
-            </p>
+            <p class="audience-card__desc"><%= truncate(audience.description, length: 100) %></p>
           <% else %>
-            <p style="color: var(--dark-gray); font-size: 14px; margin-bottom: 16px; font-style: italic;">
-              No description provided
-            </p>
+            <p class="audience-card__desc audience-card__desc--empty">No description provided</p>
           <% end %>
-          
+
           <!-- Stats -->
-          <div style="display: flex; gap: 16px; padding: 12px 0; border-top: 1px solid var(--light-gray); border-bottom: 1px solid var(--light-gray); margin-bottom: 16px;">
-            <div style="flex: 1; text-align: center;">
-              <div style="font-size: 20px; font-weight: 700; color: var(--primary-blue);">
-                <% 
+          <div class="audience-card__stats">
+            <div class="audience-card__stat">
+              <div class="audience-card__stat-value">
+                <%
                   recipient_count = if audience.respond_to?(:recipients) && audience.recipients.respond_to?(:count)
                     audience.recipients.count
                   elsif audience.respond_to?(:users) && audience.users.respond_to?(:count)
@@ -64,92 +61,77 @@
                 %>
                 <%= recipient_count %>
               </div>
-              <div style="font-size: 11px; color: var(--secondary-text); text-transform: uppercase; letter-spacing: 0.5px;">
-                Recipients
-              </div>
+              <div class="audience-card__stat-label">Recipients</div>
             </div>
-            
-            <div style="flex: 1; text-align: center;">
-              <div style="font-size: 20px; font-weight: 700; color: var(--success-green);">
+
+            <div class="audience-card__stat">
+              <div class="audience-card__stat-value audience-card__stat-value--green">
                 <%= audience.announcements.count %>
               </div>
-              <div style="font-size: 11px; color: var(--secondary-text); text-transform: uppercase; letter-spacing: 0.5px;">
-                Announcements
-              </div>
+              <div class="audience-card__stat-label">Announcements</div>
             </div>
           </div>
-          
-          <!-- Dynamic Audience Details -->
+
           <% if audience.type == 'DynamicAudience' && audience.query.present? %>
-            <div style="background: rgba(188, 232, 241, 0.1); padding: 12px; border-radius: var(--radius-sm); margin-bottom: 16px;">
-              <div style="font-size: 11px; color: var(--secondary-text); margin-bottom: 4px; text-transform: uppercase; letter-spacing: 0.5px;">
-                Query
-              </div>
-              <div style="font-size: 13px; color: var(--dark-text); font-family: monospace;">
-                <%= truncate(audience.query, length: 50) %>
-              </div>
+            <div class="audience-card__query">
+              <div class="audience-card__query-label">Query</div>
+              <div class="audience-card__query-value"><%= truncate(audience.query, length: 50) %></div>
             </div>
           <% end %>
-          
-          <!-- Actions -->
-          <div style="display: flex; gap: 8px;">
-            <%= link_to "View", audience_path(audience), 
-                class: "btn btn-secondary", 
-                style: "flex: 1; justify-content: center; font-size: 13px; padding: 8px;",
+
+          <div class="audience-card__actions">
+            <%= link_to "View", audience_path(audience),
+                class: "btn btn--xs btn-secondary flex-1",
                 onclick: "event.stopPropagation()" %>
-            <%= link_to "Edit", edit_audience_path(audience), 
-                class: "btn btn-secondary", 
-                style: "flex: 1; justify-content: center; font-size: 13px; padding: 8px;",
-                onclick: "event.stopPropagation()" %>
+            <% if audience.editable_by?(current_user) %>
+              <%= link_to "Edit", edit_audience_path(audience),
+                  class: "btn btn--xs btn-secondary flex-1",
+                  onclick: "event.stopPropagation()" %>
+            <% end %>
           </div>
         </div>
       </div>
     <% end %>
   </div>
-  
-  <!-- Summary Card -->
-  <div class="card" style="margin-top: 24px;">
-    <div style="text-align: center; padding: 16px;">
-      <span style="color: var(--secondary-text); font-size: 14px;">
+
+  <div class="card mt-24">
+    <div class="text-center p-16">
+      <span class="text-secondary text-sm">
         Showing <%= @audiences.count %> <%= 'audience'.pluralize(@audiences.count) %>
       </span>
     </div>
   </div>
 <% else %>
   <div class="card">
-    <div style="text-align: center; padding: 64px 24px;">
-      <div style="font-size: 64px; margin-bottom: 16px;">👥</div>
-      <h3 style="margin-bottom: 8px; font-size: 20px;">No audiences yet</h3>
-      <p style="color: var(--secondary-text); margin-bottom: 24px; max-width: 400px; margin-left: auto; margin-right: auto;">
-        Audiences help you organize and target your communications. Create your first audience to get started.
-      </p>
-      <%= link_to "Create Your First Audience", new_audience_path, class: "btn btn-primary" %>
+    <div class="empty-state">
+      <div class="empty-state__icon">👥</div>
+      <h3>No audiences yet</h3>
+      <p class="text-secondary">Audiences help you organize and target your communications. Create your first audience to get started.</p>
+      <div class="empty-state__actions">
+        <%= link_to "Create Your First Audience", new_audience_path, class: "btn btn-primary" %>
+      </div>
     </div>
   </div>
 <% end %>
 
 <!-- Info Cards -->
-<div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 24px; margin-top: 24px;">
+<div class="info-card-row">
   <div class="card">
-    <div style="display: flex; align-items: start; gap: 16px;">
-      <div style="font-size: 32px;">📋</div>
+    <div class="info-card__content">
+      <div class="info-card__icon">📋</div>
       <div>
-        <h4 style="font-weight: 600; margin-bottom: 8px;">Static Audiences</h4>
-        <p style="font-size: 13px; color: var(--secondary-text); line-height: 1.5;">
-          Manually curated lists of recipients. Perfect for specific teams or departments.
-        </p>
+        <h4 class="info-card__title">Static Audiences</h4>
+        <p class="info-card__text">Manually curated lists of recipients. Perfect for specific teams or departments.</p>
       </div>
     </div>
   </div>
-  
+
   <div class="card">
-    <div style="display: flex; align-items: start; gap: 16px;">
-      <div style="font-size: 32px;">🔄</div>
+    <div class="info-card__content">
+      <div class="info-card__icon">🔄</div>
       <div>
-        <h4 style="font-weight: 600; margin-bottom: 8px;">Dynamic Audiences</h4>
-        <p style="font-size: 13px; color: var(--secondary-text); line-height: 1.5;">
-          Automatically updated based on criteria. Recipients are calculated when sending.
-        </p>
+        <h4 class="info-card__title">Dynamic Audiences</h4>
+        <p class="info-card__text">Automatically updated based on criteria. Recipients are calculated when sending.</p>
       </div>
     </div>
   </div>

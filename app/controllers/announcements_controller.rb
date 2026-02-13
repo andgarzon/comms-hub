@@ -12,16 +12,9 @@ class AnnouncementsController < ApplicationController
 
   def new
     @announcement = Announcement.new
-    @slack_audiences = SlackAudience.order(:name)
-    @email_audiences = EmailAudience.order(:name)
-    @whatsapp_audiences = WhatsappAudience.order(:name)
   end
 
   def create
-    @slack_audiences = SlackAudience.order(:name)
-    @email_audiences = EmailAudience.order(:name)
-    @whatsapp_audiences = WhatsappAudience.order(:name)
-    
     @announcement = current_user.announcements.build(announcement_params)
 
     # 1) "Improve with AI" flow - REDIRECT to avoid turbo issues
@@ -109,9 +102,10 @@ class AnnouncementsController < ApplicationController
   end
 
   def set_audiences
-    @slack_audiences = SlackAudience.order(:name)
-    @email_audiences = EmailAudience.order(:name)
-    @whatsapp_audiences = WhatsappAudience.order(:name)
+    visible = Audience.visible_to(current_user)
+    @slack_audiences = SlackAudience.merge(visible).order(:name)
+    @email_audiences = EmailAudience.merge(visible).order(:name)
+    @whatsapp_audiences = WhatsappAudience.merge(visible).order(:name)
   end
 
   def set_announcement

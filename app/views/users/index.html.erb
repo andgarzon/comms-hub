@@ -1,0 +1,120 @@
+<div class="page-header page-header--row">
+  <div>
+    <h2 class="page-header__title">Users</h2>
+    <p class="page-header__description">Manage team members and their roles</p>
+  </div>
+  <div>
+    <%= link_to new_manage_user_path, class: "btn btn-primary" do %>
+      + Add User
+    <% end %>
+  </div>
+</div>
+
+<!-- Filters -->
+<div class="card mb-24">
+  <%= form_with url: manage_users_path, method: :get, local: true do |f| %>
+    <div class="filter-grid">
+      <div class="form-group mb-0">
+        <%= label_tag :search, "Search", class: "form-label" %>
+        <%= text_field_tag :search, params[:search],
+            placeholder: "Search by email...",
+            class: "form-control" %>
+      </div>
+
+      <div class="form-group mb-0">
+        <%= label_tag :role, "Role", class: "form-label" %>
+        <%= select_tag :role,
+            options_for_select(
+              [['All Roles', '']] + User::ROLES.map { |r| [r.upcase, r] },
+              params[:role]
+            ),
+            class: "form-control" %>
+      </div>
+
+      <div class="filter-actions">
+        <%= submit_tag "Filter", class: "btn btn-primary" %>
+        <%= link_to "Clear", manage_users_path, class: "btn btn-secondary" %>
+      </div>
+    </div>
+  <% end %>
+</div>
+
+<!-- Users Table -->
+<div class="card">
+  <% if @users.any? %>
+    <table class="table">
+      <thead>
+        <tr>
+          <th>User</th>
+          <th>Role</th>
+          <th>Announcements</th>
+          <th>Created</th>
+          <th class="text-right">Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% @users.each do |user| %>
+          <tr>
+            <td>
+              <div class="user-cell">
+                <div class="user-avatar"><%= user.email[0].upcase %></div>
+                <div>
+                  <div class="user-cell__name"><%= user.email %></div>
+                  <% if user == current_user %>
+                    <span class="user-cell__you">You</span>
+                  <% end %>
+                </div>
+              </div>
+            </td>
+            <td>
+              <% if user.role.present? %>
+                <span class="badge badge-info badge--uppercase"><%= user.role %></span>
+              <% else %>
+                <span class="text-muted">No role</span>
+              <% end %>
+            </td>
+            <td><%= user.announcements.count %></td>
+            <td>
+              <span class="text-secondary text-sm"><%= user.created_at.strftime("%b %d, %Y") %></span>
+            </td>
+            <td>
+              <div class="table-actions">
+                <%= link_to "View", manage_user_path(user), class: "btn btn--xs btn-secondary" %>
+                <%= link_to "Edit", edit_manage_user_path(user), class: "btn btn--xs btn-secondary" %>
+                <% unless user == current_user %>
+                  <%= button_to "Delete", manage_user_path(user),
+                      method: :delete,
+                      data: { confirm: "Are you sure you want to delete #{user.email}?" },
+                      class: "btn btn--xs btn-danger" %>
+                <% end %>
+              </div>
+            </td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+  <% else %>
+    <div class="empty-state">
+      <div class="empty-state__icon">👤</div>
+      <h3>No users found</h3>
+      <p>
+        <% if params[:search].present? || params[:role].present? %>
+          No users match your filters. Try adjusting your search.
+        <% else %>
+          Add your first team member to get started.
+        <% end %>
+      </p>
+      <% unless params[:search].present? || params[:role].present? %>
+        <div class="empty-state__actions">
+          <%= link_to new_manage_user_path, class: "btn btn-primary" do %>
+            + Add First User
+          <% end %>
+        </div>
+      <% end %>
+    </div>
+  <% end %>
+</div>
+
+<div class="summary-footer">
+  Showing <%= @users.count %> <%= 'user'.pluralize(@users.count) %>
+</div>

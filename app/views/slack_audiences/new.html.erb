@@ -1,7 +1,37 @@
-<h1>New Slack Audience</h1>
+<div class="page-header">
+  <h2 class="page-header__title">New Slack Audience</h2>
+</div>
 
-<%= form_with model: @audience, url: slack_audiences_path do |f| %>
-  <p><%= f.label :name %><br><%= f.text_field :name %></p>
-  <p><%= f.label :slack_channel %><br><%= f.text_field :slack_channel %></p>
-  <%= f.submit "Create" %>
-<% end %>
+<div class="max-w-600">
+  <%= form_with model: @audience, url: slack_audiences_path do |f| %>
+    <% if @audience.errors.any? %>
+      <div class="alert alert-danger error-list">
+        <strong class="error-list__title">
+          <%= pluralize(@audience.errors.count, "error") %> prohibited this audience from being saved:
+        </strong>
+        <ul class="error-list__items">
+          <% @audience.errors.each do |error| %>
+            <li><%= error.full_message %></li>
+          <% end %>
+        </ul>
+      </div>
+    <% end %>
+
+    <div class="card mb-20">
+      <div class="form-group">
+        <%= f.label :name, class: "form-label" %>
+        <%= f.text_field :name, class: "form-control" %>
+      </div>
+
+      <div class="form-group mb-0">
+        <%= f.label :slack_channel, class: "form-label" %>
+        <%= f.text_field :slack_channel, class: "form-control", placeholder: "#channel-name" %>
+      </div>
+    </div>
+
+    <div class="form-actions">
+      <%= link_to "Back to Slack Audiences", slack_audiences_path, class: "btn btn-secondary" %>
+      <%= f.submit "Create", class: "btn btn-primary" %>
+    </div>
+  <% end %>
+</div>

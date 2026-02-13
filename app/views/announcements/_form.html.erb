@@ -7,14 +7,14 @@
   </p>
 </div>
 
-<div style="max-width: 900px;">
-  <%= form_with(model: @announcement, local: true) do |form| %>
+<div class="max-w-900">
+  <%= form_with(model: @announcement, local: true, html: { id: "announcement-form" }) do |form| %>
     <% if @announcement.errors.any? %>
-      <div class="alert alert-danger" style="margin-bottom: 24px;">
-        <strong style="font-size: 15px; display: block; margin-bottom: 8px;">
+      <div class="alert alert-danger error-list">
+        <strong class="error-list__title">
           <%= pluralize(@announcement.errors.count, "error") %> prevented this announcement from being saved:
         </strong>
-        <ul style="margin: 8px 0 0 20px;">
+        <ul class="error-list__items">
           <% @announcement.errors.full_messages.each do |message| %>
             <li><%= message %></li>
           <% end %>
@@ -22,19 +22,18 @@
       </div>
     <% end %>
 
-    <div class="card" style="margin-bottom: 20px;">
+    <div class="card mb-20">
       <div class="card__header">
         <h3 class="card__title">Basic Information</h3>
       </div>
-      
+
       <div class="form-group">
         <%= form.label :title, class: "form-label" %>
         <%= form.text_field :title, class: "form-control", placeholder: "e.g., Team Meeting Tomorrow at 3 PM" %>
       </div>
 
-      <div class="form-group" style="margin-bottom: 0; position: relative;">
-        <% 
-          # Determine which attribute your model uses for the message content
+      <div class="form-group mb-0">
+        <%
           message_field = if @announcement.respond_to?(:message)
             :message
           elsif @announcement.respond_to?(:body)
@@ -46,46 +45,31 @@
           elsif @announcement.respond_to?(:text)
             :text
           else
-            :message  # fallback
+            :message
           end
         %>
-        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
-          <%= form.label message_field, "Message Content", class: "form-label", style: "margin: 0;" %>
-          <button type="button" id="ai-improve-btn" class="btn btn-secondary" style="padding: 6px 12px; font-size: 13px;">
-            ✨ AI Improve
-          </button>
+        <div class="base-message-header">
+          <%= form.label message_field, "Message Content", class: "form-label form-label--inline" %>
+          <div data-react-component="AiImproveButton"
+               data-react-props='<%= { mode: "async", endpoint: "/announcements/ai_improve", textareaId: "message-textarea", csrfToken: form_authenticity_token }.to_json %>'></div>
         </div>
         <%= form.text_area message_field, rows: 8, class: "form-control", id: "message-textarea", placeholder: "Enter your announcement message..." %>
-        <small style="color: var(--text-muted); font-size: 12px; margin-top: 4px; display: block;">
-          This message will be sent to all recipients in the selected audiences
-        </small>
-        
-        <!-- AI Loading State -->
-        <div id="ai-loading" style="display: none; margin-top: 12px; padding: 12px; background: #E6F7FF; border-radius: 6px; border-left: 3px solid var(--primary-blue);">
-          <div style="display: flex; align-items: center; gap: 8px;">
-            <div class="spinner" style="width: 16px; height: 16px; border: 2px solid var(--primary-blue); border-top-color: transparent; border-radius: 50%; animation: spin 1s linear infinite;"></div>
-            <span style="font-size: 13px; color: var(--primary-blue);">AI is improving your message...</span>
-          </div>
-        </div>
+        <small class="form-hint">This message will be sent to all recipients in the selected audiences</small>
       </div>
     </div>
 
-    <div class="card" style="margin-bottom: 20px;">
+    <div class="card mb-20">
       <div class="card__header">
         <h3 class="card__title">Delivery Settings</h3>
       </div>
-      
-      <!-- Multi-Select Audiences -->
+
       <div class="form-group">
         <%= form.label :audience_ids, "Target Audiences", class: "form-label" %>
-        <div style="border: 1px solid var(--border-medium); border-radius: var(--radius-sm); padding: 12px; background: white; max-height: 200px; overflow-y: auto;">
+        <div class="audience-list">
           <% if Audience.any? %>
             <% Audience.all.each do |audience| %>
-              <label style="display: flex; align-items: center; padding: 8px; cursor: pointer; border-radius: 4px; transition: background 0.2s;" 
-                     onmouseover="this.style.background='var(--bg-hover)'" 
-                     onmouseout="this.style.background='transparent'">
-                <% 
-                  # Check if this audience should be selected
+              <label class="audience-list__item">
+                <%
                   is_selected = if @announcement.respond_to?(:audience_ids) && @announcement.audience_ids.present?
                     @announcement.audience_ids.include?(audience.id)
                   elsif @announcement.respond_to?(:audience_id) && @announcement.audience_id.present?
@@ -95,12 +79,11 @@
                   end
                 %>
                 <%= check_box_tag 'announcement[audience_ids][]', audience.id, is_selected,
-                    id: "audience_#{audience.id}",
-                    style: "margin-right: 8px;" %>
-                <div style="flex: 1;">
-                  <div style="font-weight: 500;"><%= audience.name %></div>
-                  <div style="font-size: 12px; color: var(--text-secondary);">
-                    <% 
+                    id: "audience_#{audience.id}", class: "audience-list__item-checkbox" %>
+                <div class="audience-list__item-info">
+                  <div class="audience-list__item-name"><%= audience.name %></div>
+                  <div class="audience-list__item-meta">
+                    <%
                       recipient_count = if audience.respond_to?(:recipients) && audience.recipients.respond_to?(:count)
                         audience.recipients.count
                       elsif audience.respond_to?(:users) && audience.users.respond_to?(:count)
@@ -122,22 +105,18 @@
               </label>
             <% end %>
           <% else %>
-            <div style="text-align: center; padding: 16px; color: var(--text-secondary); font-size: 13px;">
-              No audiences available. <%= link_to "Create one", new_audience_path, style: "color: var(--primary-blue);" %>
+            <div class="audience-list__empty">
+              No audiences available. <%= link_to "Create one", new_audience_path, class: "text-blue" %>
             </div>
           <% end %>
         </div>
-        <small style="color: var(--text-muted); font-size: 12px; margin-top: 4px; display: block;">
-          Select one or more audiences to receive this announcement
-        </small>
+        <small class="form-hint">Select one or more audiences to receive this announcement</small>
       </div>
 
-      <!-- Multi-Select Channels (Checkboxes) -->
       <div class="form-group">
         <%= label_tag :delivery_channels, "Delivery Channels", class: "form-label" %>
-        <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin-top: 8px;">
-          <% 
-            # Determine current selected channels
+        <div class="grid-3-col">
+          <%
             current_channels = if @announcement.message_type == 'both'
               ['email', 'slack']
             elsif @announcement.message_type.present?
@@ -146,9 +125,9 @@
               []
             end
           %>
-          
+
           <label class="channel-option-checkbox">
-            <%= check_box_tag 'announcement[channels][]', 'email', current_channels.include?('email'), 
+            <%= check_box_tag 'announcement[channels][]', 'email', current_channels.include?('email'),
                 class: "channel-checkbox", id: "channel_email" %>
             <div class="channel-content">
               <div class="channel-icon">📧</div>
@@ -156,9 +135,9 @@
               <div class="channel-desc">Send via email</div>
             </div>
           </label>
-          
+
           <label class="channel-option-checkbox">
-            <%= check_box_tag 'announcement[channels][]', 'slack', current_channels.include?('slack'), 
+            <%= check_box_tag 'announcement[channels][]', 'slack', current_channels.include?('slack'),
                 class: "channel-checkbox", id: "channel_slack" %>
             <div class="channel-content">
               <div class="channel-icon">💬</div>
@@ -166,9 +145,9 @@
               <div class="channel-desc">Send to Slack</div>
             </div>
           </label>
-          
+
           <label class="channel-option-checkbox">
-            <%= check_box_tag 'announcement[channels][]', 'whatsapp', current_channels.include?('whatsapp'), 
+            <%= check_box_tag 'announcement[channels][]', 'whatsapp', current_channels.include?('whatsapp'),
                 class: "channel-checkbox", id: "channel_whatsapp" %>
             <div class="channel-content">
               <div class="channel-icon">📱</div>
@@ -177,166 +156,44 @@
             </div>
           </label>
         </div>
-        <small style="color: var(--text-muted); font-size: 12px; margin-top: 4px; display: block;">
-          Select one or more channels for delivery
-        </small>
+        <small class="form-hint">Select one or more channels for delivery</small>
       </div>
 
-      <div class="form-group" style="margin-bottom: 0;">
+      <div class="form-group mb-0">
         <%= form.label :delivery_date, "Schedule Delivery", class: "form-label" %>
         <%= form.datetime_local_field :delivery_date, class: "form-control" %>
-        <small style="color: var(--text-muted); font-size: 12px; margin-top: 4px; display: block;">
-          Leave empty to send immediately
-        </small>
+        <small class="form-hint">Leave empty to send immediately</small>
       </div>
     </div>
 
     <% unless @announcement.new_record? %>
-      <div class="card" style="margin-bottom: 20px;">
+      <div class="card mb-20">
         <div class="card__header">
           <h3 class="card__title">Status</h3>
         </div>
-        
-        <div class="form-group" style="margin-bottom: 0;">
+        <div class="form-group mb-0">
           <%= form.label :status, class: "form-label" %>
-          <%= form.select :status, 
-              [['Draft', 'draft'], ['Pending', 'pending'], ['Delivered', 'delivered'], ['Failed', 'failed']], 
-              {}, 
+          <%= form.select :status,
+              [['Draft', 'draft'], ['Pending', 'pending'], ['Delivered', 'delivered'], ['Failed', 'failed']],
+              {},
               { class: "form-control" } %>
         </div>
       </div>
     <% end %>
 
-    <div style="display: flex; gap: 12px; justify-content: space-between; align-items: center;">
+    <div class="form-actions form-actions--between">
       <div>
         <% unless @announcement.new_record? %>
-          <%= button_to "Delete Announcement", announcement_path(@announcement), 
-              method: :delete, 
-              data: { confirm: "Are you sure? This cannot be undone." }, 
+          <%= button_to "Delete Announcement", announcement_path(@announcement),
+              method: :delete,
+              data: { confirm: "Are you sure? This cannot be undone." },
               class: "btn btn-danger" %>
         <% end %>
       </div>
-      <div style="display: flex; gap: 12px;">
+      <div class="flex-row gap-12">
         <%= link_to "Cancel", @announcement.new_record? ? announcements_path : announcement_path(@announcement), class: "btn btn-secondary" %>
         <%= form.submit @announcement.new_record? ? "Create Announcement" : "Save Changes", class: "btn btn-primary" %>
       </div>
     </div>
   <% end %>
 </div>
-
-<style>
-  /* Channel checkboxes styling */
-  .channel-option-checkbox {
-    position: relative;
-    cursor: pointer;
-    border: 2px solid var(--border-medium);
-    border-radius: var(--radius-md);
-    padding: 16px;
-    transition: all 0.2s;
-    background: white;
-    display: block;
-  }
-  
-  .channel-option-checkbox:hover {
-    border-color: var(--primary-blue);
-    box-shadow: var(--shadow-sm);
-  }
-  
-  .channel-option-checkbox:has(.channel-checkbox:checked) {
-    border-color: var(--primary-blue);
-    background: rgba(30, 174, 219, 0.05);
-  }
-  
-  .channel-checkbox {
-    position: absolute;
-    top: 12px;
-    right: 12px;
-    width: 18px;
-    height: 18px;
-    cursor: pointer;
-  }
-  
-  .channel-content {
-    text-align: center;
-    margin-top: 8px;
-  }
-  
-  .channel-icon {
-    font-size: 28px;
-    margin-bottom: 8px;
-  }
-  
-  .channel-name {
-    font-weight: 600;
-    color: var(--text-primary);
-    margin-bottom: 2px;
-    font-size: 14px;
-  }
-  
-  .channel-desc {
-    font-size: 12px;
-    color: var(--text-secondary);
-  }
-  
-  @keyframes spin {
-    to { transform: rotate(360deg); }
-  }
-</style>
-
-<script>
-document.addEventListener('DOMContentLoaded', function() {
-  const aiBtn = document.getElementById('ai-improve-btn');
-  const textarea = document.getElementById('message-textarea');
-  const loading = document.getElementById('ai-loading');
-  
-  if (aiBtn && textarea) {
-    aiBtn.addEventListener('click', async function() {
-      const message = textarea.value.trim();
-      
-      if (!message) {
-        alert('Please enter a message first.');
-        return;
-      }
-      
-      // Show loading
-      aiBtn.disabled = true;
-      aiBtn.textContent = '⏳ Improving...';
-      loading.style.display = 'block';
-      
-      try {
-        // Call your AI improvement endpoint
-        const response = await fetch('/announcements/ai_improve', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-            'X-CSRF-Token': document.querySelector('[name="csrf-token"]').content
-          },
-          body: JSON.stringify({ message: message })
-        });
-        
-        if (response.ok) {
-          const data = await response.json();
-          textarea.value = data.improved_message || data.message;
-          
-          // Show success feedback
-          loading.innerHTML = '<div style="display: flex; align-items: center; gap: 8px;"><span style="font-size: 18px;">✓</span><span style="font-size: 13px; color: var(--success);">Message improved!</span></div>';
-          setTimeout(() => {
-            loading.style.display = 'none';
-          }, 2000);
-        } else {
-          throw new Error('AI improvement failed');
-        }
-      } catch (error) {
-        console.error('AI improvement error:', error);
-        loading.innerHTML = '<div style="display: flex; align-items: center; gap: 8px;"><span style="font-size: 18px;">✕</span><span style="font-size: 13px; color: var(--error);">Could not improve message. Please try again.</span></div>';
-        setTimeout(() => {
-          loading.style.display = 'none';
-        }, 3000);
-      } finally {
-        aiBtn.disabled = false;
-        aiBtn.textContent = '✨ AI Improve';
-      }
-    });
-  }
-});
-</script>

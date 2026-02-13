@@ -1,0 +1,170 @@
+<div class="page-header page-header--row">
+  <div>
+    <div class="breadcrumb">
+      <%= link_to "Settings", settings_path, class: "breadcrumb__link" %>
+      <span class="breadcrumb__separator">/</span>
+      <%= link_to "Integrations", integrations_path, class: "breadcrumb__link" %>
+      <span class="breadcrumb__separator">/</span>
+      <span class="breadcrumb__current">Email</span>
+    </div>
+    <h2 class="page-header__title">Email Integration</h2>
+    <p class="page-header__description">Configure SMTP settings for email delivery</p>
+  </div>
+  <div>
+    <%= link_to "Back to Integrations", integrations_path, class: "btn btn-secondary" %>
+  </div>
+</div>
+
+<div class="max-w-700">
+
+  <!-- Status Card -->
+  <div class="card mb-24">
+    <div class="status-card">
+      <div class="status-card__icon <%= @setting.configured? ? 'status-card__icon--email-success' : (@setting.last_error.present? ? 'status-card__icon--email-error' : 'status-card__icon--email-neutral') %>">
+        <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="<%= @setting.configured? ? '#1EAEDB' : (@setting.last_error.present? ? '#dc3545' : '#6c757d') %>" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <rect x="2" y="4" width="20" height="16" rx="2"/>
+          <path d="M22 7l-10 7L2 7"/>
+        </svg>
+      </div>
+      <div class="status-card__body">
+        <div class="status-card__header">
+          <h3 class="status-card__title">Connection Status</h3>
+          <% if @setting.configured? %>
+            <span class="badge badge-success">Configured</span>
+          <% elsif @setting.last_error.present? %>
+            <span class="badge badge-error">Error</span>
+          <% else %>
+            <span class="badge badge-neutral">Using Default</span>
+          <% end %>
+        </div>
+        <% if @setting.last_error.present? %>
+          <p class="status-card__message status-card__message--error"><%= @setting.last_error %></p>
+        <% elsif @setting.configured? %>
+          <p class="status-card__message">SMTP configured: <strong><%= @setting.smtp_address %>:<%= @setting.smtp_port %></strong></p>
+        <% else %>
+          <p class="status-card__message">Email works with Rails default settings. Configure SMTP for production delivery.</p>
+        <% end %>
+      </div>
+    </div>
+  </div>
+
+  <!-- Configuration Form -->
+  <div class="card">
+    <div class="card__header">
+      <h3 class="card__title">SMTP Configuration</h3>
+    </div>
+
+    <%= form_tag(email_integration_path, method: :patch, data: { turbo: false }) do %>
+      <div class="form-field-row">
+
+        <div>
+          <label for="from_email" class="form-field-label">
+            From Email Address <span class="form-required">*</span>
+          </label>
+          <input type="email" id="from_email" name="from_email"
+                 value="<%= @setting.from_email %>"
+                 placeholder="announcements@yourcompany.com" required class="form-control">
+          <p class="form-hint">The sender address that appears on announcement emails.</p>
+        </div>
+
+        <div class="smtp-grid">
+          <div>
+            <label for="smtp_address" class="form-field-label">
+              SMTP Server <span class="form-required">*</span>
+            </label>
+            <input type="text" id="smtp_address" name="smtp_address"
+                   value="<%= @setting.smtp_address %>"
+                   placeholder="smtp.gmail.com" required class="form-control">
+          </div>
+          <div>
+            <label for="smtp_port" class="form-field-label">Port</label>
+            <input type="text" id="smtp_port" name="smtp_port"
+                   value="<%= @setting.smtp_port %>"
+                   placeholder="587" class="form-control">
+          </div>
+        </div>
+
+        <div>
+          <label for="smtp_domain" class="form-field-label">HELO Domain</label>
+          <input type="text" id="smtp_domain" name="smtp_domain"
+                 value="<%= @setting.smtp_domain %>"
+                 placeholder="yourcompany.com (optional)" class="form-control">
+        </div>
+
+        <div>
+          <label for="smtp_username" class="form-field-label">Username</label>
+          <input type="text" id="smtp_username" name="smtp_username"
+                 value="<%= @setting.smtp_username %>"
+                 placeholder="your-email@gmail.com" class="form-control">
+        </div>
+
+        <div>
+          <label for="smtp_password" class="form-field-label">Password</label>
+          <input type="password" id="smtp_password" name="smtp_password"
+                 value="<%= @setting.smtp_password %>"
+                 placeholder="App password or SMTP password" class="form-control">
+        </div>
+
+        <div>
+          <label for="smtp_authentication" class="form-field-label">Authentication</label>
+          <select id="smtp_authentication" name="smtp_authentication" class="form-control">
+            <option value="plain" <%= 'selected' if @setting.smtp_authentication == 'plain' %>>Plain</option>
+            <option value="login" <%= 'selected' if @setting.smtp_authentication == 'login' %>>Login</option>
+            <option value="cram_md5" <%= 'selected' if @setting.smtp_authentication == 'cram_md5' %>>CRAM-MD5</option>
+          </select>
+        </div>
+
+        <div class="integration-actions">
+          <button type="submit" class="btn btn-primary">Save Configuration</button>
+        </div>
+
+      </div>
+    <% end %>
+  </div>
+
+  <!-- Help Card -->
+  <div class="card mt-24">
+    <div class="card__header">
+      <h3 class="card__title">Common SMTP Settings</h3>
+    </div>
+    <div class="setup-guide">
+      <table class="smtp-table">
+        <thead>
+          <tr>
+            <th>Provider</th>
+            <th>Server</th>
+            <th>Port</th>
+            <th>Auth</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Gmail</td>
+            <td><code>smtp.gmail.com</code></td>
+            <td>587</td>
+            <td>Plain</td>
+          </tr>
+          <tr>
+            <td>Outlook / Office 365</td>
+            <td><code>smtp.office365.com</code></td>
+            <td>587</td>
+            <td>Login</td>
+          </tr>
+          <tr>
+            <td>SendGrid</td>
+            <td><code>smtp.sendgrid.net</code></td>
+            <td>587</td>
+            <td>Plain</td>
+          </tr>
+          <tr>
+            <td>Amazon SES</td>
+            <td><code>email-smtp.us-east-1.amazonaws.com</code></td>
+            <td>587</td>
+            <td>Login</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+</div>
