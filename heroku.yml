@@ -1,8 +1,9 @@
 build:
   docker:
     web: Dockerfile
+    release: Dockerfile
 run:
   web: bundle exec puma -C config/puma.rb
-release:
-  command:
-    - bundle exec rails db:prepare
+  release:
+    command:
+      - bundle exec rails db:prepare
