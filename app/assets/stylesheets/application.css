@@ -2513,3 +2513,85 @@ a {
   color: #DC2626;
   border: 1px solid #FECACA;
 }
+
+
+/* ============================================================
+   Pages: Devise (Login / Sign Up / Password Reset)
+   ============================================================ */
+
+/* Full-page centered layout for auth pages */
+.devise-body {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  background: linear-gradient(135deg, var(--bg-page) 0%, #E8F4F8 100%);
+}
+
+.devise-container {
+  width: 100%;
+  max-width: 440px;
+  padding: var(--spacing-lg);
+}
+
+.devise-card {
+  background: var(--bg-white);
+  border-radius: 12px;
+  box-shadow: 0 4px 24px rgba(0, 0, 0, 0.08);
+  padding: 40px;
+  border: 1px solid var(--border-light);
+}
+
+.devise-card__logo {
+  text-align: center;
+  margin-bottom: var(--spacing-xl);
+}
+
+.devise-card__logo-img {
+  height: 40px;
+  width: auto;
+}
+
+.devise-card__title {
+  font-size: 24px;
+  font-weight: 600;
+  color: var(--text-primary);
+  margin-bottom: var(--spacing-lg);
+  text-align: center;
+}
+
+/* Remember me checkbox row */
+.devise-remember {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-sm);
+}
+
+.devise-remember input[type="checkbox"] {
+  width: 16px;
+  height: 16px;
+  cursor: pointer;
+}
+
+/* Links section below forms */
+.devise-links {
+  margin-top: var(--spacing-lg);
+  padding-top: var(--spacing-md);
+  border-top: 1px solid var(--border-light);
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-sm);
+}
+
+.devise-links__link {
+  color: var(--primary-blue);
+  text-decoration: none;
+  font-size: 13px;
+  transition: color 0.2s;
+}
+
+.devise-links__link:hover {
+  color: var(--primary-blue-hover);
+  text-decoration: underline;
+}
