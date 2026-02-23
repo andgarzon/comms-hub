@@ -62,9 +62,9 @@
           <tbody>
             <% recipients_collection.limit(20).each do |recipient| %>
               <tr>
-                <td class="font-medium"><%= recipient.name || recipient.email.split('@').first.titleize %></td>
+                <td class="font-medium"><%= recipient.email.split('@').first.titleize %></td>
                 <td><%= recipient.email %></td>
-                <td><%= recipient.department || "—" %></td>
+                <td><%= recipient.role || "—" %></td>
                 <td><%= recipient.created_at.strftime("%b %d, %Y") %></td>
               </tr>
             <% end %>
@@ -143,7 +143,7 @@
                     <span class="badge badge-info"><%= announcement.status&.titleize || "Draft" %></span>
                   <% end %>
                 </td>
-                <td><%= announcement.delivery_date ? announcement.delivery_date.strftime("%b %d, %Y") : "Not scheduled" %></td>
+                <td><%= announcement.scheduled_for ? announcement.scheduled_for.strftime("%b %d, %Y") : announcement.created_at.strftime("%b %d, %Y") %></td>
               </tr>
             <% end %>
           </tbody>

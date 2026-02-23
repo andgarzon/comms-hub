@@ -1,7 +1,21 @@
 require "test_helper"
 require "net/http"
+require "minitest/mock"
 
 class WhatsappAnnouncementSenderTest < ActiveSupport::TestCase
+  MockResponse = Struct.new(:code, :body) do
+    def is_a?(klass)
+      return true if klass == Net::HTTPSuccess && code.to_i >= 200 && code.to_i < 300
+      super
+    end
+  end
+
+  MockHttp = Struct.new(:response) do
+    def request(_req)
+      response
+    end
+  end
+
   setup do
     @setting = IntegrationSetting.find_or_initialize_by(provider: "whatsapp")
     @setting.config_data = {
@@ -18,7 +32,7 @@ class WhatsappAnnouncementSenderTest < ActiveSupport::TestCase
       base_body: "This is a test message.",
       whatsapp_body: "WhatsApp-optimized test message.",
       status: "sending",
-      user: User.create!(email: "sender@test.com", password: "password123456", role: "admin")
+      user: User.create!(email: "sender-#{SecureRandom.hex(4)}@test.com", password: "password123456", role: "admin")
     )
   end
 
@@ -47,56 +61,48 @@ class WhatsappAnnouncementSenderTest < ActiveSupport::TestCase
   end
 
   test "sends message using whatsapp_body when present" do
-    success_response = Net::HTTPOK.new("1.1", "200", "OK")
-    response_body = { "messages" => [{ "id" => "wamid.abc123" }] }.to_json
+    mock_response = MockResponse.new("200", { "messages" => [{ "id" => "wamid.abc123" }] }.to_json)
+    fake_start = ->(*_args, **_kwargs, &block) { block.call(MockHttp.new(mock_response)) }
 
-    success_response.stub(:body, response_body) do
-      Net::HTTP.stub(:start, success_response) do
-        result = WhatsappAnnouncementSender.new(@announcement, phone: "+593991234567").call
-        assert_equal "wamid.abc123", result.dig("messages", 0, "id")
-      end
+    Net::HTTP.stub(:start, fake_start) do
+      result = WhatsappAnnouncementSender.new(@announcement, phone: "+593991234567").call
+      assert_equal "wamid.abc123", result.dig("messages", 0, "id")
     end
   end
 
   test "falls back to base_body when whatsapp_body is blank" do
     @announcement.update!(whatsapp_body: nil)
 
-    success_response = Net::HTTPOK.new("1.1", "200", "OK")
-    response_body = { "messages" => [{ "id" => "wamid.xyz789" }] }.to_json
+    mock_response = MockResponse.new("200", { "messages" => [{ "id" => "wamid.xyz789" }] }.to_json)
+    fake_start = ->(*_args, **_kwargs, &block) { block.call(MockHttp.new(mock_response)) }
 
-    success_response.stub(:body, response_body) do
-      Net::HTTP.stub(:start, success_response) do
-        result = WhatsappAnnouncementSender.new(@announcement, phone: "+593991234567").call
-        assert_equal "wamid.xyz789", result.dig("messages", 0, "id")
-      end
+    Net::HTTP.stub(:start, fake_start) do
+      result = WhatsappAnnouncementSender.new(@announcement, phone: "+593991234567").call
+      assert_equal "wamid.xyz789", result.dig("messages", 0, "id")
     end
   end
 
   test "raises error on API failure" do
-    error_response = Net::HTTPBadRequest.new("1.1", "400", "Bad Request")
-    response_body = { "error" => { "message" => "Invalid phone number", "code" => 100 } }.to_json
+    mock_response = MockResponse.new("400", { "error" => { "message" => "Invalid phone number", "code" => 100 } }.to_json)
+    fake_start = ->(*_args, **_kwargs, &block) { block.call(MockHttp.new(mock_response)) }
 
-    error_response.stub(:body, response_body) do
-      Net::HTTP.stub(:start, error_response) do
-        error = assert_raises(RuntimeError) do
-          WhatsappAnnouncementSender.new(@announcement, phone: "+593991234567").call
-        end
-        assert_match(/Invalid phone number/, error.message)
+    Net::HTTP.stub(:start, fake_start) do
+      error = assert_raises(RuntimeError) do
+        WhatsappAnnouncementSender.new(@announcement, phone: "+593991234567").call
       end
+      assert_match(/Invalid phone number/, error.message)
     end
   end
 
   test "sanitizes phone number by removing spaces, dashes, parens, and leading plus" do
     sender = WhatsappAnnouncementSender.new(@announcement, phone: "+593 (99) 123-4567")
 
-    success_response = Net::HTTPOK.new("1.1", "200", "OK")
-    response_body = { "messages" => [{ "id" => "wamid.sanitized" }] }.to_json
+    mock_response = MockResponse.new("200", { "messages" => [{ "id" => "wamid.sanitized" }] }.to_json)
+    fake_start = ->(*_args, **_kwargs, &block) { block.call(MockHttp.new(mock_response)) }
 
-    success_response.stub(:body, response_body) do
-      Net::HTTP.stub(:start, success_response) do
-        result = sender.call
-        assert result
-      end
+    Net::HTTP.stub(:start, fake_start) do
+      result = sender.call
+      assert result
     end
   end
 end
