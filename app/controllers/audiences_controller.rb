@@ -22,7 +22,16 @@ class AudiencesController < ApplicationController
   end
 
   def create
-    @audience = Audience.new(audience_params)
+    safe_params = audience_params
+    # Convert blank type to nil so a plain Audience is created (not an invalid STI subclass)
+    audience_type = safe_params[:type].presence
+    klass = if audience_type.present? && %w[SlackAudience EmailAudience WhatsappAudience].include?(audience_type)
+              audience_type.constantize
+            else
+              Audience
+            end
+
+    @audience = klass.new(safe_params.except(:type))
     @audience.creator = current_user
 
     # Enforce scope authorization

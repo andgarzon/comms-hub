@@ -1,12 +1,130 @@
-<% content_for :title, "Editing audience" %>
+<% content_for :page_title, "Edit #{@audience.name}" %>
 
-<h1>Editing audience</h1>
+<div class="page-header">
+  <h2 class="page-header__title">Edit Audience</h2>
+  <p class="page-header__description">Update "<%= @audience.name %>"</p>
+</div>
 
-<%= render "form", audience: @audience %>
+<div class="max-w-800">
+  <%= form_with(model: @audience, local: true) do |form| %>
+    <% if @audience.errors.any? %>
+      <div class="alert alert-danger error-list">
+        <strong class="error-list__title">
+          <%= pluralize(@audience.errors.count, "error") %> prohibited this audience from being saved:
+        </strong>
+        <ul class="error-list__items">
+          <% @audience.errors.full_messages.each do |message| %>
+            <li><%= message %></li>
+          <% end %>
+        </ul>
+      </div>
+    <% end %>
 
-<br>
+    <!-- Channel type display (read-only on edit) -->
+    <div class="card mb-20">
+      <div class="card__header">
+        <h3 class="card__title">Channel Type</h3>
+      </div>
+      <p class="text-secondary text-sm">
+        <% case @audience.type %>
+        <% when 'SlackAudience' %>
+          💬 Slack Audience
+        <% when 'EmailAudience' %>
+          📧 Email Audience
+        <% when 'WhatsappAudience' %>
+          📱 WhatsApp Audience
+        <% else %>
+          👥 General Audience
+        <% end %>
+      </p>
+    </div>
 
-<div>
-  <%= link_to "Show this audience", @audience %> |
-  <%= link_to "Back to audiences", audiences_path %>
+    <% if @available_scope_types.present? %>
+      <div class="card mb-20">
+        <div class="card__header">
+          <h3 class="card__title">Audience Scope</h3>
+        </div>
+        <p class="text-secondary text-sm mb-16">Who should be able to see and use this audience?</p>
+
+        <div class="form-group">
+          <%= form.label :scope_type, "Scope", class: "form-label" %>
+          <%= form.select :scope_type,
+              @available_scope_types.map { |st| [st.titleize, st] },
+              { prompt: "Select scope..." },
+              class: "form-control", id: "audience_scope_type" %>
+          <small class="form-hint">
+            Personal = only you. Role = everyone with that role. System = everyone (admin only).
+          </small>
+        </div>
+
+        <div class="form-group mb-0" id="role-scope-field" style="<%= @audience.scope_type == 'role' ? '' : 'display: none;' %>">
+          <%= form.label :scope_value, "Target Role", class: "form-label" %>
+          <%= form.select :scope_value,
+              @available_roles.map { |r| [r.upcase, r] },
+              { include_blank: "Select role..." },
+              class: "form-control" %>
+        </div>
+
+        <div data-react-component="AudienceScopeToggle"
+             data-react-props='<%= { scopeSelector: "#audience_scope_type", roleFieldSelector: "#role-scope-field" }.to_json %>'></div>
+      </div>
+    <% end %>
+
+    <div class="card mb-20">
+      <div class="card__header">
+        <h3 class="card__title">Basic Information</h3>
+      </div>
+
+      <div class="form-group">
+        <%= form.label :name, class: "form-label" %>
+        <%= form.text_field :name, class: "form-control" %>
+      </div>
+
+      <div class="form-group mb-0">
+        <%= form.label :description, class: "form-label" %>
+        <%= form.text_area :description, rows: 3, class: "form-control" %>
+      </div>
+    </div>
+
+    <% if @audience.type == 'SlackAudience' %>
+      <div class="card mb-20">
+        <div class="card__header">
+          <h3 class="card__title">Slack Settings</h3>
+        </div>
+        <div class="form-group mb-0">
+          <%= form.label :slack_channel, "Slack Channel", class: "form-label" %>
+          <%= form.text_field :slack_channel, class: "form-control", placeholder: "#channel-name" %>
+        </div>
+      </div>
+    <% end %>
+
+    <% if @audience.type == 'EmailAudience' %>
+      <div class="card mb-20">
+        <div class="card__header">
+          <h3 class="card__title">Email Settings</h3>
+        </div>
+        <div class="form-group mb-0">
+          <%= form.label :email_recipients, "Email recipients (one per line or comma-separated)", class: "form-label" %>
+          <%= form.text_area :email_recipients, rows: 6, class: "form-control" %>
+        </div>
+      </div>
+    <% end %>
+
+    <% if @audience.type == 'WhatsappAudience' %>
+      <div class="card mb-20">
+        <div class="card__header">
+          <h3 class="card__title">WhatsApp Settings</h3>
+        </div>
+        <div class="form-group mb-0">
+          <%= form.label :whatsapp_recipients, "WhatsApp recipients (one per line or comma-separated)", class: "form-label" %>
+          <%= form.text_area :whatsapp_recipients, rows: 6, class: "form-control" %>
+        </div>
+      </div>
+    <% end %>
+
+    <div class="form-actions">
+      <%= link_to "Cancel", audience_path(@audience), class: "btn btn-secondary" %>
+      <%= form.submit "Update Audience", class: "btn btn-primary" %>
+    </div>
+  <% end %>
 </div>

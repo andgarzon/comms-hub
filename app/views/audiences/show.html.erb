@@ -16,10 +16,15 @@
   <div class="flex-1">
     <div class="flex-row gap-12 mb-8">
       <h2 class="page-header__title"><%= @audience.name %></h2>
-      <% if @audience.type == 'DynamicAudience' %>
-        <span class="badge badge-info">🔄 Dynamic</span>
+      <% case @audience.type %>
+      <% when 'SlackAudience' %>
+        <span class="badge badge-info">💬 Slack</span>
+      <% when 'EmailAudience' %>
+        <span class="badge badge-success">📧 Email</span>
+      <% when 'WhatsappAudience' %>
+        <span class="badge badge-success">📱 WhatsApp</span>
       <% else %>
-        <span class="badge badge-success">📋 Static</span>
+        <span class="badge badge-secondary">👥 General</span>
       <% end %>
     </div>
     <% if @audience.description.present? %>
@@ -75,27 +80,37 @@
         <div class="empty-state">
           <div class="empty-state__icon">👥</div>
           <p class="text-secondary mb-16">No recipients yet</p>
-          <% if @audience.type == 'StaticAudience' %>
+          <% if @audience.editable_by?(current_user) %>
             <%= link_to "Add Recipients", edit_audience_path(@audience), class: "btn btn-primary" %>
-          <% else %>
-            <p class="text-sm text-muted">Recipients will be calculated dynamically based on your query</p>
           <% end %>
         </div>
       <% end %>
     </div>
 
-    <% if @audience.type == 'DynamicAudience' && @audience.query.present? %>
+    <% if @audience.type == 'SlackAudience' && @audience.slack_channel.present? %>
       <div class="card">
         <div class="card__header">
-          <h3 class="card__title">Dynamic Query</h3>
+          <h3 class="card__title">Slack Channel</h3>
         </div>
-        <div class="dynamic-query-box"><%= @audience.query %></div>
-        <div class="info-callout">
-          <div class="info-callout__title">ℹ️ How it works</div>
-          <div class="info-callout__text">
-            This query is evaluated each time an announcement is sent. Recipients matching the criteria will automatically receive the message.
-          </div>
+        <p class="p-8"><%= @audience.slack_channel %></p>
+      </div>
+    <% end %>
+
+    <% if @audience.type == 'EmailAudience' && @audience.email_recipients.present? %>
+      <div class="card">
+        <div class="card__header">
+          <h3 class="card__title">Email Recipients</h3>
         </div>
+        <p class="p-8 text-sm"><%= @audience.email_list.join(", ") %></p>
+      </div>
+    <% end %>
+
+    <% if @audience.type == 'WhatsappAudience' && @audience.whatsapp_recipients.present? %>
+      <div class="card">
+        <div class="card__header">
+          <h3 class="card__title">WhatsApp Recipients</h3>
+        </div>
+        <p class="p-8 text-sm"><%= @audience.whatsapp_list.join(", ") %></p>
       </div>
     <% end %>
 
@@ -169,9 +184,18 @@
 
       <div class="flex-col gap-16">
         <div>
-          <div class="detail-label">Type</div>
+          <div class="detail-label">Channel</div>
           <div class="detail-value">
-            <%= @audience.type == 'DynamicAudience' ? '🔄 Dynamic Audience' : '📋 Static Audience' %>
+            <% case @audience.type %>
+            <% when 'SlackAudience' %>
+              💬 Slack
+            <% when 'EmailAudience' %>
+              📧 Email
+            <% when 'WhatsappAudience' %>
+              📱 WhatsApp
+            <% else %>
+              👥 General
+            <% end %>
           </div>
         </div>
 

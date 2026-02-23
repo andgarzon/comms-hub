@@ -18,10 +18,15 @@
         <div class="audience-card__body">
           <!-- Audience Type & Scope Badges -->
           <div class="mb-16 flex-row gap-8">
-            <% if audience.type == 'DynamicAudience' %>
-              <span class="badge badge-info badge--sm">🔄 Dynamic</span>
+            <% case audience.type %>
+            <% when 'SlackAudience' %>
+              <span class="badge badge-info badge--sm">💬 Slack</span>
+            <% when 'EmailAudience' %>
+              <span class="badge badge-success badge--sm">📧 Email</span>
+            <% when 'WhatsappAudience' %>
+              <span class="badge badge-success badge--sm">📱 WhatsApp</span>
             <% else %>
-              <span class="badge badge-success badge--sm">📋 Static</span>
+              <span class="badge badge-secondary badge--sm">👥 General</span>
             <% end %>
 
             <% case audience.scope_type %>
@@ -72,13 +77,6 @@
             </div>
           </div>
 
-          <% if audience.type == 'DynamicAudience' && audience.query.present? %>
-            <div class="audience-card__query">
-              <div class="audience-card__query-label">Query</div>
-              <div class="audience-card__query-value"><%= truncate(audience.query, length: 50) %></div>
-            </div>
-          <% end %>
-
           <div class="audience-card__actions">
             <%= link_to "View", audience_path(audience),
                 class: "btn btn--xs btn-secondary flex-1",
@@ -118,20 +116,30 @@
 <div class="info-card-row">
   <div class="card">
     <div class="info-card__content">
-      <div class="info-card__icon">📋</div>
+      <div class="info-card__icon">💬</div>
       <div>
-        <h4 class="info-card__title">Static Audiences</h4>
-        <p class="info-card__text">Manually curated lists of recipients. Perfect for specific teams or departments.</p>
+        <h4 class="info-card__title">Slack Audiences</h4>
+        <p class="info-card__text">Deliver announcements to Slack channels for real-time team communication.</p>
       </div>
     </div>
   </div>
 
   <div class="card">
     <div class="info-card__content">
-      <div class="info-card__icon">🔄</div>
+      <div class="info-card__icon">📧</div>
       <div>
-        <h4 class="info-card__title">Dynamic Audiences</h4>
-        <p class="info-card__text">Automatically updated based on criteria. Recipients are calculated when sending.</p>
+        <h4 class="info-card__title">Email Audiences</h4>
+        <p class="info-card__text">Send announcements to a curated list of email addresses.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="info-card__content">
+      <div class="info-card__icon">📱</div>
+      <div>
+        <h4 class="info-card__title">WhatsApp Audiences</h4>
+        <p class="info-card__text">Reach recipients on WhatsApp with announcements via phone numbers.</p>
       </div>
     </div>
   </div>
