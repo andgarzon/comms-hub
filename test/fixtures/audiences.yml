@@ -1,11 +1,14 @@
 # Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
 
 one:
-  name: MyString
-  description: MyString
-  slack_channel: MyString
+  name: Engineering Team
+  description: Engineering audience
+  slack_channel: "#engineering"
+  scope_type: personal
+  created_by_id: <%= ActiveRecord::FixtureSet.identify(:one) %>
 
 two:
-  name: MyString
-  description: MyString
-  slack_channel: MyString
+  name: Marketing Team
+  description: Marketing audience
+  scope_type: personal
+  created_by_id: <%= ActiveRecord::FixtureSet.identify(:one) %>

@@ -3,6 +3,7 @@
 
 import TestConnectionButton from "./TestConnectionButton"
 import ChannelAudienceToggler from "./ChannelAudienceToggler"
+import ChannelTypeToggle from "./ChannelTypeToggle"
 import AiImproveButton from "./AiImproveButton"
 import AiLoadingOverlay from "./AiLoadingOverlay"
 import RoleSelector from "./RoleSelector"
@@ -12,6 +13,7 @@ import AudienceScopeToggle from "./AudienceScopeToggle"
 const componentRegistry = {
   TestConnectionButton,
   ChannelAudienceToggler,
+  ChannelTypeToggle,
   AiImproveButton,
   AiLoadingOverlay,
   RoleSelector,

@@ -1,23 +1,24 @@
 require "test_helper"
 
 class AnnouncementsControllerTest < ActionDispatch::IntegrationTest
+  setup do
+    @user = users(:one)
+    sign_in @user
+    @announcement = announcements(:one)
+  end
+
   test "should get index" do
-    get announcements_index_url
+    get announcements_url
     assert_response :success
   end
 
   test "should get new" do
-    get announcements_new_url
+    get new_announcement_url
     assert_response :success
   end
 
-  test "should get create" do
-    get announcements_create_url
-    assert_response :success
-  end
-
-  test "should get show" do
-    get announcements_show_url
+  test "should show announcement" do
+    get announcement_url(@announcement)
     assert_response :success
   end
 end

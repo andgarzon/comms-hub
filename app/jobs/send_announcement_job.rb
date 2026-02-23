@@ -75,18 +75,31 @@ class SendAnnouncementJob < ApplicationJob
     end
 
     # --------------------
-    # WHATSAPP (placeholder for now)
+    # WHATSAPP DELIVERY
     # --------------------
     if announcement.send_to_whatsapp?
       announcement.audiences.where(type: "WhatsappAudience").each do |audience|
         audience.whatsapp_list.each do |phone|
-          # TODO: Implement WhatsApp API integration
-          announcement.delivery_logs.create!(
-            channel: "whatsapp",
-            destination: phone,
-            status: "pending",
-            details: "WhatsApp delivery not yet implemented. Audience: #{audience.name}"
-          )
+          begin
+            WhatsappAnnouncementSender.new(
+              announcement,
+              phone: phone
+            ).call
+
+            announcement.delivery_logs.create!(
+              channel: "whatsapp",
+              destination: phone,
+              status: "sent",
+              details: "WhatsApp audience: #{audience.name}"
+            )
+          rescue => e
+            announcement.delivery_logs.create!(
+              channel: "whatsapp",
+              destination: phone,
+              status: "error",
+              details: "#{e.class}: #{e.message}"
+            )
+          end
         end
       end
     end

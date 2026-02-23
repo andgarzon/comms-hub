@@ -22,32 +22,54 @@
 
     <div class="card mb-20">
       <div class="card__header">
-        <h3 class="card__title">Audience Type</h3>
+        <h3 class="card__title">Channel Type</h3>
       </div>
+      <p class="text-secondary text-sm mb-16">Select the delivery channel for this audience</p>
 
       <div class="grid-2-col">
         <label class="audience-type-option">
-          <%= form.radio_button :type, 'StaticAudience', checked: true, class: "type-radio" %>
+          <%= form.radio_button :type, '', checked: @audience.type.blank?, class: "type-radio", id: "type_general" %>
           <div class="type-content">
-            <div class="type-icon">📋</div>
-            <div class="type-name">Static Audience</div>
-            <div class="type-desc">Manually curated list of recipients. Best for specific teams or departments.</div>
+            <div class="type-icon">👥</div>
+            <div class="type-name">General</div>
+            <div class="type-desc">A general-purpose audience with platform users as members.</div>
           </div>
         </label>
 
         <label class="audience-type-option">
-          <%= form.radio_button :type, 'DynamicAudience', class: "type-radio" %>
+          <%= form.radio_button :type, 'SlackAudience', checked: @audience.type == 'SlackAudience', class: "type-radio", id: "type_slack" %>
           <div class="type-content">
-            <div class="type-icon">🔄</div>
-            <div class="type-name">Dynamic Audience</div>
-            <div class="type-desc">Auto-updated based on criteria. Recipients calculated when sending.</div>
+            <div class="type-icon">💬</div>
+            <div class="type-name">Slack</div>
+            <div class="type-desc">Send announcements to a Slack channel.</div>
+          </div>
+        </label>
+
+        <label class="audience-type-option">
+          <%= form.radio_button :type, 'EmailAudience', checked: @audience.type == 'EmailAudience', class: "type-radio", id: "type_email" %>
+          <div class="type-content">
+            <div class="type-icon">📧</div>
+            <div class="type-name">Email</div>
+            <div class="type-desc">Send announcements to a list of email addresses.</div>
+          </div>
+        </label>
+
+        <label class="audience-type-option">
+          <%= form.radio_button :type, 'WhatsappAudience', checked: @audience.type == 'WhatsappAudience', class: "type-radio", id: "type_whatsapp" %>
+          <div class="type-content">
+            <div class="type-icon">📱</div>
+            <div class="type-name">WhatsApp</div>
+            <div class="type-desc">Send announcements via WhatsApp to phone numbers.</div>
           </div>
         </label>
       </div>
 
-      <!-- React component for audience type toggling -->
-      <div data-react-component="AudienceTypeToggle"
-           data-react-props='<%= { dynamicSectionSelector: ".dynamic-only" }.to_json %>'></div>
+      <div data-react-component="ChannelTypeToggle"
+           data-react-props='<%= {
+             slackSelector: "#channel-slack-fields",
+             emailSelector: "#channel-email-fields",
+             whatsappSelector: "#channel-whatsapp-fields"
+           }.to_json %>'></div>
     </div>
 
     <!-- Audience Scope -->
@@ -76,7 +98,6 @@
             class: "form-control" %>
       </div>
 
-      <!-- React component for scope toggling -->
       <div data-react-component="AudienceScopeToggle"
            data-react-props='<%= { scopeSelector: "#audience_scope_type", roleFieldSelector: "#role-scope-field" }.to_json %>'></div>
     </div>
@@ -98,15 +119,42 @@
       </div>
     </div>
 
-    <div class="card dynamic-only mb-20 hidden">
+    <!-- Slack-specific fields -->
+    <div class="card mb-20 hidden" id="channel-slack-fields">
       <div class="card__header">
-        <h3 class="card__title">Dynamic Query</h3>
+        <h3 class="card__title">Slack Settings</h3>
       </div>
 
       <div class="form-group mb-0">
-        <%= form.label :query, "Filter Criteria", class: "form-label" %>
-        <%= form.text_area :query, rows: 4, class: "form-control", placeholder: "e.g., department:engineering OR role:developer" %>
-        <small class="form-hint">Define criteria for automatically selecting recipients</small>
+        <%= form.label :slack_channel, "Slack Channel", class: "form-label" %>
+        <%= form.text_field :slack_channel, class: "form-control", placeholder: "#channel-name" %>
+        <small class="form-hint">The Slack channel where announcements will be posted</small>
+      </div>
+    </div>
+
+    <!-- Email-specific fields -->
+    <div class="card mb-20 hidden" id="channel-email-fields">
+      <div class="card__header">
+        <h3 class="card__title">Email Settings</h3>
+      </div>
+
+      <div class="form-group mb-0">
+        <%= form.label :email_recipients, "Email recipients (one per line or comma-separated)", class: "form-label" %>
+        <%= form.text_area :email_recipients, rows: 6, class: "form-control", placeholder: "user@example.com\nanother@example.com" %>
+        <small class="form-hint">Enter email addresses separated by commas, semicolons, or new lines</small>
+      </div>
+    </div>
+
+    <!-- WhatsApp-specific fields -->
+    <div class="card mb-20 hidden" id="channel-whatsapp-fields">
+      <div class="card__header">
+        <h3 class="card__title">WhatsApp Settings</h3>
+      </div>
+
+      <div class="form-group mb-0">
+        <%= form.label :whatsapp_recipients, "WhatsApp recipients (one per line or comma-separated)", class: "form-label" %>
+        <%= form.text_area :whatsapp_recipients, rows: 6, class: "form-control", placeholder: "+1234567890\n+0987654321" %>
+        <small class="form-hint">Enter phone numbers with country code, separated by commas, semicolons, or new lines</small>
       </div>
     </div>
 

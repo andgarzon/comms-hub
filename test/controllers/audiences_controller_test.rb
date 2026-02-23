@@ -2,6 +2,8 @@ require "test_helper"
 
 class AudiencesControllerTest < ActionDispatch::IntegrationTest
   setup do
+    @user = users(:one)
+    sign_in @user
     @audience = audiences(:one)
   end
 
@@ -17,7 +19,7 @@ class AudiencesControllerTest < ActionDispatch::IntegrationTest
 
   test "should create audience" do
     assert_difference("Audience.count") do
-      post audiences_url, params: { audience: { description: @audience.description, name: @audience.name, slack_channel: @audience.slack_channel } }
+      post audiences_url, params: { audience: { description: "Test", name: "New Audience", scope_type: "personal" } }
     end
 
     assert_redirected_to audience_url(Audience.last)
@@ -34,7 +36,7 @@ class AudiencesControllerTest < ActionDispatch::IntegrationTest
   end
 
   test "should update audience" do
-    patch audience_url(@audience), params: { audience: { description: @audience.description, name: @audience.name, slack_channel: @audience.slack_channel } }
+    patch audience_url(@audience), params: { audience: { description: "Updated", name: "Updated Audience" } }
     assert_redirected_to audience_url(@audience)
   end
 
