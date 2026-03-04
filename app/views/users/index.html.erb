@@ -3,7 +3,10 @@
     <h2 class="page-header__title">Users</h2>
     <p class="page-header__description">Manage team members and their roles</p>
   </div>
-  <div>
+  <div style="display: flex; gap: 8px;">
+    <%= link_to bulk_new_manage_users_path, class: "btn btn-secondary" do %>
+      Import CSV
+    <% end %>
     <%= link_to new_manage_user_path, class: "btn btn-primary" do %>
       + Add User
     <% end %>

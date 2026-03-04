@@ -1,0 +1,43 @@
+<div class="page-header">
+  <h2 class="page-header__title">Bulk Add Users</h2>
+  <p class="page-header__description">Upload a CSV file with email addresses to create multiple users at once</p>
+</div>
+
+<div class="max-w-600">
+  <%= form_with url: bulk_create_manage_users_path, method: :post, multipart: true, local: true do |form| %>
+    <div class="card mb-20">
+      <div class="card__header">
+        <h3 class="card__title">Upload CSV</h3>
+      </div>
+
+      <div class="form-group">
+        <%= form.label :csv_file, "CSV File", class: "form-label" %>
+        <%= form.file_field :csv_file, accept: ".csv", class: "form-control" %>
+        <small class="form-hint">
+          The CSV should have an <strong>email</strong> column header. Example:
+        </small>
+        <pre class="csv-example">email
+john@company.com
+jane@company.com
+mark@company.com</pre>
+      </div>
+    </div>
+
+    <div class="card mb-20">
+      <div class="card__header">
+        <h3 class="card__title">Assign Role</h3>
+      </div>
+
+      <div class="form-group mb-0">
+        <%= form.label :role, "Role for all users", class: "form-label" %>
+        <%= form.select :role, User::ROLES.map { |r| [r.upcase, r] }, {}, class: "form-control" %>
+        <small class="form-hint">All imported users will be assigned this role.</small>
+      </div>
+    </div>
+
+    <div class="form-actions">
+      <%= link_to "Cancel", manage_users_path, class: "btn btn-secondary" %>
+      <%= form.submit "Import Users", class: "btn btn-primary" %>
+    </div>
+  <% end %>
+</div>
