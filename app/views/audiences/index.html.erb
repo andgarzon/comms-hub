@@ -51,20 +51,7 @@
           <div class="audience-card__stats">
             <div class="audience-card__stat">
               <div class="audience-card__stat-value">
-                <%
-                  recipient_count = if audience.respond_to?(:recipients) && audience.recipients.respond_to?(:count)
-                    audience.recipients.count
-                  elsif audience.respond_to?(:users) && audience.users.respond_to?(:count)
-                    audience.users.count
-                  elsif audience.respond_to?(:members) && audience.members.respond_to?(:count)
-                    audience.members.count
-                  elsif audience.respond_to?(:recipient_count)
-                    audience.recipient_count
-                  else
-                    0
-                  end
-                %>
-                <%= recipient_count %>
+                <%= audience.recipients_count %>
               </div>
               <div class="audience-card__stat-label">Recipients</div>
             </div>

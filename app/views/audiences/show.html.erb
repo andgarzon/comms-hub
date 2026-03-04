@@ -1,14 +1,13 @@
 <% content_for :page_title, @audience.name %>
 
 <%
-  recipients_collection = if @audience.respond_to?(:recipients)
-    recipients_collection
-  elsif @audience.respond_to?(:users)
-    @audience.users
-  elsif @audience.respond_to?(:members)
-    @audience.members
+  recipients_collection = case @audience.type
+  when 'EmailAudience'
+    @audience.email_list
+  when 'WhatsappAudience'
+    @audience.respond_to?(:whatsapp_list) ? @audience.whatsapp_list : []
   else
-    []
+    @audience.users
   end
 %>
 
@@ -49,70 +48,127 @@
         <h3 class="card__title">Recipients</h3>
       </div>
 
-      <% if recipients_collection.any? %>
-        <table class="table">
-          <thead>
-            <tr>
-              <th>Name</th>
-              <th>Email</th>
-              <th>Department</th>
-              <th>Added</th>
-            </tr>
-          </thead>
-          <tbody>
-            <% recipients_collection.limit(20).each do |recipient| %>
+      <% if @audience.type == 'SlackAudience' %>
+        <% if @audience.slack_channel.present? %>
+          <table class="table">
+            <thead>
               <tr>
-                <td class="font-medium"><%= recipient.email.split('@').first.titleize %></td>
-                <td><%= recipient.email %></td>
-                <td><%= recipient.role || "—" %></td>
-                <td><%= recipient.created_at.strftime("%b %d, %Y") %></td>
+                <th>Channel</th>
               </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td class="font-medium"><%= @audience.slack_channel %></td>
+              </tr>
+            </tbody>
+          </table>
+        <% else %>
+          <div class="empty-state">
+            <div class="empty-state__icon">💬</div>
+            <p class="text-secondary mb-16">No Slack channel configured</p>
+            <% if @audience.editable_by?(current_user) %>
+              <%= link_to "Configure Channel", edit_audience_path(@audience), class: "btn btn-primary" %>
             <% end %>
-          </tbody>
-        </table>
-
-        <% if recipients_collection.count > 20 %>
-          <div class="text-center p-16 border-top text-secondary text-sm">
-            Showing first 20 of <%= recipients_collection.count %> recipients
+          </div>
+        <% end %>
+      <% elsif @audience.type == 'EmailAudience' %>
+        <% if recipients_collection.any? %>
+          <table class="table">
+            <thead>
+              <tr>
+                <th>Email</th>
+              </tr>
+            </thead>
+            <tbody>
+              <% recipients_collection.first(20).each do |email| %>
+                <tr>
+                  <td class="font-medium"><%= email %></td>
+                </tr>
+              <% end %>
+            </tbody>
+          </table>
+          <% if recipients_collection.size > 20 %>
+            <div class="text-center p-16 border-top text-secondary text-sm">
+              Showing first 20 of <%= recipients_collection.size %> recipients
+            </div>
+          <% end %>
+        <% else %>
+          <div class="empty-state">
+            <div class="empty-state__icon">📧</div>
+            <p class="text-secondary mb-16">No email recipients yet</p>
+            <% if @audience.editable_by?(current_user) %>
+              <%= link_to "Add Recipients", edit_audience_path(@audience), class: "btn btn-primary" %>
+            <% end %>
+          </div>
+        <% end %>
+      <% elsif @audience.type == 'WhatsappAudience' %>
+        <% if recipients_collection.any? %>
+          <table class="table">
+            <thead>
+              <tr>
+                <th>Phone Number</th>
+              </tr>
+            </thead>
+            <tbody>
+              <% recipients_collection.first(20).each do |number| %>
+                <tr>
+                  <td class="font-medium"><%= number %></td>
+                </tr>
+              <% end %>
+            </tbody>
+          </table>
+          <% if recipients_collection.size > 20 %>
+            <div class="text-center p-16 border-top text-secondary text-sm">
+              Showing first 20 of <%= recipients_collection.size %> recipients
+            </div>
+          <% end %>
+        <% else %>
+          <div class="empty-state">
+            <div class="empty-state__icon">📱</div>
+            <p class="text-secondary mb-16">No WhatsApp recipients yet</p>
+            <% if @audience.editable_by?(current_user) %>
+              <%= link_to "Add Recipients", edit_audience_path(@audience), class: "btn btn-primary" %>
+            <% end %>
           </div>
         <% end %>
       <% else %>
-        <div class="empty-state">
-          <div class="empty-state__icon">👥</div>
-          <p class="text-secondary mb-16">No recipients yet</p>
-          <% if @audience.editable_by?(current_user) %>
-            <%= link_to "Add Recipients", edit_audience_path(@audience), class: "btn btn-primary" %>
+        <% if recipients_collection.any? %>
+          <table class="table">
+            <thead>
+              <tr>
+                <th>Name</th>
+                <th>Email</th>
+                <th>Department</th>
+                <th>Added</th>
+              </tr>
+            </thead>
+            <tbody>
+              <% recipients_collection.limit(20).each do |recipient| %>
+                <tr>
+                  <td class="font-medium"><%= recipient.email.split('@').first.titleize %></td>
+                  <td><%= recipient.email %></td>
+                  <td><%= recipient.role || "—" %></td>
+                  <td><%= recipient.created_at.strftime("%b %d, %Y") %></td>
+                </tr>
+              <% end %>
+            </tbody>
+          </table>
+          <% if recipients_collection.count > 20 %>
+            <div class="text-center p-16 border-top text-secondary text-sm">
+              Showing first 20 of <%= recipients_collection.count %> recipients
+            </div>
           <% end %>
-        </div>
+        <% else %>
+          <div class="empty-state">
+            <div class="empty-state__icon">👥</div>
+            <p class="text-secondary mb-16">No recipients yet</p>
+            <% if @audience.editable_by?(current_user) %>
+              <%= link_to "Add Recipients", edit_audience_path(@audience), class: "btn btn-primary" %>
+            <% end %>
+          </div>
+        <% end %>
       <% end %>
     </div>
-
-    <% if @audience.type == 'SlackAudience' && @audience.slack_channel.present? %>
-      <div class="card">
-        <div class="card__header">
-          <h3 class="card__title">Slack Channel</h3>
-        </div>
-        <p class="p-8"><%= @audience.slack_channel %></p>
-      </div>
-    <% end %>
-
-    <% if @audience.type == 'EmailAudience' && @audience.email_recipients.present? %>
-      <div class="card">
-        <div class="card__header">
-          <h3 class="card__title">Email Recipients</h3>
-        </div>
-        <p class="p-8 text-sm"><%= @audience.email_list.join(", ") %></p>
-      </div>
-    <% end %>
-
-    <% if @audience.type == 'WhatsappAudience' && @audience.whatsapp_recipients.present? %>
-      <div class="card">
-        <div class="card__header">
-          <h3 class="card__title">WhatsApp Recipients</h3>
-        </div>
-        <p class="p-8 text-sm"><%= @audience.whatsapp_list.join(", ") %></p>
-      </div>
-    <% end %>
 
     <div class="card">
       <div class="card__header">
@@ -166,7 +222,7 @@
 
       <div class="flex-col gap-20">
         <div class="audience-stat-box audience-stat-box--blue">
-          <div class="audience-stat-box__value audience-stat-box__value--blue"><%= recipients_collection.count %></div>
+          <div class="audience-stat-box__value audience-stat-box__value--blue"><%= @audience.recipients_count %></div>
           <div class="audience-stat-box__label">Total Recipients</div>
         </div>
 
