@@ -1,5 +1,5 @@
 Rails.application.routes.draw do
-  devise_for :users
+  devise_for :users, skip: [ :registrations ]
 
   root "announcements#index"
 
@@ -15,7 +15,12 @@ Rails.application.routes.draw do
   resources :email_audiences
   resources :whatsapp_audiences
   resources :audiences
-  resources :users, path: "manage/users", as: :manage_users
+  resources :users, path: "manage/users", as: :manage_users do
+    collection do
+      get :bulk_new
+      post :bulk_create
+    end
+  end
   resources :settings, only: [ :index ]
   resources :help, only: [ :index ]
 

@@ -38,6 +38,61 @@ class UsersController < ApplicationController
     end
   end
 
+  def bulk_new
+  end
+
+  def bulk_create
+    unless params[:csv_file].present?
+      flash.now[:alert] = "Please upload a CSV file."
+      return render :bulk_new, status: :unprocessable_entity
+    end
+
+    role = params[:role]
+    unless User::ROLES.include?(role)
+      flash.now[:alert] = "Please select a valid role."
+      return render :bulk_new, status: :unprocessable_entity
+    end
+
+    file = params[:csv_file]
+    emails = parse_csv_emails(file)
+
+    if emails.empty?
+      flash.now[:alert] = "No valid emails found in the CSV. Ensure the file has an 'email' column header."
+      return render :bulk_new, status: :unprocessable_entity
+    end
+
+    created = []
+    skipped = []
+    errors = []
+
+    emails.each do |email|
+      email = email.strip.downcase
+      if User.exists?(email: email)
+        skipped << email
+        next
+      end
+
+      password = SecureRandom.hex(8)
+      user = User.new(email: email, password: password, password_confirmation: password, role: role)
+      if user.save
+        created << email
+      else
+        errors << "#{email}: #{user.errors.full_messages.join(', ')}"
+      end
+    end
+
+    messages = []
+    messages << "#{created.size} user(s) created." if created.any?
+    messages << "#{skipped.size} skipped (already exist)." if skipped.any?
+    messages << "#{errors.size} failed: #{errors.join('; ')}" if errors.any?
+
+    if errors.any?
+      redirect_to bulk_new_manage_users_path, alert: messages.join(" ")
+    else
+      redirect_to manage_users_path, notice: messages.join(" ")
+    end
+  end
+
   def destroy
     if @user == current_user
       redirect_to manage_users_path, alert: "You cannot delete yourself."
@@ -48,6 +103,21 @@ class UsersController < ApplicationController
   end
 
   private
+
+  def parse_csv_emails(file)
+    require "csv"
+    content = file.read
+    csv = CSV.parse(content, headers: true, header_converters: :downcase)
+
+    if csv.headers.include?("email")
+      csv.map { |row| row["email"] }.compact.reject(&:blank?)
+    else
+      # Fallback: try first column if no header match
+      csv.map { |row| row[0] }.compact.reject(&:blank?).select { |v| v.include?("@") }
+    end
+  rescue CSV::MalformedCSVError
+    []
+  end
 
   def set_user
     @user = User.find(params[:id])

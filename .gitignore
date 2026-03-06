@@ -39,4 +39,6 @@
 # Ignore key files for decrypting credentials and more.
 /config/*.key
 
-.claude/
+# Ignore Claude Code worktrees and local config
+/.claude
+
