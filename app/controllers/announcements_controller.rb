@@ -1,12 +1,16 @@
 # app/controllers/announcements_controller.rb
 class AnnouncementsController < ApplicationController
   before_action :set_audiences, only: %i[new create edit update]
-  before_action :set_announcement, only: %i[show edit update schedule cancel_schedule send_now]
+  before_action :set_announcement, only: %i[show edit update schedule cancel_schedule send_now duplicate]
+
+  PER_PAGE = 9
 
   def index
     @current_status = params[:status].presence
+    @search = params[:search].presence
     @announcements = Announcement.order(created_at: :desc).includes(:user)
     @announcements = @announcements.by_status(@current_status) if @current_status.present?
+    @announcements = @announcements.where("title ILIKE ?", "%#{sanitize_sql_like(@search)}%") if @search
 
     # Counts for filter tabs
     @status_counts = {
@@ -16,6 +20,13 @@ class AnnouncementsController < ApplicationController
       sent: Announcement.sent_items.count,
       failed: Announcement.failed_items.count
     }
+
+    # Pagination
+    @total_count = @announcements.count
+    @current_page = (params[:page].presence || 1).to_i
+    @total_pages = (@total_count.to_f / PER_PAGE).ceil
+    @current_page = [[@current_page, 1].max, [@total_pages, 1].max].min
+    @announcements = @announcements.offset((@current_page - 1) * PER_PAGE).limit(PER_PAGE)
   end
 
   def show
@@ -142,6 +153,25 @@ class AnnouncementsController < ApplicationController
     redirect_to @announcement, notice: "Retry queued."
   end
 
+  def duplicate
+    new_announcement = @announcement.dup
+    new_announcement.assign_attributes(
+      status: "draft",
+      scheduled_for: nil,
+      title: "#{@announcement.title} (Copy)",
+      user: current_user
+    )
+    if new_announcement.save
+      # Copy audience associations
+      @announcement.audience_ids.each do |audience_id|
+        new_announcement.announcement_audiences.create(audience_id: audience_id)
+      end
+      redirect_to edit_announcement_path(new_announcement), notice: "Announcement duplicated as draft."
+    else
+      redirect_to @announcement, alert: "Could not duplicate announcement."
+    end
+  end
+
   private
 
   def enqueue_or_schedule(announcement)
@@ -165,6 +195,10 @@ class AnnouncementsController < ApplicationController
 
   def set_announcement
     @announcement = current_user.announcements.find(params[:id])
+  end
+
+  def sanitize_sql_like(string)
+    string.gsub(/[%_\\]/) { |m| "\\#{m}" }
   end
 
   def announcement_params
