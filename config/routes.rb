@@ -8,6 +8,7 @@ Rails.application.routes.draw do
       patch :schedule
       patch :cancel_schedule
       patch :send_now
+      post :duplicate
     end
   end
 

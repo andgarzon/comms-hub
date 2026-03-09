@@ -2612,3 +2612,98 @@ a {
   margin-top: var(--spacing-sm);
   overflow-x: auto;
 }
+
+/* ============================================================
+   Search Bar
+   ============================================================ */
+
+.search-bar {
+  margin-bottom: var(--spacing-md);
+}
+
+.search-form {
+  display: flex;
+  gap: var(--spacing-sm);
+  align-items: center;
+}
+
+.search-input {
+  flex: 1;
+  max-width: 400px;
+  padding: 8px 12px;
+  border: 1px solid var(--border-light);
+  border-radius: var(--radius-sm);
+  font-size: 14px;
+  color: var(--text-primary);
+  background: var(--bg-white);
+  transition: border-color 0.2s;
+}
+
+.search-input:focus {
+  outline: none;
+  border-color: var(--primary-blue);
+  box-shadow: 0 0 0 2px rgba(30, 174, 219, 0.15);
+}
+
+.search-input::placeholder {
+  color: var(--text-muted);
+}
+
+/* ============================================================
+   Pagination
+   ============================================================ */
+
+.pagination {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 4px;
+  margin-top: var(--spacing-lg);
+}
+
+.pagination__link {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 36px;
+  height: 36px;
+  padding: 0 10px;
+  border: 1px solid var(--border-light);
+  border-radius: var(--radius-sm);
+  font-size: 14px;
+  color: var(--text-primary);
+  text-decoration: none;
+  background: var(--bg-white);
+  transition: all 0.2s;
+}
+
+.pagination__link:hover {
+  background: var(--bg-hover);
+  border-color: var(--primary-blue);
+  color: var(--primary-blue);
+}
+
+.pagination__link--active {
+  background: var(--primary-blue);
+  border-color: var(--primary-blue);
+  color: #fff;
+}
+
+.pagination__link--active:hover {
+  background: var(--primary-blue-hover);
+  color: #fff;
+}
+
+.pagination__link--disabled {
+  color: var(--text-muted);
+  cursor: default;
+  pointer-events: none;
+  background: var(--bg-tertiary);
+}
+
+.pagination-info {
+  text-align: center;
+  margin-top: var(--spacing-sm);
+  font-size: 13px;
+  color: var(--text-secondary);
+}

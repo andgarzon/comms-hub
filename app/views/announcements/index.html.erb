@@ -4,21 +4,33 @@
     <%= link_to "Create New", new_announcement_path, class: "btn btn-primary" %>
   </div>
 
+  <!-- Search Bar -->
+  <div class="search-bar">
+    <%= form_with url: announcements_path, method: :get, local: true, class: "search-form" do %>
+      <%= hidden_field_tag :status, @current_status if @current_status %>
+      <input type="text" name="search" value="<%= @search %>" placeholder="Search by announcement name..." class="search-input" />
+      <button type="submit" class="btn btn-primary btn--sm">Search</button>
+      <% if @search.present? %>
+        <%= link_to "Clear", announcements_path(status: @current_status), class: "btn btn-secondary btn--sm" %>
+      <% end %>
+    <% end %>
+  </div>
+
   <!-- Filter Tabs -->
   <div class="filter-tabs">
-    <%= link_to announcements_path, class: "filter-tab #{@current_status.nil? ? 'active' : ''}" do %>
+    <%= link_to announcements_path(search: @search), class: "filter-tab #{@current_status.nil? ? 'active' : ''}" do %>
       All <span class="filter-tab__count"><%= @status_counts[:all] %></span>
     <% end %>
-    <%= link_to announcements_path(status: "draft"), class: "filter-tab #{@current_status == 'draft' ? 'active' : ''}" do %>
+    <%= link_to announcements_path(status: "draft", search: @search), class: "filter-tab #{@current_status == 'draft' ? 'active' : ''}" do %>
       Drafts <span class="filter-tab__count"><%= @status_counts[:draft] %></span>
     <% end %>
-    <%= link_to announcements_path(status: "scheduled"), class: "filter-tab #{@current_status == 'scheduled' ? 'active' : ''}" do %>
+    <%= link_to announcements_path(status: "scheduled", search: @search), class: "filter-tab #{@current_status == 'scheduled' ? 'active' : ''}" do %>
       Scheduled <span class="filter-tab__count"><%= @status_counts[:scheduled] %></span>
     <% end %>
-    <%= link_to announcements_path(status: "sent"), class: "filter-tab #{@current_status == 'sent' ? 'active' : ''}" do %>
+    <%= link_to announcements_path(status: "sent", search: @search), class: "filter-tab #{@current_status == 'sent' ? 'active' : ''}" do %>
       Sent <span class="filter-tab__count"><%= @status_counts[:sent] %></span>
     <% end %>
-    <%= link_to announcements_path(status: "failed"), class: "filter-tab #{@current_status == 'failed' ? 'active' : ''}" do %>
+    <%= link_to announcements_path(status: "failed", search: @search), class: "filter-tab #{@current_status == 'failed' ? 'active' : ''}" do %>
       Failed <span class="filter-tab__count"><%= @status_counts[:failed] %></span>
     <% end %>
   </div>
@@ -75,15 +87,55 @@
               <% if announcement.status.in?(%w[draft failed]) %>
                 <%= link_to "Edit", edit_announcement_path(announcement), class: "btn btn--sm btn-secondary" %>
               <% end %>
+              <%= button_to "Duplicate", duplicate_announcement_path(announcement), method: :post, class: "btn btn--sm btn-secondary" %>
             </div>
           </div>
         </div>
       <% end %>
     </div>
+
+    <!-- Pagination -->
+    <% if @total_pages > 1 %>
+      <div class="pagination">
+        <% if @current_page > 1 %>
+          <%= link_to announcements_path(page: @current_page - 1, status: @current_status, search: @search), class: "pagination__link" do %>
+            &laquo; Prev
+          <% end %>
+        <% else %>
+          <span class="pagination__link pagination__link--disabled">&laquo; Prev</span>
+        <% end %>
+
+        <% (1..@total_pages).each do |page| %>
+          <% if page == @current_page %>
+            <span class="pagination__link pagination__link--active"><%= page %></span>
+          <% else %>
+            <%= link_to page, announcements_path(page: page, status: @current_status, search: @search), class: "pagination__link" %>
+          <% end %>
+        <% end %>
+
+        <% if @current_page < @total_pages %>
+          <%= link_to announcements_path(page: @current_page + 1, status: @current_status, search: @search), class: "pagination__link" do %>
+            Next &raquo;
+          <% end %>
+        <% else %>
+          <span class="pagination__link pagination__link--disabled">Next &raquo;</span>
+        <% end %>
+      </div>
+    <% end %>
+
+    <div class="pagination-info">
+      Showing <%= (@current_page - 1) * AnnouncementsController::PER_PAGE + 1 %>-<%= [@current_page * AnnouncementsController::PER_PAGE, @total_count].min %> of <%= @total_count %> announcements
+    </div>
   <% else %>
     <div class="empty-state">
       <div class="empty-state__icon">📢</div>
-      <% if @current_status.present? %>
+      <% if @search.present? %>
+        <h3>No results for "<%= @search %>"</h3>
+        <p>Try a different search term</p>
+        <div class="empty-state__actions">
+          <%= link_to "Clear Search", announcements_path(status: @current_status), class: "btn btn-secondary" %>
+        </div>
+      <% elsif @current_status.present? %>
         <h3>No <%= @current_status %> announcements</h3>
         <p>There are no announcements with "<%= @current_status %>" status</p>
         <div class="empty-state__actions">
