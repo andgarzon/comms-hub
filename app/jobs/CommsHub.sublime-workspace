@@ -7,26 +7,6 @@
 	},
 	"buffers":
 	[
-		{
-			"file": "/Users/andresgarzon/Projects/comms_hub/app/views/announcements/new.html.erb",
-			"settings":
-			{
-				"buffer_size": 3827,
-				"encoding": "UTF-8",
-				"line_ending": "Unix"
-			},
-			"undo_stack":
-			[
-				[
-					4,
-					1,
-					"paste",
-					null,
-					"AQAAAAAAAAAAAAAA8w4AAAAAAABKEAAAPGgxPk5ldyBBbm5vdW5jZW1lbnQ8L2gxPgoKPCUgaWYgZmxhc2hbOm5vdGljZV0gJT4KICA8ZGl2IHN0eWxlPSJiYWNrZ3JvdW5kOiAjZDRlZGRhOyBjb2xvcjogIzE1NTcyNDsgcGFkZGluZzogMTJweDsgbWFyZ2luLWJvdHRvbTogMTZweDsgYm9yZGVyLXJhZGl1czogNHB4OyI+CiAgICA8JT0gZmxhc2hbOm5vdGljZV0gJT4KICA8L2Rpdj4KPCUgZW5kICU+Cgo8JSBpZiBmbGFzaFs6YWxlcnRdICU+CiAgPGRpdiBzdHlsZT0iYmFja2dyb3VuZDogI2Y4ZDdkYTsgY29sb3I6ICM3MjFjMjQ7IHBhZGRpbmc6IDEycHg7IG1hcmdpbi1ib3R0b206IDE2cHg7IGJvcmRlci1yYWRpdXM6IDRweDsiPgogICAgPCU9IGZsYXNoWzphbGVydF0gJT4KICA8L2Rpdj4KPCUgZW5kICU+Cgo8IS0tIExvYWRpbmcgb3ZlcmxheSAtLT4KPGRpdiBpZD0iYWktbG9hZGluZyIgc3R5bGU9ImRpc3BsYXk6IG5vbmU7IHBvc2l0aW9uOiBmaXhlZDsgdG9wOiAwOyBsZWZ0OiAwOyB3aWR0aDogMTAwJTsgaGVpZ2h0OiAxMDAlOyBiYWNrZ3JvdW5kOiByZ2JhKDAsMCwwLDAuNyk7IHotaW5kZXg6IDk5OTk7IGp1c3RpZnktY29udGVudDogY2VudGVyOyBhbGlnbi1pdGVtczogY2VudGVyOyI+CiAgPGRpdiBzdHlsZT0iYmFja2dyb3VuZDogd2hpdGU7IHBhZGRpbmc6IDMwcHg7IGJvcmRlci1yYWRpdXM6IDhweDsgdGV4dC1hbGlnbjogY2VudGVyOyBtYXgtd2lkdGg6IDQwMHB4OyI+CiAgICA8ZGl2IGNsYXNzPSJzcGlubmVyIiBzdHlsZT0iYm9yZGVyOiA0cHggc29saWQgI2YzZjNmMzsgYm9yZGVyLXRvcDogNHB4IHNvbGlkICMzNDk4ZGI7IGJvcmRlci1yYWRpdXM6IDUwJTsgd2lkdGg6IDUwcHg7IGhlaWdodDogNTBweDsgYW5pbWF0aW9uOiBzcGluIDFzIGxpbmVhciBpbmZpbml0ZTsgbWFyZ2luOiAwIGF1dG8gMjBweDsiPjwvZGl2PgogICAgPGgyIHN0eWxlPSJtYXJnaW46IDAgMCAxMHB4IDA7Ij5JbXByb3Zpbmcgd2l0aCBBSS4uLjwvaDI+CiAgICA8cCBzdHlsZT0ibWFyZ2luOiAwOyBjb2xvcjogIzY2NjsiPlRoaXMgbWF5IHRha2UgYSBmZXcgc2Vjb25kczwvcD4KICA8L2Rpdj4KPC9kaXY+Cgo8c3R5bGU+CiAgQGtleWZyYW1lcyBzcGluIHsKICAgIDAlIHsgdHJhbnNmb3JtOiByb3RhdGUoMGRlZyk7IH0KICAgIDEwMCUgeyB0cmFuc2Zvcm06IHJvdGF0ZSgzNjBkZWcpOyB9CiAgfQo8L3N0eWxlPgoKPHNjcmlwdD4KICBkb2N1bWVudC5hZGRFdmVudExpc3RlbmVyKCdET01Db250ZW50TG9hZGVkJywgZnVuY3Rpb24oKSB7CiAgICBjb25zdCBmb3JtID0gZG9jdW1lbnQucXVlcnlTZWxlY3RvcignZm9ybScpOwogICAgY29uc3QgbG9hZGluZyA9IGRvY3VtZW50LmdldEVsZW1lbnRCeUlkKCdhaS1sb2FkaW5nJyk7CiAgICAKICAgIGZvcm0uYWRkRXZlbnRMaXN0ZW5lcignc3VibWl0JywgZnVuY3Rpb24oZSkgewogICAgICAvLyBPbmx5IHNob3cgbG9hZGluZyBpZiAiSW1wcm92ZSB3aXRoIEFJIiBidXR0b24gd2FzIGNsaWNrZWQKICAgICAgY29uc3Qgc3VibWl0QnV0dG9uID0gZG9jdW1lbnQuYWN0aXZlRWxlbWVudDsKICAgICAgaWYgKHN1Ym1pdEJ1dHRvbiAmJiBzdWJtaXRCdXR0b24ubmFtZSA9PT0gJ2ltcHJvdmVfd2l0aF9haScpIHsKICAgICAgICBsb2FkaW5nLnN0eWxlLmRpc3BsYXkgPSAnZmxleCc7CiAgICAgIH0KICAgIH0pOwogIH0pOwo8L3NjcmlwdD4KCjwlCiAgIyBMb2FkIGltcHJvdmVkIGFubm91bmNlbWVudCBpZiByZWRpcmVjdGVkIGZyb20gQUkgaW1wcm92ZW1lbnQKICBpZiBwYXJhbXNbOmltcHJvdmVkX2lkXS5wcmVzZW50PwogICAgQGFubm91bmNlbWVudCA9IEFubm91bmNlbWVudC5maW5kKHBhcmFtc1s6aW1wcm92ZWRfaWRdKQogIGVuZAolPgoKPCU9IGZvcm1fd2l0aCBtb2RlbDogQGFubm91bmNlbWVudCwgZGF0YTogeyB0dXJibzogZmFsc2UgfSBkbyB8ZnwgJT4KCiAgPHA+CiAgICA8JT0gZi5sYWJlbCA6dGl0bGUgJT48YnI+CiAgICA8JT0gZi50ZXh0X2ZpZWxkIDp0aXRsZSwgc3R5bGU6ICJ3aWR0aDoxMDAlOyIgJT4KICA8L3A+CgogIDxoMz5CYXNlIG1lc3NhZ2U8L2gzPgogIDxwPgogICAgPCU9IGYubGFiZWwgOmJhc2VfYm9keSwgIk9yaWdpbmFsIG1lc3NhZ2UiICU+PGJyPgogICAgPCU9IGYudGV4dF9hcmVhIDpiYXNlX2JvZHksIHJvd3M6IDYsIHN0eWxlOiAid2lkdGg6MTAwJTsiICU+CiAgPC9wPgoKICA8cD4KICAgIDwlPSBidXR0b25fdGFnICJJbXByb3ZlIHdpdGggQUkiLAogICAgICAgICAgdHlwZTogInN1Ym1pdCIsCiAgICAgICAgICBuYW1lOiAiaW1wcm92ZV93aXRoX2FpIiwKICAgICAgICAgIHZhbHVlOiAiMSIsCiAgICAgICAgICBpZDogImltcHJvdmUtYnV0dG9uIiAlPgogIDwvcD4KCiAgPGhyPgoKICA8aDM+RW1haWwgdmVyc2lvbjwvaDM+CiAgPHA+CiAgICA8JT0gZi50ZXh0X2FyZWEgOmVtYWlsX2JvZHksIHJvd3M6IDgsIHN0eWxlOiAid2lkdGg6MTAwJTsiICU+CiAgPC9wPgoKICA8aDM+U2xhY2sgdmVyc2lvbjwvaDM+CiAgPHA+CiAgICA8JT0gZi50ZXh0X2FyZWEgOnNsYWNrX2JvZHksIHJvd3M6IDQsIHN0eWxlOiAid2lkdGg6MTAwJTsiICU+CiAgPC9wPgoKICA8aDM+V2hhdHNBcHAgdmVyc2lvbjwvaDM+CiAgPHA+CiAgICA8JT0gZi50ZXh0X2FyZWEgOndoYXRzYXBwX2JvZHksIHJvd3M6IDMsIHN0eWxlOiAid2lkdGg6MTAwJTsiICU+CiAgPC9wPgoKICA8aHI+CgogIDxwPgogICAgPCU9IGYuY2hlY2tfYm94IDpzZW5kX3RvX3NsYWNrICU+IFNlbmQgdG8gU2xhY2s8YnI+CiAgICA8JT0gZi5jaGVja19ib3ggOnNlbmRfdG9fZW1haWwgJT4gU2VuZCB0byBFbWFpbDxicj4KICAgIDwlPSBmLmNoZWNrX2JveCA6c2VuZF90b193aGF0c2FwcCAlPiBTZW5kIHRvIFdoYXRzQXBwCiAgPC9wPgoKICA8cD4KICAgIDwlPSBmLmxhYmVsIDpzY2hlZHVsZWRfZm9yLCAiU2VuZCBsYXRlciAobGVhdmUgYmxhbmsgdG8gc2VuZCBub3cpIiAlPjxicj4KICAgIDwlPSBmLmRhdGV0aW1lX2xvY2FsX2ZpZWxkIDpzY2hlZHVsZWRfZm9yICU+CiAgPC9wPgoKICA8JSBpZiBAYXVkaWVuY2VzLnByZXNlbnQ/IHx8IEBzbGFja19hdWRpZW5jZXMucHJlc2VudD8gJT4KICAgIDxmaWVsZHNldCBzdHlsZT0ibWFyZ2luLXRvcDogMjBweDsiPgogICAgICA8bGVnZW5kPjxzdHJvbmc+VGFyZ2V0IEF1ZGllbmNlczwvc3Ryb25nPjwvbGVnZW5kPgogICAgICA8aHI+Cgo8aDM+U2xhY2sgYXVkaWVuY2VzPC9oMz4KPCUgaWYgQHNsYWNrX2F1ZGllbmNlcy5wcmVzZW50PyAlPgogIDwlPSBmLmNvbGxlY3Rpb25fY2hlY2tfYm94ZXMgOmF1ZGllbmNlX2lkcywgQHNsYWNrX2F1ZGllbmNlcywgOmlkLCA6bmFtZSBkbyB8YnwgJT4KICAgIDxkaXY+CiAgICAgIDwlPSBiLmNoZWNrX2JveCAlPgogICAgICA8JT0gYi5sYWJlbCAlPgogICAgPC9kaXY+CiAgPCUgZW5kICU+CjwlIGVsc2UgJT4KICA8cD48ZW0+Tm8gU2xhY2sgYXVkaWVuY2VzIHlldC48L2VtPjwvcD4KPCUgZW5kICU+Cgo8aDM+RW1haWwgYXVkaWVuY2VzPC9oMz4KPCUgaWYgQGVtYWlsX2F1ZGllbmNlcy5wcmVzZW50PyAlPgogIDwlPSBmLmNvbGxlY3Rpb25fY2hlY2tfYm94ZXMgOmF1ZGllbmNlX2lkcywgQGVtYWlsX2F1ZGllbmNlcywgOmlkLCA6bmFtZSBkbyB8YnwgJT4KICAgIDxkaXY+CiAgICAgIDwlPSBiLmNoZWNrX2JveCAlPgogICAgICA8JT0gYi5sYWJlbCAlPgogICAgPC9kaXY+CiAgPCUgZW5kICU+CjwlIGVsc2UgJT4KICA8cD48ZW0+Tm8gRW1haWwgYXVkaWVuY2VzIHlldC48L2VtPjwvcD4KPCUgZW5kICU+Cgo8aDM+V2hhdHNBcHAgYXVkaWVuY2VzPC9oMz4KPCUgaWYgQHdoYXRzYXBwX2F1ZGllbmNlcy5wcmVzZW50PyAlPgogIDwlPSBmLmNvbGxlY3Rpb25fY2hlY2tfYm94ZXMgOmF1ZGllbmNlX2lkcywgQHdoYXRzYXBwX2F1ZGllbmNlcywgOmlkLCA6bmFtZSBkbyB8YnwgJT4KICAgIDxkaXY+CiAgICAgIDwlPSBiLmNoZWNrX2JveCAlPgogICAgICA8JT0gYi5sYWJlbCAlPgogICAgPC9kaXY+CiAgPCUgZW5kICU+CjwlIGVsc2UgJT4KICA8cD48ZW0+Tm8gV2hhdHNBcHAgYXVkaWVuY2VzIHlldC48L2VtPjwvcD4KPCUgZW5kICU+CgogICAgPC9maWVsZHNldD4KICA8JSBlbmQgJT4KCiAgPHAgc3R5bGU9Im1hcmdpbi10b3A6IDIwcHg7Ij4KICAgIDwlPSBmLnN1Ym1pdCAiQ3JlYXRlIEFubm91bmNlbWVudCIgJT4KICA8L3A+Cgo8JSBlbmQgJT4K",
-					"AQAAAAAAAAABAAAAAAAAAAAAAABKEAAAAAAAAAAAAAAAAPC/"
-				]
-			]
-		}
 	],
 	"build_system": "",
 	"build_system_choices":
@@ -62,26 +42,30 @@
 	[
 		"/Users/andresgarzon/Projects/comms_hub",
 		"/Users/andresgarzon/Projects/comms_hub/app",
-		"/Users/andresgarzon/Projects/comms_hub/app/views",
-		"/Users/andresgarzon/Projects/comms_hub/app/views/layouts",
-		"/Users/andresgarzon/Projects/comms_hub/app/views/whatsapp_audiences",
-		"/Users/andresgarzon/Projects/comms_hub/script",
-		"/Users/andresgarzon/Projects/comms_hub/storage"
+		"/Users/andresgarzon/Projects/comms_hub/config"
 	],
 	"file_history":
 	[
-		"/Users/andresgarzon/Projects/comms_hub/app/services/announcement_ai_rewriter.rb",
-		"/Users/andresgarzon/Projects/comms_hub/app/views/announcements/new.html.erb",
 		"/Users/andresgarzon/Projects/comms_hub/app/controllers/announcements_controller.rb",
+		"/Users/andresgarzon/Projects/comms_hub/app/views/audiences/index.html.erb",
+		"/Users/andresgarzon/Projects/comms_hub/app/views/announcements/show.html.erb",
+		"/Users/andresgarzon/Projects/comms_hub/app/views/announcements/_form.html.erb",
+		"/Users/andresgarzon/Projects/comms_hub/app/views/announcements/index.html.erb",
+		"/Users/andresgarzon/Projects/comms_hub/app/views/audiences/show.html.erb",
+		"/Users/andresgarzon/Projects/comms_hub/config/routes.rb",
+		"/Users/andresgarzon/Projects/comms_hub/app/views/layouts/application.html.erb",
+		"/Users/andresgarzon/Projects/comms_hub/app/views/announcements/new.html.erb",
+		"/Users/andresgarzon/Projects/comms_hub/app/mailers/application_mailer.rb",
+		"/Users/andresgarzon/Projects/comms_hub/config/environments/development.rb",
+		"/var/folders/f4/1stdb7316c79_w49gm610bxw0000gn/T/20260203-41901-rcbka3-credentials.yml",
+		"/Users/andresgarzon/Projects/comms_hub/app/services/announcement_ai_rewriter.rb",
 		"/var/folders/f4/1stdb7316c79_w49gm610bxw0000gn/T/20260202-33345-c5a7xs-credentials.yml",
 		"/Users/andresgarzon/Projects/comms_hub/app/mailers/announcement_mailer.rb",
 		"/Users/andresgarzon/Projects/comms_hub/app/views/email_audiences/new.html.erb",
 		"/Users/andresgarzon/Projects/comms_hub/app/jobs/send_announcement_job.rb",
 		"/Users/andresgarzon/Projects/comms_hub/db/migrate/20260109032334_add_type_and_channels_to_audiences.rb",
-		"/Users/andresgarzon/Projects/comms_hub/config/routes.rb",
 		"/Users/andresgarzon/Projects/comms_hub/app/views/email_audiences/edit.html.erb",
 		"/Users/andresgarzon/Projects/comms_hub/app/views/whatsapp_audiences/edit.html.erb",
-		"/Users/andresgarzon/Projects/comms_hub/app/views/layouts/application.html.erb",
 		"/Users/andresgarzon/Projects/comms_hub/app/views/whatsapp_audiences/new.html.erb",
 		"/Users/andresgarzon/Projects/comms_hub/app/views/slack_audiences/new.html.erb",
 		"/Users/andresgarzon/Projects/comms_hub/app/controllers/whatsapp_audiences_controller.rb",
@@ -105,10 +89,7 @@
 		"/var/folders/f4/1stdb7316c79_w49gm610bxw0000gn/T/20260105-10904-xmabmb-credentials.yml",
 		"/var/folders/f4/1stdb7316c79_w49gm610bxw0000gn/T/20260105-10587-nbeflu-credentials.yml",
 		"/Users/andresgarzon/Projects/comms_hub/app/models/announcement.rb",
-		"/Users/andresgarzon/Projects/comms_hub/config/environments/development.rb",
 		"/Users/andresgarzon/Projects/comms_hub/config/application.rb",
-		"/Users/andresgarzon/Projects/comms_hub/app/views/announcements/index.html.erb",
-		"/Users/andresgarzon/Projects/comms_hub/app/views/announcements/show.html.erb",
 		"/Users/andresgarzon/Projects/comms_hub/db/migrate/20251226214538_add_unique_index_to_delivery_logs.rb",
 		"/Users/andresgarzon/Projects/comms_hub/app/services/slack_announcement_sender.rb",
 		"/Users/andresgarzon/Projects/comms_hub/config/initializers/slack.rb",
@@ -144,7 +125,7 @@
 	],
 	"find":
 	{
-		"height": 38.0
+		"height": 24.0
 	},
 	"find_in_files":
 	{
@@ -184,38 +165,6 @@
 		{
 			"sheets":
 			[
-				{
-					"buffer": 0,
-					"file": "/Users/andresgarzon/Projects/comms_hub/app/views/announcements/new.html.erb",
-					"selected": true,
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 3827,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								3827,
-								3827
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/Rails/HTML (Rails).sublime-syntax",
-							"tab_size": 2,
-							"translate_tabs_to_spaces": true
-						},
-						"translation.x": 0.0,
-						"translation.y": 1386.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 0,
-					"stack_multiselect": false,
-					"type": "text"
-				}
 			]
 		}
 	],
@@ -225,7 +174,7 @@
 	},
 	"input":
 	{
-		"height": 0.0
+		"height": 36.0
 	},
 	"layout":
 	{
