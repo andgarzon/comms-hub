@@ -30,6 +30,8 @@ class IntegrationSetting < ApplicationRecord
 
   def setting(key)
     (config_data || {})[key.to_s]
+  rescue ActiveRecord::Encryption::Errors::Decryption
+    nil
   end
 
   def set(key, value)
