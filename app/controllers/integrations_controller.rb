@@ -213,6 +213,7 @@ class IntegrationsController < ApplicationController
   def apply_smtp_settings(setting)
     return unless setting.configured?
 
+    ActionMailer::Base.delivery_method = :smtp
     ActionMailer::Base.smtp_settings = {
       address: setting.smtp_address,
       port: setting.smtp_port.to_i,

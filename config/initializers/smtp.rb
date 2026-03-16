@@ -6,7 +6,9 @@
 Rails.application.config.after_initialize do
   if ActiveRecord::Base.connection.table_exists?("integration_settings")
     setting = IntegrationSetting.find_by(provider: "email")
-    if setting&.configured? && setting.smtp_address.present?
+    # Trigger decryption early so we can detect key-change errors
+    smtp_addr = begin; setting&.smtp_address; rescue OpenSSL::Cipher::CipherError; nil; end
+    if setting&.configured? && smtp_addr.present?
       ActionMailer::Base.delivery_method = :smtp
       ActionMailer::Base.smtp_settings = {
         address: setting.smtp_address,
