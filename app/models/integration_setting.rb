@@ -10,6 +10,17 @@ class IntegrationSetting < ApplicationRecord
   # Serialize config_data as JSON (since encrypts converts to string)
   serialize :config_data, coder: JSON
 
+  # Handle corrupted/re-keyed encrypted data gracefully.
+  # When the encryption key changes, reading config_data raises
+  # OpenSSL::Cipher::CipherError. We clear the unreadable data so
+  # new values can be saved.
+  def config_data
+    super
+  rescue OpenSSL::Cipher::CipherError, ActiveRecord::Encryption::Errors::Decryption
+    self.config_data_before_type_cast # force clear
+    nil
+  end
+
   # ------------------------------------------------------------------
   # Convenience class methods
   # ------------------------------------------------------------------

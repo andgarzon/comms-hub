@@ -2,16 +2,16 @@ class IntegrationsController < ApplicationController
   before_action :authorize_admin!
 
   def index
-    @openai_setting   = IntegrationSetting.for("openai")
-    @slack_setting    = IntegrationSetting.for("slack")
-    @whatsapp_setting = IntegrationSetting.for("whatsapp")
-    @email_setting    = IntegrationSetting.for("email")
+    @openai_setting   = safe_load_setting("openai")
+    @slack_setting    = safe_load_setting("slack")
+    @whatsapp_setting = safe_load_setting("whatsapp")
+    @email_setting    = safe_load_setting("email")
   end
 
   # ---------- OpenAI ----------
 
   def openai
-    @setting = IntegrationSetting.for("openai")
+    @setting = safe_load_setting("openai")
   end
 
   def update_openai
@@ -29,7 +29,7 @@ class IntegrationsController < ApplicationController
       setting.status = "inactive"
     end
 
-    setting.save!
+    save_integration_setting!(setting)
     redirect_to openai_integration_path, notice: "OpenAI settings saved."
   end
 
@@ -61,7 +61,7 @@ class IntegrationsController < ApplicationController
   # ---------- Slack ----------
 
   def slack
-    @setting = IntegrationSetting.for("slack")
+    @setting = safe_load_setting("slack")
   end
 
   def update_slack
@@ -78,7 +78,7 @@ class IntegrationsController < ApplicationController
       setting.status = "inactive"
     end
 
-    setting.save!
+    save_integration_setting!(setting)
     redirect_to slack_integration_path, notice: "Slack settings saved."
   end
 
@@ -103,7 +103,7 @@ class IntegrationsController < ApplicationController
   # ---------- WhatsApp ----------
 
   def whatsapp
-    @setting = IntegrationSetting.for("whatsapp")
+    @setting = safe_load_setting("whatsapp")
   end
 
   def update_whatsapp
@@ -122,7 +122,7 @@ class IntegrationsController < ApplicationController
       setting.status = "inactive"
     end
 
-    setting.save!
+    save_integration_setting!(setting)
     redirect_to whatsapp_integration_path, notice: "WhatsApp settings saved."
   end
 
@@ -156,7 +156,7 @@ class IntegrationsController < ApplicationController
   # ---------- Email / SMTP ----------
 
   def email
-    @setting = IntegrationSetting.for("email")
+    @setting = safe_load_setting("email")
   end
 
   def update_email
@@ -178,7 +178,7 @@ class IntegrationsController < ApplicationController
       setting.status = "inactive"
     end
 
-    setting.save!
+    save_integration_setting!(setting)
 
     # Dynamically apply SMTP settings so restarts aren't needed
     apply_smtp_settings(setting)
@@ -187,6 +187,28 @@ class IntegrationsController < ApplicationController
   end
 
   private
+
+  # Load an integration setting, clearing corrupt encrypted data if needed.
+  def safe_load_setting(provider)
+    setting = IntegrationSetting.for(provider)
+    setting.config_data # trigger decryption to detect errors early
+    setting
+  rescue OpenSSL::Cipher::CipherError, ActiveRecord::Encryption::Errors::Decryption
+    IntegrationSetting.where(provider: provider).delete_all
+    IntegrationSetting.for(provider)
+  end
+
+  # Save an integration setting, handling the case where the existing
+  # encrypted data can't be decrypted (e.g. after an encryption key change).
+  # In that scenario we delete the corrupt row and create a fresh one.
+  def save_integration_setting!(setting)
+    setting.save!
+  rescue OpenSSL::Cipher::CipherError, ActiveRecord::Encryption::Errors::Decryption
+    attrs = setting.attributes.except("id")
+    setting.class.where(provider: setting.provider).delete_all
+    setting = setting.class.new(attrs)
+    setting.save!
+  end
 
   def apply_smtp_settings(setting)
     return unless setting.configured?
