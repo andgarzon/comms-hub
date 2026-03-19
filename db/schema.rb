@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_02_13_030001) do
+ActiveRecord::Schema[8.1].define(version: 2026_03_19_000001) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -50,6 +50,16 @@ ActiveRecord::Schema[8.1].define(version: 2026_02_13_030001) do
     t.index ["user_id"], name: "index_announcements_on_user_id"
   end
 
+  create_table "audience_contacts", force: :cascade do |t|
+    t.bigint "audience_id", null: false
+    t.bigint "contact_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["audience_id", "contact_id"], name: "index_audience_contacts_on_audience_id_and_contact_id", unique: true
+    t.index ["audience_id"], name: "index_audience_contacts_on_audience_id"
+    t.index ["contact_id"], name: "index_audience_contacts_on_contact_id"
+  end
+
   create_table "audience_memberships", force: :cascade do |t|
     t.bigint "audience_id", null: false
     t.datetime "created_at", null: false
@@ -74,6 +84,32 @@ ActiveRecord::Schema[8.1].define(version: 2026_02_13_030001) do
     t.index ["created_by_id"], name: "index_audiences_on_created_by_id"
     t.index ["scope_type"], name: "index_audiences_on_scope_type"
     t.index ["scope_value"], name: "index_audiences_on_scope_value"
+  end
+
+  create_table "contact_lists", force: :cascade do |t|
+    t.string "company"
+    t.datetime "created_at", null: false
+    t.text "description"
+    t.jsonb "import_metadata", default: {}
+    t.string "list_type"
+    t.string "name", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "contacts", force: :cascade do |t|
+    t.boolean "active", default: true, null: false
+    t.string "company"
+    t.bigint "contact_list_id"
+    t.string "contact_type", default: "employee"
+    t.datetime "created_at", null: false
+    t.string "department"
+    t.string "email"
+    t.string "name", null: false
+    t.string "phone_number"
+    t.string "slack_username"
+    t.datetime "updated_at", null: false
+    t.index ["contact_list_id"], name: "index_contacts_on_contact_list_id"
+    t.index ["email", "company"], name: "index_contacts_on_email_and_company", unique: true, where: "((email IS NOT NULL) AND ((email)::text <> ''::text))"
   end
 
   create_table "delivery_logs", force: :cascade do |t|
@@ -134,9 +170,12 @@ ActiveRecord::Schema[8.1].define(version: 2026_02_13_030001) do
   add_foreign_key "announcement_targets", "announcements"
   add_foreign_key "announcement_targets", "groups"
   add_foreign_key "announcements", "users"
+  add_foreign_key "audience_contacts", "audiences"
+  add_foreign_key "audience_contacts", "contacts"
   add_foreign_key "audience_memberships", "audiences"
   add_foreign_key "audience_memberships", "users"
   add_foreign_key "audiences", "users", column: "created_by_id"
+  add_foreign_key "contacts", "contact_lists"
   add_foreign_key "delivery_logs", "announcements"
   add_foreign_key "group_memberships", "groups"
   add_foreign_key "group_memberships", "users"
