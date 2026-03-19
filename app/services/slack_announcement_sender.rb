@@ -15,14 +15,18 @@ class SlackAnnouncementSender
 
     text = "*#{@announcement.title}*\n\n#{@announcement.slack_body.presence || @announcement.base_body}"
 
-    target = @channel || @user
+    target = if @user.present?
+      # Open a DM conversation with the user first, then send to that channel
+      dm = @client.conversations_open(users: @user.delete_prefix("@"))
+      dm.channel.id
+    else
+      @channel
+    end
 
-    resp = @client.chat_postMessage(
+    @client.chat_postMessage(
       channel: target,
       text: text,
       mrkdwn: true
     )
-
-    resp
   end
 end
