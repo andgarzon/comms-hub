@@ -170,6 +170,47 @@
       <% end %>
     </div>
 
+    <% if @audience.contacts.any? %>
+      <div class="card mb-20">
+        <div class="card__header">
+          <h3 class="card__title">Linked Contacts</h3>
+        </div>
+        <table class="table">
+          <thead>
+            <tr>
+              <th>Name</th>
+              <th>Email</th>
+              <th>Company</th>
+              <th>Type</th>
+              <th>Status</th>
+            </tr>
+          </thead>
+          <tbody>
+            <% @audience.contacts.order(:name).limit(20).each do |contact| %>
+              <tr class="cursor-pointer" onclick="window.location='<%= contact_path(contact) %>'">
+                <td class="font-medium"><%= contact.name %></td>
+                <td><%= contact.email || "—" %></td>
+                <td><%= contact.company || "—" %></td>
+                <td><span class="badge badge-secondary badge--sm"><%= contact.display_type %></span></td>
+                <td>
+                  <% if contact.active? %>
+                    <span class="badge badge-success badge--sm">Active</span>
+                  <% else %>
+                    <span class="badge badge-danger badge--sm">Inactive</span>
+                  <% end %>
+                </td>
+              </tr>
+            <% end %>
+          </tbody>
+        </table>
+        <% if @audience.contacts.count > 20 %>
+          <div class="text-center p-16 border-top text-secondary text-sm">
+            Showing first 20 of <%= @audience.contacts.count %> linked contacts
+          </div>
+        <% end %>
+      </div>
+    <% end %>
+
     <div class="card">
       <div class="card__header">
         <h3 class="card__title">Announcements Sent</h3>

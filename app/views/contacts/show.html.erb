@@ -1,0 +1,168 @@
+<% content_for :page_title, @contact.name %>
+
+<div class="page-header page-header--row">
+  <div class="flex-1">
+    <div class="flex-row gap-12 mb-8">
+      <h2 class="page-header__title"><%= @contact.name %></h2>
+      <% if @contact.active? %>
+        <span class="badge badge-success">Active</span>
+      <% else %>
+        <span class="badge badge-danger">Inactive</span>
+      <% end %>
+      <span class="badge badge-secondary"><%= @contact.display_type %></span>
+    </div>
+    <% if @contact.company.present? %>
+      <p class="page-header__description"><%= @contact.company %><%= " — #{@contact.department}" if @contact.department.present? %></p>
+    <% end %>
+  </div>
+  <div class="flex-row gap-12">
+    <%= link_to "Edit", edit_contact_path(@contact), class: "btn btn-secondary" %>
+    <%= button_to @contact.active? ? "Deactivate" : "Activate",
+        toggle_active_contact_path(@contact), method: :patch,
+        class: "btn btn-secondary" %>
+    <%= button_to "Delete", contact_path(@contact), method: :delete,
+        data: { confirm: "Are you sure you want to delete this contact?" },
+        class: "btn btn-danger" %>
+  </div>
+</div>
+
+<div class="audience-show-grid">
+  <!-- Main Content -->
+  <div>
+    <div class="card mb-20">
+      <div class="card__header">
+        <h3 class="card__title">Contact Information</h3>
+      </div>
+
+      <div class="flex-col gap-16">
+        <div>
+          <div class="detail-label">Email</div>
+          <div class="detail-value"><%= @contact.email || "—" %></div>
+        </div>
+        <div>
+          <div class="detail-label">Phone Number</div>
+          <div class="detail-value"><%= @contact.phone_number || "—" %></div>
+        </div>
+        <div>
+          <div class="detail-label">Slack Username</div>
+          <div class="detail-value"><%= @contact.slack_username || "—" %></div>
+        </div>
+        <div>
+          <div class="detail-label">Company</div>
+          <div class="detail-value"><%= @contact.company || "—" %></div>
+        </div>
+        <div>
+          <div class="detail-label">Department</div>
+          <div class="detail-value"><%= @contact.department || "—" %></div>
+        </div>
+        <div>
+          <div class="detail-label">Contact Type</div>
+          <div class="detail-value"><%= @contact.display_type %></div>
+        </div>
+        <% if @contact.contact_list.present? %>
+          <div>
+            <div class="detail-label">Contact List</div>
+            <div class="detail-value">
+              <%= link_to @contact.contact_list.name, contact_list_path(@contact.contact_list) %>
+            </div>
+          </div>
+        <% end %>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card__header">
+        <h3 class="card__title">Audiences</h3>
+      </div>
+
+      <% if @contact.audiences.any? %>
+        <table class="table">
+          <thead>
+            <tr>
+              <th>Name</th>
+              <th>Type</th>
+              <th>Recipients</th>
+            </tr>
+          </thead>
+          <tbody>
+            <% @contact.audiences.each do |audience| %>
+              <tr class="cursor-pointer" onclick="window.location='<%= audience_path(audience) %>'">
+                <td class="font-medium"><%= audience.name %></td>
+                <td>
+                  <% case audience.type %>
+                  <% when 'SlackAudience' %>
+                    <span class="badge badge-info badge--sm">Slack</span>
+                  <% when 'EmailAudience' %>
+                    <span class="badge badge-success badge--sm">Email</span>
+                  <% when 'WhatsappAudience' %>
+                    <span class="badge badge-success badge--sm">WhatsApp</span>
+                  <% else %>
+                    <span class="badge badge-secondary badge--sm">General</span>
+                  <% end %>
+                </td>
+                <td><%= audience.recipients_count %></td>
+              </tr>
+            <% end %>
+          </tbody>
+        </table>
+      <% else %>
+        <div class="empty-state">
+          <div class="empty-state__icon">👥</div>
+          <p class="text-secondary text-sm">This contact is not in any audiences yet.</p>
+        </div>
+      <% end %>
+    </div>
+  </div>
+
+  <!-- Sidebar -->
+  <div>
+    <div class="card mb-20">
+      <div class="card__header">
+        <h3 class="card__title">Details</h3>
+      </div>
+
+      <div class="flex-col gap-16">
+        <div>
+          <div class="detail-label">Status</div>
+          <div class="detail-value">
+            <% if @contact.active? %>
+              <span class="badge badge-success badge--sm">Active</span>
+            <% else %>
+              <span class="badge badge-danger badge--sm">Inactive</span>
+            <% end %>
+          </div>
+        </div>
+        <div>
+          <div class="detail-label">Created</div>
+          <div class="detail-value"><%= @contact.created_at.strftime("%B %d, %Y") %></div>
+        </div>
+        <% if @contact.updated_at != @contact.created_at %>
+          <div>
+            <div class="detail-label">Last Updated</div>
+            <div class="detail-value"><%= @contact.updated_at.strftime("%B %d, %Y") %></div>
+          </div>
+        <% end %>
+        <div>
+          <div class="detail-label">In Audiences</div>
+          <div class="detail-value"><%= @contact.audiences.count %></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card__header">
+        <h3 class="card__title">Actions</h3>
+      </div>
+
+      <div class="flex-col gap-8">
+        <%= link_to edit_contact_path(@contact), class: "btn btn-secondary btn--full" do %>
+          Edit Contact
+        <% end %>
+
+        <%= link_to contacts_path, class: "btn btn-secondary btn--full" do %>
+          Back to Contacts
+        <% end %>
+      </div>
+    </div>
+  </div>
+</div>

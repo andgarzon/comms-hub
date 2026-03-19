@@ -1,0 +1,45 @@
+<%= form_with(model: contact_list, local: true) do |form| %>
+  <% if contact_list.errors.any? %>
+    <div class="alert alert-danger error-list">
+      <strong class="error-list__title">
+        <%= pluralize(contact_list.errors.count, "error") %> prevented this list from being saved:
+      </strong>
+      <ul class="error-list__items">
+        <% contact_list.errors.full_messages.each do |message| %>
+          <li><%= message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="card mb-20">
+    <div class="card__header">
+      <h3 class="card__title">List Information</h3>
+    </div>
+
+    <div class="form-group">
+      <%= form.label :name, class: "form-label" %>
+      <%= form.text_field :name, class: "form-control", placeholder: "e.g., Jobsity Employees, Q1 Clients" %>
+    </div>
+
+    <div class="form-group">
+      <%= form.label :description, class: "form-label" %>
+      <%= form.text_area :description, rows: 3, class: "form-control", placeholder: "Describe this contact list..." %>
+    </div>
+
+    <div class="form-group">
+      <%= form.label :company, class: "form-label" %>
+      <%= form.text_field :company, class: "form-control", placeholder: "Company name" %>
+    </div>
+
+    <div class="form-group mb-0">
+      <%= form.label :list_type, "List Type", class: "form-label" %>
+      <%= form.text_field :list_type, class: "form-control", placeholder: "e.g., employees, clients, vendors" %>
+    </div>
+  </div>
+
+  <div class="form-actions">
+    <%= link_to "Cancel", contact_lists_path, class: "btn btn-secondary" %>
+    <%= form.submit class: "btn btn-primary" %>
+  </div>
+<% end %>

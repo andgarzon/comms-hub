@@ -1,0 +1,85 @@
+<%= form_with(model: contact, local: true) do |form| %>
+  <% if contact.errors.any? %>
+    <div class="alert alert-danger error-list">
+      <strong class="error-list__title">
+        <%= pluralize(contact.errors.count, "error") %> prevented this contact from being saved:
+      </strong>
+      <ul class="error-list__items">
+        <% contact.errors.full_messages.each do |message| %>
+          <li><%= message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="card mb-20">
+    <div class="card__header">
+      <h3 class="card__title">Basic Information</h3>
+    </div>
+
+    <div class="form-group">
+      <%= form.label :name, class: "form-label" %>
+      <%= form.text_field :name, class: "form-control", placeholder: "Full name" %>
+    </div>
+
+    <div class="form-group">
+      <%= form.label :email, class: "form-label" %>
+      <%= form.email_field :email, class: "form-control", placeholder: "email@example.com" %>
+    </div>
+
+    <div class="form-group">
+      <%= form.label :phone_number, class: "form-label" %>
+      <%= form.text_field :phone_number, class: "form-control", placeholder: "+1234567890" %>
+    </div>
+
+    <div class="form-group mb-0">
+      <%= form.label :slack_username, class: "form-label" %>
+      <%= form.text_field :slack_username, class: "form-control", placeholder: "@username" %>
+    </div>
+  </div>
+
+  <div class="card mb-20">
+    <div class="card__header">
+      <h3 class="card__title">Organization</h3>
+    </div>
+
+    <div class="form-group">
+      <%= form.label :company, class: "form-label" %>
+      <%= form.text_field :company, class: "form-control", placeholder: "Company name" %>
+    </div>
+
+    <div class="form-group">
+      <%= form.label :department, class: "form-label" %>
+      <%= form.text_field :department, class: "form-control", placeholder: "Department" %>
+    </div>
+
+    <div class="form-group">
+      <%= form.label :contact_type, "Type", class: "form-label" %>
+      <%= form.select :contact_type, Contact::CONTACT_TYPES.map { |t| [t.titleize, t] }, {}, class: "form-control" %>
+    </div>
+
+    <div class="form-group mb-0">
+      <%= form.label :contact_list_id, "Contact List", class: "form-label" %>
+      <%= form.select :contact_list_id, contact_lists.map { |l| [l.name, l.id] }, { include_blank: "No list" }, class: "form-control" %>
+    </div>
+  </div>
+
+  <div class="card mb-20">
+    <div class="card__header">
+      <h3 class="card__title">Status</h3>
+    </div>
+
+    <div class="form-group mb-0">
+      <label class="form-label">
+        <%= form.check_box :active, class: "form-checkbox" %>
+        Active contact
+      </label>
+      <small class="form-hint">Inactive contacts won't receive announcements.</small>
+    </div>
+  </div>
+
+  <div class="form-actions">
+    <%= link_to "Cancel", contacts_path, class: "btn btn-secondary" %>
+    <%= form.submit class: "btn btn-primary" %>
+  </div>
+<% end %>

@@ -1,0 +1,146 @@
+<% content_for :page_title, @contact_list.name %>
+
+<div class="page-header page-header--row">
+  <div class="flex-1">
+    <div class="flex-row gap-12 mb-8">
+      <h2 class="page-header__title"><%= @contact_list.name %></h2>
+      <span class="badge badge-info">📋 List</span>
+    </div>
+    <% if @contact_list.description.present? %>
+      <p class="page-header__description"><%= @contact_list.description %></p>
+    <% end %>
+  </div>
+  <div class="flex-row gap-12">
+    <%= link_to "Edit", edit_contact_list_path(@contact_list), class: "btn btn-secondary" %>
+    <%= link_to "Add Contact", new_contact_path(contact_list_id: @contact_list.id), class: "btn btn-primary" %>
+    <%= button_to "Delete", contact_list_path(@contact_list), method: :delete,
+        data: { confirm: "Are you sure? Contacts in this list will not be deleted, but will be unassigned." },
+        class: "btn btn-danger" %>
+  </div>
+</div>
+
+<div class="audience-show-grid">
+  <div>
+    <div class="card">
+      <div class="card__header flex-row" style="justify-content: space-between; align-items: center;">
+        <h3 class="card__title">Contacts</h3>
+        <%= form_with url: contact_list_path(@contact_list), method: :get, local: true do |f| %>
+          <div class="flex-row gap-8">
+            <%= f.text_field :search, value: params[:search], class: "form-control", placeholder: "Search...", style: "width: 200px;" %>
+            <%= f.submit "Search", class: "btn btn--xs btn-primary" %>
+          </div>
+        <% end %>
+      </div>
+
+      <% if @contacts.any? %>
+        <table class="table">
+          <thead>
+            <tr>
+              <th>Name</th>
+              <th>Email</th>
+              <th>Phone</th>
+              <th>Type</th>
+              <th>Status</th>
+              <th></th>
+            </tr>
+          </thead>
+          <tbody>
+            <% @contacts.each do |contact| %>
+              <tr class="cursor-pointer" onclick="window.location='<%= contact_path(contact) %>'">
+                <td class="font-medium"><%= contact.name %></td>
+                <td><%= contact.email || "—" %></td>
+                <td><%= contact.phone_number || "—" %></td>
+                <td><span class="badge badge-secondary badge--sm"><%= contact.display_type %></span></td>
+                <td>
+                  <% if contact.active? %>
+                    <span class="badge badge-success badge--sm">Active</span>
+                  <% else %>
+                    <span class="badge badge-danger badge--sm">Inactive</span>
+                  <% end %>
+                </td>
+                <td onclick="event.stopPropagation()">
+                  <%= link_to "Edit", edit_contact_path(contact), class: "btn btn--xs btn-secondary" %>
+                </td>
+              </tr>
+            <% end %>
+          </tbody>
+        </table>
+
+        <div class="text-center p-16">
+          <span class="text-secondary text-sm">
+            Showing <%= @contacts.count %> <%= 'contact'.pluralize(@contacts.count) %>
+          </span>
+        </div>
+      <% else %>
+        <div class="empty-state">
+          <div class="empty-state__icon">📇</div>
+          <p class="text-secondary">No contacts in this list yet.</p>
+          <div class="empty-state__actions">
+            <%= link_to "Add Contact", new_contact_path(contact_list_id: @contact_list.id), class: "btn btn-primary" %>
+            <%= link_to "Import CSV", import_contacts_path, class: "btn btn-secondary" %>
+          </div>
+        </div>
+      <% end %>
+    </div>
+  </div>
+
+  <!-- Sidebar -->
+  <div>
+    <div class="card mb-20">
+      <div class="card__header">
+        <h3 class="card__title">Statistics</h3>
+      </div>
+      <div class="flex-col gap-20">
+        <div class="audience-stat-box audience-stat-box--blue">
+          <div class="audience-stat-box__value audience-stat-box__value--blue"><%= @contact_list.contacts_count %></div>
+          <div class="audience-stat-box__label">Total Contacts</div>
+        </div>
+        <div class="audience-stat-box audience-stat-box--green">
+          <div class="audience-stat-box__value audience-stat-box__value--green"><%= @contact_list.active_contacts_count %></div>
+          <div class="audience-stat-box__label">Active Contacts</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="card mb-20">
+      <div class="card__header">
+        <h3 class="card__title">Details</h3>
+      </div>
+      <div class="flex-col gap-16">
+        <% if @contact_list.company.present? %>
+          <div>
+            <div class="detail-label">Company</div>
+            <div class="detail-value"><%= @contact_list.company %></div>
+          </div>
+        <% end %>
+        <% if @contact_list.list_type.present? %>
+          <div>
+            <div class="detail-label">List Type</div>
+            <div class="detail-value"><%= @contact_list.list_type %></div>
+          </div>
+        <% end %>
+        <div>
+          <div class="detail-label">Created</div>
+          <div class="detail-value"><%= @contact_list.created_at.strftime("%B %d, %Y") %></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card__header">
+        <h3 class="card__title">Actions</h3>
+      </div>
+      <div class="flex-col gap-8">
+        <%= link_to edit_contact_list_path(@contact_list), class: "btn btn-secondary btn--full" do %>
+          Edit List
+        <% end %>
+        <%= link_to import_contacts_path, class: "btn btn-secondary btn--full" do %>
+          Import CSV
+        <% end %>
+        <%= link_to contact_lists_path, class: "btn btn-secondary btn--full" do %>
+          Back to Lists
+        <% end %>
+      </div>
+    </div>
+  </div>
+</div>

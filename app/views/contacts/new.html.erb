@@ -1,0 +1,10 @@
+<% content_for :page_title, "New Contact" %>
+
+<div class="page-header">
+  <h2 class="page-header__title">New Contact</h2>
+  <p class="page-header__description">Add a new contact to your database</p>
+</div>
+
+<div class="max-w-800">
+  <%= render "form", contact: @contact, contact_lists: @contact_lists %>
+</div>

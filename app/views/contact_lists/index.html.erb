@@ -1,0 +1,69 @@
+<% content_for :page_title, "Contact Lists" %>
+
+<div class="page-header page-header--row">
+  <div>
+    <h2 class="page-header__title">Contact Lists</h2>
+    <p class="page-header__description">Organize contacts into reusable lists</p>
+  </div>
+  <div class="flex-row gap-8">
+    <%= link_to "Back to Contacts", contacts_path, class: "btn btn-secondary" %>
+    <%= link_to "New List", new_contact_list_path, class: "btn btn-primary" %>
+  </div>
+</div>
+
+<% if @contact_lists.any? %>
+  <div class="grid-auto-fill-300">
+    <% @contact_lists.each do |list| %>
+      <div class="card audience-card" onclick="window.location='<%= contact_list_path(list) %>'">
+        <div class="audience-card__bar"></div>
+        <div class="audience-card__body">
+          <div class="mb-16 flex-row gap-8">
+            <span class="badge badge-info badge--sm">📋 List</span>
+            <% if list.company.present? %>
+              <span class="badge badge-secondary badge--sm"><%= list.company %></span>
+            <% end %>
+          </div>
+
+          <h3 class="audience-card__name"><%= list.name %></h3>
+
+          <% if list.description.present? %>
+            <p class="audience-card__desc"><%= truncate(list.description, length: 100) %></p>
+          <% else %>
+            <p class="audience-card__desc audience-card__desc--empty">No description</p>
+          <% end %>
+
+          <div class="audience-card__stats">
+            <div class="audience-card__stat">
+              <div class="audience-card__stat-value"><%= list.contacts_count %></div>
+              <div class="audience-card__stat-label">Contacts</div>
+            </div>
+            <div class="audience-card__stat">
+              <div class="audience-card__stat-value audience-card__stat-value--green"><%= list.active_contacts_count %></div>
+              <div class="audience-card__stat-label">Active</div>
+            </div>
+          </div>
+
+          <div class="audience-card__actions">
+            <%= link_to "View", contact_list_path(list),
+                class: "btn btn--xs btn-secondary flex-1",
+                onclick: "event.stopPropagation()" %>
+            <%= link_to "Edit", edit_contact_list_path(list),
+                class: "btn btn--xs btn-secondary flex-1",
+                onclick: "event.stopPropagation()" %>
+          </div>
+        </div>
+      </div>
+    <% end %>
+  </div>
+<% else %>
+  <div class="card">
+    <div class="empty-state">
+      <div class="empty-state__icon">📋</div>
+      <h3>No contact lists yet</h3>
+      <p class="text-secondary">Create lists to organize your contacts by company, project, or any grouping.</p>
+      <div class="empty-state__actions">
+        <%= link_to "Create List", new_contact_list_path, class: "btn btn-primary" %>
+      </div>
+    </div>
+  </div>
+<% end %>

@@ -1,0 +1,10 @@
+<% content_for :page_title, "Edit Contact" %>
+
+<div class="page-header">
+  <h2 class="page-header__title">Edit Contact</h2>
+  <p class="page-header__description">Update contact information for <%= @contact.name %></p>
+</div>
+
+<div class="max-w-800">
+  <%= render "form", contact: @contact, contact_lists: @contact_lists %>
+</div>
