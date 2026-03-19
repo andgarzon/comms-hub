@@ -31,6 +31,42 @@
       </div>
     </div>
 
+    <% if @contacts.any? %>
+      <div class="card mb-20">
+        <div class="card__header">
+          <h3 class="card__title">Contacts</h3>
+        </div>
+        <p class="text-secondary text-sm mb-16">Select contacts to also receive this announcement as a Slack direct message.</p>
+
+        <div class="form-group mb-0">
+          <% @contacts.each do |contact| %>
+            <label class="checkbox-label">
+              <%= check_box_tag "contact_ids[]", contact.id, @audience.contact_ids.include?(contact.id), id: "contact_#{contact.id}" %>
+              <span><%= contact.name %> (<%= contact.slack_username %>)</span>
+            </label>
+          <% end %>
+        </div>
+      </div>
+    <% end %>
+
+    <% if @contact_lists.any? %>
+      <div class="card mb-20">
+        <div class="card__header">
+          <h3 class="card__title">Contact Lists</h3>
+        </div>
+        <p class="text-secondary text-sm mb-16">Add all contacts from a list (only those with a Slack username will receive DMs).</p>
+
+        <div class="form-group mb-0">
+          <% @contact_lists.each do |list| %>
+            <label class="checkbox-label">
+              <%= check_box_tag "contact_list_ids[]", list.id, false, id: "contact_list_#{list.id}" %>
+              <span><%= list.name %> (<%= list.contacts_count %> contacts)</span>
+            </label>
+          <% end %>
+        </div>
+      </div>
+    <% end %>
+
     <div class="form-actions">
       <%= link_to "Back to Slack Audiences", slack_audiences_path, class: "btn btn-secondary" %>
       <%= f.submit "Update", class: "btn btn-primary" %>

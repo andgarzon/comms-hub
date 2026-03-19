@@ -1,0 +1,22 @@
+slack_contact:
+  name: Jane Doe
+  email: jane@example.com
+  slack_username: "@jane.doe"
+  company: Acme Corp
+  contact_type: employee
+  active: true
+
+slack_contact_two:
+  name: John Smith
+  email: john@example.com
+  slack_username: "@john.smith"
+  company: Acme Corp
+  contact_type: employee
+  active: true
+
+no_slack_contact:
+  name: Bob Wilson
+  email: bob@example.com
+  company: Acme Corp
+  contact_type: employee
+  active: true
