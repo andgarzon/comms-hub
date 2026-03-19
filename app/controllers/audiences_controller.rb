@@ -14,11 +14,13 @@ class AudiencesController < ApplicationController
     @audience = Audience.new
     @available_scope_types = available_scope_types
     @available_roles = available_roles_for_scope
+    load_contacts_for_form
   end
 
   def edit
     @available_scope_types = available_scope_types
     @available_roles = available_roles_for_scope
+    load_contacts_for_form
   end
 
   def create
@@ -44,11 +46,13 @@ class AudiencesController < ApplicationController
 
     respond_to do |format|
       if @audience.save
+        update_audience_contacts(@audience)
         format.html { redirect_to @audience, notice: "Audience was successfully created." }
         format.json { render :show, status: :created, location: @audience }
       else
         @available_scope_types = available_scope_types
         @available_roles = available_roles_for_scope
+        load_contacts_for_form
         format.html { render :new, status: :unprocessable_entity }
         format.json { render json: @audience.errors, status: :unprocessable_entity }
       end
@@ -58,11 +62,13 @@ class AudiencesController < ApplicationController
   def update
     respond_to do |format|
       if @audience.update(audience_params)
+        update_audience_contacts(@audience)
         format.html { redirect_to @audience, notice: "Audience was successfully updated.", status: :see_other }
         format.json { render :show, status: :ok, location: @audience }
       else
         @available_scope_types = available_scope_types
         @available_roles = available_roles_for_scope
+        load_contacts_for_form
         format.html { render :edit, status: :unprocessable_entity }
         format.json { render json: @audience.errors, status: :unprocessable_entity }
       end
@@ -94,6 +100,29 @@ class AudiencesController < ApplicationController
 
   def audience_params
     params.expect(audience: [ :name, :description, :slack_channel, :type, :scope_type, :scope_value, :email_recipients, :whatsapp_recipients ])
+  end
+
+  def load_contacts_for_form
+    @contacts = Contact.active.order(:name)
+    @contact_lists = ContactList.order(:name)
+  end
+
+  def update_audience_contacts(audience)
+    contact_ids = []
+
+    # Individual contacts
+    if params[:contact_ids].present?
+      contact_ids += Array(params[:contact_ids]).map(&:to_i)
+    end
+
+    # Bulk add from contact lists
+    if params[:contact_list_ids].present?
+      list_ids = Array(params[:contact_list_ids]).map(&:to_i)
+      list_contact_ids = Contact.active.where(contact_list_id: list_ids).pluck(:id)
+      contact_ids += list_contact_ids
+    end
+
+    audience.contact_ids = contact_ids.uniq
   end
 
   def available_scope_types

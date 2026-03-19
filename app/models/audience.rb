@@ -7,6 +7,8 @@ class Audience < ApplicationRecord
   has_many :announcement_audiences, dependent: :destroy
   has_many :announcements, through: :announcement_audiences
   has_many :users, through: :audience_memberships
+  has_many :audience_contacts, dependent: :destroy
+  has_many :contacts, through: :audience_contacts
 
   validates :name, presence: true
   validates :scope_type, inclusion: { in: SCOPE_TYPES }, allow_nil: true
@@ -45,15 +47,24 @@ class Audience < ApplicationRecord
   end
 
   def recipients_count
-    case type
-    when "EmailAudience"
-      email_list.size
-    when "SlackAudience"
-      1
-    when "WhatsappAudience"
-      whatsapp_list.size
-    else
-      users.count
-    end
+    base = case type
+           when "EmailAudience"
+             email_list.size
+           when "SlackAudience"
+             1
+           when "WhatsappAudience"
+             whatsapp_list.size
+           else
+             users.count
+           end
+    base + contacts.active.count
+  end
+
+  def contact_emails
+    contacts.active.where.not(email: [nil, ""]).pluck(:email).uniq
+  end
+
+  def contact_phones
+    contacts.active.where.not(phone_number: [nil, ""]).pluck(:phone_number).uniq
   end
 end

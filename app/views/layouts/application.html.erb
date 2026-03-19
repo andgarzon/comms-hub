@@ -66,6 +66,11 @@
             <span>Announcements</span>
           <% end %>
 
+          <%= link_to contacts_path, class: "app-drawer__link #{%w[contacts contact_lists].include?(controller_name) ? 'is-active' : ''}" do %>
+            <span class="app-drawer__link-icon">📇</span>
+            <span>Contacts</span>
+          <% end %>
+
           <%= link_to audiences_path, class: "app-drawer__link #{controller_name == 'audiences' ? 'is-active' : ''}" do %>
             <span class="app-drawer__link-icon">👥</span>
             <span>Audiences</span>

@@ -1,0 +1,105 @@
+<% content_for :page_title, "Contacts" %>
+
+<div class="page-header page-header--row">
+  <div>
+    <h2 class="page-header__title">Contacts</h2>
+    <p class="page-header__description">Manage your contact database</p>
+  </div>
+  <div class="flex-row gap-8">
+    <%= link_to "Import CSV", import_contacts_path, class: "btn btn-secondary" %>
+    <%= link_to "Contact Lists", contact_lists_path, class: "btn btn-secondary" %>
+    <%= link_to "New Contact", new_contact_path, class: "btn btn-primary" %>
+  </div>
+</div>
+
+<!-- Filters -->
+<div class="card mb-20">
+  <%= form_with url: contacts_path, method: :get, local: true, class: "contacts-filters" do |f| %>
+    <div class="flex-row gap-12 flex-wrap">
+      <div class="flex-1" style="min-width: 200px;">
+        <%= f.text_field :search, value: params[:search], class: "form-control", placeholder: "Search by name, email, company..." %>
+      </div>
+      <div>
+        <%= f.select :company, @companies.map { |c| [c, c] }, { include_blank: "All Companies" }, class: "form-control" %>
+      </div>
+      <div>
+        <%= f.select :contact_type, Contact::CONTACT_TYPES.map { |t| [t.titleize, t] }, { include_blank: "All Types" }, class: "form-control" %>
+      </div>
+      <div>
+        <%= f.select :contact_list_id, @contact_lists.map { |l| [l.name, l.id] }, { include_blank: "All Lists" }, class: "form-control" %>
+      </div>
+      <div>
+        <%= f.select :active, [["Active", "true"], ["Inactive", "false"]], { include_blank: "All Status" }, class: "form-control" %>
+      </div>
+      <div>
+        <%= f.submit "Filter", class: "btn btn-primary" %>
+        <% if params[:search].present? || params[:company].present? || params[:contact_type].present? || params[:contact_list_id].present? || params[:active].present? %>
+          <%= link_to "Clear", contacts_path, class: "btn btn-secondary" %>
+        <% end %>
+      </div>
+    </div>
+  <% end %>
+</div>
+
+<% if @contacts.any? %>
+  <div class="card">
+    <table class="table">
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Email</th>
+          <th>Phone</th>
+          <th>Company</th>
+          <th>Department</th>
+          <th>Type</th>
+          <th>List</th>
+          <th>Status</th>
+          <th></th>
+        </tr>
+      </thead>
+      <tbody>
+        <% @contacts.each do |contact| %>
+          <tr class="cursor-pointer" onclick="window.location='<%= contact_path(contact) %>'">
+            <td class="font-medium"><%= contact.name %></td>
+            <td><%= contact.email || "—" %></td>
+            <td><%= contact.phone_number || "—" %></td>
+            <td><%= contact.company || "—" %></td>
+            <td><%= contact.department || "—" %></td>
+            <td><span class="badge badge-secondary badge--sm"><%= contact.display_type %></span></td>
+            <td><%= contact.contact_list&.name || "—" %></td>
+            <td>
+              <% if contact.active? %>
+                <span class="badge badge-success badge--sm">Active</span>
+              <% else %>
+                <span class="badge badge-danger badge--sm">Inactive</span>
+              <% end %>
+            </td>
+            <td onclick="event.stopPropagation()">
+              <div class="flex-row gap-4">
+                <%= link_to "Edit", edit_contact_path(contact), class: "btn btn--xs btn-secondary" %>
+              </div>
+            </td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+
+    <div class="text-center p-16">
+      <span class="text-secondary text-sm">
+        Showing <%= @contacts.count %> <%= 'contact'.pluralize(@contacts.count) %>
+      </span>
+    </div>
+  </div>
+<% else %>
+  <div class="card">
+    <div class="empty-state">
+      <div class="empty-state__icon">📇</div>
+      <h3>No contacts yet</h3>
+      <p class="text-secondary">Add contacts manually or import them from a CSV file.</p>
+      <div class="empty-state__actions">
+        <%= link_to "Add Contact", new_contact_path, class: "btn btn-primary" %>
+        <%= link_to "Import CSV", import_contacts_path, class: "btn btn-secondary" %>
+      </div>
+    </div>
+  </div>
+<% end %>

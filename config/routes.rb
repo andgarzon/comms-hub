@@ -15,6 +15,16 @@ Rails.application.routes.draw do
   resources :slack_audiences
   resources :email_audiences
   resources :whatsapp_audiences
+  resources :contacts do
+    member do
+      patch :toggle_active
+    end
+    collection do
+      get :import
+      post :process_import
+    end
+  end
+  resources :contact_lists
   resources :audiences
   resources :users, path: "manage/users", as: :manage_users do
     collection do

@@ -1,0 +1,51 @@
+<% content_for :page_title, "Import Contacts" %>
+
+<div class="page-header">
+  <h2 class="page-header__title">Import Contacts</h2>
+  <p class="page-header__description">Upload a CSV file to import contacts in bulk</p>
+</div>
+
+<div class="max-w-800">
+  <%= form_with url: process_import_contacts_path, method: :post, multipart: true, local: true do |form| %>
+    <div class="card mb-20">
+      <div class="card__header">
+        <h3 class="card__title">Upload CSV</h3>
+      </div>
+
+      <div class="form-group">
+        <%= form.label :csv_file, "CSV File", class: "form-label" %>
+        <%= form.file_field :csv_file, accept: ".csv", class: "form-control" %>
+        <small class="form-hint">
+          The CSV should have column headers. Supported columns:
+        </small>
+        <pre class="csv-example">name,email,phone_number,slack_username,company,department,contact_type
+John Doe,john@acme.com,555-1234,@johnd,Acme Corp,Engineering,employee
+Jane Smith,jane@acme.com,555-5678,@janes,Acme Corp,Marketing,employee
+Bob Client,bob@client.com,555-9999,@bobc,Client Co,Sales,client</pre>
+      </div>
+    </div>
+
+    <div class="card mb-20">
+      <div class="card__header">
+        <h3 class="card__title">Import Options</h3>
+      </div>
+
+      <div class="form-group">
+        <%= form.label :contact_list_id, "Assign to Contact List", class: "form-label" %>
+        <%= form.select :contact_list_id, @contact_lists.map { |l| [l.name, l.id] }, { include_blank: "No list (unassigned)" }, class: "form-control" %>
+        <small class="form-hint">All imported contacts will be added to this list.</small>
+      </div>
+
+      <div class="form-group mb-0">
+        <%= form.label :duplicate_handling, "Duplicate Handling", class: "form-label" %>
+        <%= form.select :duplicate_handling, [["Skip duplicates", "skip"], ["Update existing", "update"]], {}, class: "form-control" %>
+        <small class="form-hint">Duplicates are matched by email + company combination.</small>
+      </div>
+    </div>
+
+    <div class="form-actions">
+      <%= link_to "Cancel", contacts_path, class: "btn btn-secondary" %>
+      <%= form.submit "Import Contacts", class: "btn btn-primary" %>
+    </div>
+  <% end %>
+</div>

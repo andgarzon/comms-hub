@@ -122,9 +122,80 @@
       </div>
     <% end %>
 
+    <!-- Contacts Selection -->
+    <div class="card mb-20">
+      <div class="card__header">
+        <h3 class="card__title">Contacts</h3>
+      </div>
+      <p class="text-secondary text-sm mb-16">Add contacts to this audience individually or by contact list.</p>
+
+      <% if @contact_lists&.any? %>
+        <div class="form-group">
+          <label class="form-label">Add entire Contact Lists</label>
+          <div class="contacts-checklist" style="max-height: 200px; overflow-y: auto; border: 1px solid var(--border-color, #E2E8F0); border-radius: 6px; padding: 12px;">
+            <% @contact_lists.each do |list| %>
+              <label class="flex-row gap-8 mb-8" style="align-items: center;">
+                <input type="checkbox" name="contact_list_ids[]" value="<%= list.id %>"
+                  <%= "checked" if @audience.contacts.where(contact_list_id: list.id).exists? %>>
+                <span><%= list.name %></span>
+                <span class="text-muted text-sm">(<%= list.active_contacts_count %> contacts)</span>
+              </label>
+            <% end %>
+          </div>
+        </div>
+      <% end %>
+
+      <% if @contacts&.any? %>
+        <div class="form-group mb-0">
+          <label class="form-label">Cherry-pick individual contacts</label>
+          <input type="text" id="contact-search" class="form-control mb-8" placeholder="Search contacts...">
+          <div class="contacts-checklist" id="contacts-checklist" style="max-height: 300px; overflow-y: auto; border: 1px solid var(--border-color, #E2E8F0); border-radius: 6px; padding: 12px;">
+            <% @contacts.each do |contact| %>
+              <label class="flex-row gap-8 mb-8 contact-check-item" style="align-items: center;" data-name="<%= contact.name.downcase %>" data-email="<%= contact.email&.downcase %>">
+                <input type="checkbox" name="contact_ids[]" value="<%= contact.id %>"
+                  <%= "checked" if @audience.contact_ids.include?(contact.id) %>>
+                <span><%= contact.name %></span>
+                <% if contact.email.present? %>
+                  <span class="text-muted text-sm">(<%= contact.email %>)</span>
+                <% end %>
+                <% if contact.company.present? %>
+                  <span class="badge badge-secondary badge--sm"><%= contact.company %></span>
+                <% end %>
+              </label>
+            <% end %>
+          </div>
+          <small class="form-hint"><%= @contacts.count %> active contacts available</small>
+        </div>
+      <% else %>
+        <p class="text-secondary text-sm">No contacts available. <%= link_to "Add contacts", contacts_path %> first.</p>
+      <% end %>
+    </div>
+
     <div class="form-actions">
       <%= link_to "Cancel", audience_path(@audience), class: "btn btn-secondary" %>
       <%= form.submit "Update Audience", class: "btn btn-primary" %>
     </div>
   <% end %>
+</div>
+
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    var searchInput = document.getElementById('contact-search');
+    if (searchInput) {
+      searchInput.addEventListener('input', function() {
+        var query = this.value.toLowerCase();
+        var items = document.querySelectorAll('.contact-check-item');
+        items.forEach(function(item) {
+          var name = item.getAttribute('data-name') || '';
+          var email = item.getAttribute('data-email') || '';
+          if (name.includes(query) || email.includes(query)) {
+            item.style.display = '';
+          } else {
+            item.style.display = 'none';
+          }
+        });
+      });
+    }
+  });
+</script>
 </div>
