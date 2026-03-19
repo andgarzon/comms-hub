@@ -16,6 +16,7 @@
         <tr>
           <th>Name</th>
           <th>Slack Channel</th>
+          <th>Contacts</th>
           <th>Actions</th>
         </tr>
       </thead>
@@ -24,6 +25,7 @@
           <tr>
             <td class="font-medium"><%= audience.name %></td>
             <td><%= audience.slack_channel %></td>
+            <td><%= audience.contacts.active.count %></td>
             <td>
               <div class="table-actions">
                 <%= link_to "Edit", edit_slack_audience_path(audience), class: "btn btn--xs btn-secondary" %>

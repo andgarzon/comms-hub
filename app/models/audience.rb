@@ -67,4 +67,8 @@ class Audience < ApplicationRecord
   def contact_phones
     contacts.active.where.not(phone_number: [nil, ""]).pluck(:phone_number).uniq
   end
+
+  def contact_slack_usernames
+    contacts.active.where.not(slack_username: [nil, ""]).pluck(:slack_username).uniq
+  end
 end

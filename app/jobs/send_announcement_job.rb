@@ -20,7 +20,10 @@ class SendAnnouncementJob < ApplicationJob
     # SLACK DELIVERY
     # --------------------
     if announcement.send_to_slack?
+      sent_slack_users = []
+
       announcement.audiences.where(type: "SlackAudience").each do |audience|
+        # Send to channel
         begin
           SlackAnnouncementSender.new(
             announcement,
@@ -40,6 +43,33 @@ class SendAnnouncementJob < ApplicationJob
             status: "error",
             details: "#{e.class}: #{e.message}"
           )
+        end
+
+        # Send DMs to contacts with slack usernames
+        audience.contact_slack_usernames.each do |slack_username|
+          next if sent_slack_users.include?(slack_username)
+
+          begin
+            SlackAnnouncementSender.new(
+              announcement,
+              user: slack_username
+            ).call
+
+            announcement.delivery_logs.create!(
+              channel: "slack",
+              destination: slack_username,
+              status: "sent",
+              details: "Contact DM in audience: #{audience.name}"
+            )
+            sent_slack_users << slack_username
+          rescue => e
+            announcement.delivery_logs.create!(
+              channel: "slack",
+              destination: slack_username,
+              status: "error",
+              details: "#{e.class}: #{e.message}"
+            )
+          end
         end
       end
     end

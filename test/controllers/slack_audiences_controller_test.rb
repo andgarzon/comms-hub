@@ -24,6 +24,21 @@ class SlackAudiencesControllerTest < ActionDispatch::IntegrationTest
     assert_redirected_to slack_audiences_url
   end
 
+  test "should create slack audience with contacts" do
+    contact = contacts(:slack_contact)
+
+    assert_difference("SlackAudience.count") do
+      post slack_audiences_url, params: {
+        slack_audience: { name: "Slack With Contacts", slack_channel: "#team", scope_type: "personal" },
+        contact_ids: [contact.id]
+      }
+    end
+
+    audience = SlackAudience.last
+    assert_includes audience.contact_ids, contact.id
+    assert_redirected_to slack_audiences_url
+  end
+
   test "should get edit" do
     audience = SlackAudience.create!(name: "Test Slack", slack_channel: "#test", scope_type: "personal", created_by_id: @user.id)
     get edit_slack_audience_url(audience)
@@ -33,6 +48,20 @@ class SlackAudiencesControllerTest < ActionDispatch::IntegrationTest
   test "should update slack audience" do
     audience = SlackAudience.create!(name: "Test Slack", slack_channel: "#test", scope_type: "personal", created_by_id: @user.id)
     patch slack_audience_url(audience), params: { slack_audience: { name: "Updated Slack", slack_channel: "#updated" } }
+    assert_redirected_to slack_audiences_url
+  end
+
+  test "should update slack audience contacts" do
+    audience = SlackAudience.create!(name: "Test Slack", slack_channel: "#test", scope_type: "personal", created_by_id: @user.id)
+    contact = contacts(:slack_contact)
+
+    patch slack_audience_url(audience), params: {
+      slack_audience: { name: "Updated Slack", slack_channel: "#updated" },
+      contact_ids: [contact.id]
+    }
+
+    audience.reload
+    assert_includes audience.contact_ids, contact.id
     assert_redirected_to slack_audiences_url
   end
 
