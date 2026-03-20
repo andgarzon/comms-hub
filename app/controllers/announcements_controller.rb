@@ -46,6 +46,37 @@ class AnnouncementsController < ApplicationController
 
     @announcement.assign_attributes(announcement_params)
 
+    # "Improve with AI" flow
+    if params[:improve_with_ai]
+      if @announcement.title.blank?
+        @announcement.errors.add(:title, "can't be blank")
+        flash.now[:alert] = "Please add a title before improving with AI."
+        render :edit, status: :unprocessable_content
+        return
+      end
+
+      if @announcement.base_body.blank?
+        @announcement.errors.add(:base_body, "can't be blank")
+        flash.now[:alert] = "Please add a base message before improving with AI."
+        render :edit, status: :unprocessable_content
+        return
+      end
+
+      if @announcement.save
+        begin
+          AnnouncementAiRewriter.new(@announcement).call
+          redirect_to edit_announcement_path(@announcement), notice: "AI improvements applied! Review and submit when ready."
+        rescue => e
+          flash.now[:alert] = "AI improvement failed: #{e.message}. Please try again."
+          render :edit, status: :unprocessable_content
+        end
+      else
+        flash.now[:alert] = "Could not save announcement for AI improvement."
+        render :edit, status: :unprocessable_content
+      end
+      return
+    end
+
     # Save as Draft flow
     if params[:save_draft]
       @announcement.status = "draft"
