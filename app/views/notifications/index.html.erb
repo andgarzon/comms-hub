@@ -6,7 +6,7 @@
     <p class="page-header__description">Recent updates about your announcements</p>
   </div>
   <div class="flex-row gap-12">
-    <% if @notifications.any?(&:read? == false) %>
+    <% if @notifications.any? { |n| !n.read? } %>
       <%= button_to "Mark all as read", mark_read_notifications_path, method: :post, class: "btn btn-secondary" %>
     <% end %>
     <%= link_to "Preferences", edit_notification_preferences_path, class: "btn btn-secondary" %>
