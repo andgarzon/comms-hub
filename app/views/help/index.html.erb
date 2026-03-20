@@ -23,6 +23,14 @@
       <span class="help-nav__icon">👥</span>
       <span>Audiences</span>
     </a>
+    <a href="#contacts" class="help-nav__link">
+      <span class="help-nav__icon">📇</span>
+      <span>Contacts</span>
+    </a>
+    <a href="#contact-lists" class="help-nav__link">
+      <span class="help-nav__icon">📋</span>
+      <span>Contact Lists</span>
+    </a>
     <a href="#roles" class="help-nav__link">
       <span class="help-nav__icon">🔑</span>
       <span>Roles & Permissions</span>
@@ -52,15 +60,6 @@
       <div class="help-step">
         <div class="help-step__number">1</div>
         <div class="help-step__content">
-          <h4 class="help-step__title">Set up your audiences</h4>
-          <p>Create audience groups to organize who receives your messages. You can create audiences for your team, your role, or just for yourself.</p>
-          <%= link_to "Go to Audiences →", audiences_path, class: "help-step__link" %>
-        </div>
-      </div>
-
-      <div class="help-step">
-        <div class="help-step__number">2</div>
-        <div class="help-step__content">
           <h4 class="help-step__title">Configure integrations</h4>
           <p>Connect your Slack workspace, email server, or WhatsApp Business account to enable multi-channel announcements.</p>
           <%= link_to "Go to Integrations →", integrations_path, class: "help-step__link" %>
@@ -68,10 +67,28 @@
       </div>
 
       <div class="help-step">
+        <div class="help-step__number">2</div>
+        <div class="help-step__content">
+          <h4 class="help-step__title">Add your contacts</h4>
+          <p>Create contacts individually or import them in bulk via CSV. Organize them into contact lists for easy management.</p>
+          <%= link_to "Go to Contacts →", contacts_path, class: "help-step__link" %>
+        </div>
+      </div>
+
+      <div class="help-step">
         <div class="help-step__number">3</div>
         <div class="help-step__content">
+          <h4 class="help-step__title">Set up your audiences</h4>
+          <p>Create Slack, Email, or WhatsApp audiences and link contacts or contact lists to them.</p>
+          <%= link_to "Go to Audiences →", audiences_path, class: "help-step__link" %>
+        </div>
+      </div>
+
+      <div class="help-step">
+        <div class="help-step__number">4</div>
+        <div class="help-step__content">
           <h4 class="help-step__title">Send your first announcement</h4>
-          <p>Create an announcement, select your audiences and channels, and send or schedule it for later.</p>
+          <p>Create an announcement, select your audiences, and send or schedule it for later.</p>
           <%= link_to "Create Announcement →", new_announcement_path, class: "help-step__link" %>
         </div>
       </div>
@@ -177,13 +194,20 @@
 
     <div class="help-topics">
       <div class="help-topic">
-        <h4 class="help-topic__title">Audience Types</h4>
+        <h4 class="help-topic__title">Channel Types</h4>
         <ul class="help-topic__list">
-          <li><strong>📋 Static Audiences</strong> — Manually curated lists of recipients. Best for specific teams or departments.</li>
-          <li><strong>🔄 Dynamic Audiences</strong> — Auto-updated based on criteria. Recipients are calculated each time you send.</li>
-          <li><strong>📧 Email Audiences</strong> — Lists of email addresses for email-only announcements. <%= link_to "Manage →", email_audiences_path %></li>
-          <li><strong>💬 Slack Audiences</strong> — Slack channels where announcements are posted. <%= link_to "Manage →", slack_audiences_path %></li>
-          <li><strong>📱 WhatsApp Audiences</strong> — WhatsApp phone number lists. <%= link_to "Manage →", whatsapp_audiences_path %></li>
+          <li><strong>💬 Slack</strong> — Post announcements to a Slack channel. Also sends DMs to contacts with Slack usernames. <%= link_to "Manage →", slack_audiences_path %></li>
+          <li><strong>📧 Email</strong> — Send announcements to a list of email addresses via SMTP. <%= link_to "Manage →", email_audiences_path %></li>
+          <li><strong>📱 WhatsApp</strong> — Send announcements via WhatsApp Business API to phone numbers. <%= link_to "Manage →", whatsapp_audiences_path %></li>
+        </ul>
+      </div>
+
+      <div class="help-topic">
+        <h4 class="help-topic__title">Contacts in Audiences</h4>
+        <ul class="help-topic__list">
+          <li>When creating or editing an audience, you can <strong>link contacts</strong> individually or by contact list</li>
+          <li>Linked contacts receive announcements through the audience's channel (e.g., Slack DMs for contacts with a Slack username in a Slack audience)</li>
+          <li>Contacts of type <strong>Slack Channel</strong> will have announcements posted to their configured channel</li>
         </ul>
       </div>
 
@@ -201,10 +225,11 @@
         <h4 class="help-topic__title">Creating an Audience</h4>
         <ul class="help-topic__list">
           <li>Go to <%= link_to "Audiences", audiences_path %> and click <strong>"Create New Audience"</strong></li>
-          <li>Choose the <strong>type</strong> (Static or Dynamic)</li>
+          <li>Choose the <strong>channel type</strong> (Slack, Email, or WhatsApp)</li>
           <li>Set the <strong>scope</strong> (Personal, Role, or System)</li>
           <li>If scope is <strong>Role</strong>, select which role it's for (regular users can only create for their own role)</li>
-          <li>Fill in the name, description, and add recipients</li>
+          <li>Fill in the name, description, and channel-specific settings (e.g., Slack channel name)</li>
+          <li>Optionally add <strong>contacts</strong> or <strong>contact lists</strong> to the audience</li>
         </ul>
       </div>
 
@@ -221,6 +246,103 @@
     <div class="help-actions">
       <%= link_to "View All Audiences", audiences_path, class: "btn btn-secondary" %>
       <%= link_to "Create New Audience", new_audience_path, class: "btn btn-primary" %>
+    </div>
+  </div>
+</div>
+
+<!-- Contacts -->
+<div id="contacts" class="card mb-24">
+  <div class="card__header">
+    <h3 class="card__title">📇 Contacts</h3>
+  </div>
+  <div class="help-section">
+    <p class="help-section__intro">
+      Contacts are the individual people or Slack channels that receive announcements. Add them to audiences to target your communications.
+    </p>
+
+    <div class="help-topics">
+      <div class="help-topic">
+        <h4 class="help-topic__title">Contact Types</h4>
+        <ul class="help-topic__list">
+          <li><strong>Admin Staff</strong> — Internal administrative team members</li>
+          <li><strong>Client Staff</strong> — Staff at client organizations</li>
+          <li><strong>Client</strong> — External client contacts</li>
+          <li><strong>Vendor</strong> — Vendor or supplier contacts</li>
+          <li><strong>Slack Channel</strong> — A Slack channel (not a person). Announcements are posted directly to the configured channel.</li>
+        </ul>
+      </div>
+
+      <div class="help-topic">
+        <h4 class="help-topic__title">Creating a Contact</h4>
+        <ul class="help-topic__list">
+          <li>Go to <%= link_to "Contacts", contacts_path %> and click <strong>"New Contact"</strong></li>
+          <li>Select the <strong>contact type</strong> (person types show email/phone/Slack fields; Slack Channel shows channel fields)</li>
+          <li>Fill in the contact's <strong>name</strong> and details (email, phone, Slack username)</li>
+          <li>Optionally assign to a <strong>company</strong>, <strong>department</strong>, and <strong>contact list</strong></li>
+          <li>Toggle <strong>active/inactive</strong> — inactive contacts won't receive announcements</li>
+        </ul>
+      </div>
+
+      <div class="help-topic">
+        <h4 class="help-topic__title">Importing Contacts via CSV</h4>
+        <ul class="help-topic__list">
+          <li>Go to <%= link_to "Import Contacts", import_contacts_path %> to upload a CSV file</li>
+          <li>The CSV should have headers: <code>name, email, phone_number, slack_username, slack_channel, company, department, contact_type</code></li>
+          <li>Choose a <strong>contact list</strong> to assign imported contacts to (optional)</li>
+          <li>Select <strong>duplicate handling</strong>: skip duplicates or update existing (matched by email + company)</li>
+        </ul>
+      </div>
+
+      <div class="help-topic">
+        <h4 class="help-topic__title">Slack Delivery for Contacts</h4>
+        <ul class="help-topic__list">
+          <li>Contacts with a <strong>Slack username</strong> (Member ID) will receive DMs when their audience sends a Slack announcement</li>
+          <li>Contacts of type <strong>Slack Channel</strong> will have the announcement posted to the configured Slack channel</li>
+          <li>Contacts with <strong>email</strong> or <strong>phone number</strong> are used by Email and WhatsApp audiences respectively</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="help-actions">
+      <%= link_to "View All Contacts", contacts_path, class: "btn btn-secondary" %>
+      <%= link_to "Add New Contact", new_contact_path, class: "btn btn-primary" %>
+    </div>
+  </div>
+</div>
+
+<!-- Contact Lists -->
+<div id="contact-lists" class="card mb-24">
+  <div class="card__header">
+    <h3 class="card__title">📋 Contact Lists</h3>
+  </div>
+  <div class="help-section">
+    <p class="help-section__intro">
+      Contact lists help you organize contacts into named groups. When creating an audience, you can add an entire contact list at once instead of picking contacts one by one.
+    </p>
+
+    <div class="help-topics">
+      <div class="help-topic">
+        <h4 class="help-topic__title">Creating a Contact List</h4>
+        <ul class="help-topic__list">
+          <li>Go to <%= link_to "Contact Lists", contact_lists_path %> and click <strong>"New Contact List"</strong></li>
+          <li>Enter a <strong>name</strong> and optional <strong>description</strong></li>
+          <li>Set the <strong>company</strong> and <strong>list type</strong> (e.g., employees, clients, vendors)</li>
+        </ul>
+      </div>
+
+      <div class="help-topic">
+        <h4 class="help-topic__title">Using Contact Lists</h4>
+        <ul class="help-topic__list">
+          <li>Assign contacts to a list when creating or editing them, or during CSV import</li>
+          <li>When creating an audience, check a contact list to add all its active contacts at once</li>
+          <li>Filter the contacts page by list to see who belongs to each group</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="help-actions">
+      <%= link_to "View Contact Lists", contact_lists_path, class: "btn btn-secondary" %>
+      <%= link_to "Create New List", new_contact_list_path, class: "btn btn-primary" %>
     </div>
   </div>
 </div>
@@ -488,7 +610,17 @@
 
       <div class="help-faq__item">
         <h4 class="help-faq__question">Can I send to multiple channels at once?</h4>
-        <p class="help-faq__answer">Yes! When creating an announcement, you can enable <strong>Slack</strong>, <strong>Email</strong>, and <strong>WhatsApp</strong> simultaneously. Each channel can have a customized version of the message.</p>
+        <p class="help-faq__answer">Yes! Select audiences of different channel types (Slack, Email, WhatsApp) when creating an announcement to deliver across all of them simultaneously.</p>
+      </div>
+
+      <div class="help-faq__item">
+        <h4 class="help-faq__question">What's the difference between contacts and audiences?</h4>
+        <p class="help-faq__answer"><strong>Contacts</strong> are individual people or Slack channels with their details (email, phone, Slack ID). <strong>Audiences</strong> are delivery groups tied to a channel type (Slack, Email, or WhatsApp). You link contacts to audiences so they receive announcements through that channel.</p>
+      </div>
+
+      <div class="help-faq__item">
+        <h4 class="help-faq__question">How do contacts receive Slack messages?</h4>
+        <p class="help-faq__answer">Contacts with a <strong>Slack username</strong> (Member ID) linked to a Slack audience will receive a <strong>direct message</strong>. Contacts of type <strong>Slack Channel</strong> will have the announcement posted to their configured channel.</p>
       </div>
 
       <div class="help-faq__item">
