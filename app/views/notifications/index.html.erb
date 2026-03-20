@@ -13,47 +13,37 @@
   </div>
 </div>
 
-<% if @notifications.any? %>
-  <div class="card">
-    <div class="notification-list">
-      <% @notifications.each do |notification| %>
-        <div class="notification-item <%= 'notification-item--unread' unless notification.read? %>">
-          <div class="notification-item__icon">
-            <% if notification.event == "sent" %>
-              <span class="notification-dot notification-dot--success"></span>
-            <% else %>
-              <span class="notification-dot notification-dot--danger"></span>
-            <% end %>
-          </div>
-          <div class="notification-item__content">
-            <div class="notification-item__title">
-              <strong><%= notification.announcement.title %></strong>
-              <% if notification.event == "sent" %>
-                <span class="badge badge-success badge--sm">Delivered</span>
-              <% else %>
-                <span class="badge badge-danger badge--sm">Failed</span>
-              <% end %>
-            </div>
-            <p class="notification-item__summary"><%= notification.summary %></p>
-            <span class="notification-item__time"><%= time_ago_in_words(notification.created_at) %> ago</span>
-          </div>
-          <div class="notification-item__actions">
-            <% unless notification.read? %>
-              <%= button_to "View", mark_one_read_notification_path(notification), method: :post, class: "btn btn--xs btn-secondary" %>
-            <% else %>
-              <%= link_to "View", announcement_path(notification.announcement), class: "btn btn--xs btn-secondary" %>
-            <% end %>
-          </div>
+<div class="card">
+  <div class="notification-list">
+    <% @notifications.each do |notification| %>
+      <div class="notification-item <%= 'notification-item--unread' unless notification.read? %>">
+        <div class="notification-item__icon">
+          <% if notification.event == "sent" %>
+            <span class="notification-dot notification-dot--success"></span>
+          <% else %>
+            <span class="notification-dot notification-dot--danger"></span>
+          <% end %>
         </div>
-      <% end %>
-    </div>
+        <div class="notification-item__content">
+          <div class="notification-item__title">
+            <strong><%= notification.announcement.title %></strong>
+            <% if notification.event == "sent" %>
+              <span class="badge badge-success badge--sm">Delivered</span>
+            <% else %>
+              <span class="badge badge-danger badge--sm">Failed</span>
+            <% end %>
+          </div>
+          <p class="notification-item__summary"><%= notification.summary %></p>
+          <span class="notification-item__time"><%= time_ago_in_words(notification.created_at) %> ago</span>
+        </div>
+        <div class="notification-item__actions">
+          <% unless notification.read? %>
+            <%= button_to "View", mark_one_read_notification_path(notification), method: :post, class: "btn btn--xs btn-secondary" %>
+          <% else %>
+            <%= link_to "View", announcement_path(notification.announcement), class: "btn btn--xs btn-secondary" %>
+          <% end %>
+        </div>
+      </div>
+    <% end %>
   </div>
-<% else %>
-  <div class="card">
-    <div class="empty-state">
-      <div class="empty-state__icon">🔔</div>
-      <h3>No notifications yet</h3>
-      <p class="text-secondary">You'll see updates here when your announcements are delivered or if something goes wrong.</p>
-    </div>
-  </div>
-<% end %>
+</div>

@@ -23,13 +23,9 @@
 
       <div class="app-topbar__user">
         <% if user_signed_in? %>
-          <% unread_count = current_user.notifications.unread.count %>
           <div class="app-topbar__user-menu">
             <div class="app-topbar__user-avatar">
               <%= current_user.email[0].upcase %>
-              <% if unread_count > 0 %>
-                <span class="notification-badge"><%= unread_count > 9 ? "9+" : unread_count %></span>
-              <% end %>
             </div>
             <div class="app-topbar__user-dropdown">
               <div class="app-topbar__user-dropdown-inner">
@@ -39,36 +35,6 @@
                     <div class="app-topbar__user-role"><%= current_user.role %></div>
                   <% end %>
                 </div>
-
-                <div class="user-menu__notifications">
-                  <div class="user-menu__notifications-header">
-                    <span>🔔 Notifications</span>
-                    <% if unread_count > 0 %>
-                      <span class="badge badge-info badge--sm"><%= unread_count %></span>
-                    <% end %>
-                  </div>
-                  <% recent_notifications = current_user.notifications.recent.limit(5) %>
-                  <% if recent_notifications.any? %>
-                    <div class="user-menu__notifications-list">
-                      <% recent_notifications.each do |notification| %>
-                        <a href="<%= announcement_path(notification.announcement) %>" class="user-menu__notification-item <%= 'user-menu__notification-item--unread' unless notification.read? %>">
-                          <span class="notification-dot notification-dot--<%= notification.event == 'sent' ? 'success' : 'danger' %>"></span>
-                          <div class="user-menu__notification-text">
-                            <div class="user-menu__notification-title"><%= truncate(notification.announcement.title, length: 30) %></div>
-                            <div class="user-menu__notification-time"><%= time_ago_in_words(notification.created_at) %> ago</div>
-                          </div>
-                        </a>
-                      <% end %>
-                    </div>
-                    <% if unread_count > 0 %>
-                      <%= button_to "Mark all read", mark_read_notifications_path, method: :post, class: "user-menu__mark-read" %>
-                    <% end %>
-                  <% else %>
-                    <div class="user-menu__notifications-empty">No notifications yet</div>
-                  <% end %>
-                  <%= link_to "View all notifications", notifications_path, class: "app-topbar__user-action user-menu__view-all" %>
-                </div>
-
                 <%= link_to "👤 Manage Users", manage_users_path, class: "app-topbar__user-action" %>
                 <%= button_to "Logout", destroy_user_session_path, method: :delete, class: "app-topbar__user-action" %>
               </div>
@@ -107,6 +73,17 @@
       </div>
 
       <div class="app-drawer__settings">
+        <% if user_signed_in? %>
+          <% unread_count = current_user.notifications.unread.count %>
+          <%= link_to notifications_path, class: "app-drawer__link #{controller_name == 'notifications' ? 'is-active' : ''}" do %>
+            <span class="app-drawer__link-icon">🔔</span>
+            <span>Notifications</span>
+            <% if unread_count > 0 %>
+              <span class="drawer-badge"><%= unread_count > 9 ? "9+" : unread_count %></span>
+            <% end %>
+          <% end %>
+        <% end %>
+
         <%= link_to help_index_path, class: "app-drawer__link #{controller_name == 'help' ? 'is-active' : ''}" do %>
           <span class="app-drawer__link-icon">❓</span>
           <span>Help</span>

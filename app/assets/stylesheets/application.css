@@ -2857,118 +2857,21 @@ a {
    Notifications
    ============================================================ */
 
-/* Badge on user avatar */
-.app-topbar__user-avatar {
-  position: relative;
-}
-
-.notification-badge {
-  position: absolute;
-  top: -4px;
-  right: -4px;
+/* Unread badge in the side drawer */
+.drawer-badge {
+  margin-left: auto;
   background: var(--error);
   color: #fff;
-  font-size: 9px;
+  font-size: 10px;
   font-weight: 700;
-  min-width: 14px;
-  height: 14px;
-  border-radius: 7px;
-  display: flex;
+  min-width: 18px;
+  height: 18px;
+  border-radius: 9px;
+  display: inline-flex;
   align-items: center;
   justify-content: center;
-  padding: 0 3px;
+  padding: 0 5px;
   line-height: 1;
-  border: 2px solid var(--bg-white);
-}
-
-/* Notifications section inside user dropdown */
-.user-menu__notifications {
-  border-top: 1px solid var(--border-light);
-  border-bottom: 1px solid var(--border-light);
-}
-
-.user-menu__notifications-header {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  padding: var(--spacing-sm) var(--spacing-md);
-  font-size: 13px;
-  font-weight: 600;
-  color: var(--text-secondary);
-}
-
-.user-menu__notifications-list {
-  max-height: 200px;
-  overflow-y: auto;
-}
-
-.user-menu__notification-item {
-  display: flex;
-  align-items: flex-start;
-  gap: 8px;
-  padding: 8px var(--spacing-md);
-  text-decoration: none;
-  color: inherit;
-  transition: background 0.15s;
-}
-
-.user-menu__notification-item:hover {
-  background: var(--bg-hover);
-}
-
-.user-menu__notification-item--unread {
-  background: #f0f7ff;
-}
-
-.user-menu__notification-text {
-  flex: 1;
-  min-width: 0;
-}
-
-.user-menu__notification-title {
-  font-size: 12px;
-  font-weight: 500;
-  color: var(--text-primary);
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-}
-
-.user-menu__notification-time {
-  font-size: 11px;
-  color: var(--text-muted);
-  margin-top: 1px;
-}
-
-.user-menu__notifications-empty {
-  padding: 12px var(--spacing-md);
-  font-size: 12px;
-  color: var(--text-muted);
-  text-align: center;
-}
-
-.user-menu__mark-read {
-  display: block;
-  width: 100%;
-  background: none;
-  border: none;
-  border-top: 1px solid var(--border-light);
-  padding: 6px var(--spacing-md);
-  font-size: 11px;
-  color: var(--primary-blue);
-  cursor: pointer;
-  text-align: center;
-}
-
-.user-menu__mark-read:hover {
-  background: var(--bg-hover);
-}
-
-.user-menu__view-all {
-  font-size: 12px;
-  text-align: center;
-  color: var(--primary-blue);
-  border-top: 1px solid var(--border-light);
 }
 
 /* Notification dot indicator */
