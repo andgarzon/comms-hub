@@ -83,9 +83,13 @@
             </div>
 
             <div class="announcement-actions">
-              <%= link_to "View Details", announcement_path(announcement), class: "btn btn--sm btn-primary" %>
-              <% if announcement.status.in?(%w[draft failed]) %>
-                <%= link_to "Edit", edit_announcement_path(announcement), class: "btn btn--sm btn-secondary" %>
+              <% if announcement.draft? %>
+                <%= link_to "Edit", edit_announcement_path(announcement), class: "btn btn--sm btn-primary" %>
+              <% else %>
+                <%= link_to "View Details", announcement_path(announcement), class: "btn btn--sm btn-primary" %>
+                <% if announcement.status == "failed" %>
+                  <%= link_to "Edit", edit_announcement_path(announcement), class: "btn btn--sm btn-secondary" %>
+                <% end %>
               <% end %>
               <%= button_to "Duplicate", duplicate_announcement_path(announcement), method: :post, class: "btn btn--sm btn-secondary" %>
             </div>

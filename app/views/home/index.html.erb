@@ -85,7 +85,7 @@
         <% @recent_announcements.each do |announcement| %>
           <tr>
             <td>
-              <%= link_to announcement.title, announcement_path(announcement), class: "font-semibold text-primary" %>
+              <%= link_to announcement.title, announcement.draft? ? edit_announcement_path(announcement) : announcement_path(announcement), class: "font-semibold text-primary" %>
             </td>
             <td>
               <span class="status-badge status-<%= announcement.status %>"><%= announcement.status&.titleize %></span>
