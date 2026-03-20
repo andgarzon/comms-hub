@@ -1,0 +1,61 @@
+<% content_for :page_title, "Notification Preferences" %>
+
+<div class="page-header">
+  <h2 class="page-header__title">Notification Preferences</h2>
+  <p class="page-header__description">Choose how you want to be notified about announcement deliveries</p>
+</div>
+
+<div class="max-w-800">
+  <%= form_with(model: @preference, url: notification_preferences_path, method: :patch, local: true) do |form| %>
+    <div class="card mb-20">
+      <div class="card__header">
+        <h3 class="card__title">When an announcement is delivered</h3>
+      </div>
+      <p class="text-secondary text-sm mb-16">Get notified after your announcements are successfully sent.</p>
+
+      <div class="form-group mb-12">
+        <label class="form-label notification-pref-label">
+          <%= form.check_box :in_app_on_sent, class: "form-checkbox" %>
+          In-app notification
+        </label>
+        <small class="form-hint ml-24">See a notification in the bell icon at the top of the page.</small>
+      </div>
+
+      <div class="form-group mb-0">
+        <label class="form-label notification-pref-label">
+          <%= form.check_box :email_on_sent, class: "form-checkbox" %>
+          Email notification
+        </label>
+        <small class="form-hint ml-24">Receive a summary email at <%= current_user.email %>.</small>
+      </div>
+    </div>
+
+    <div class="card mb-20">
+      <div class="card__header">
+        <h3 class="card__title">When an announcement fails</h3>
+      </div>
+      <p class="text-secondary text-sm mb-16">Get notified if something goes wrong during delivery.</p>
+
+      <div class="form-group mb-12">
+        <label class="form-label notification-pref-label">
+          <%= form.check_box :in_app_on_failure, class: "form-checkbox" %>
+          In-app notification
+        </label>
+        <small class="form-hint ml-24">See a notification in the bell icon at the top of the page.</small>
+      </div>
+
+      <div class="form-group mb-0">
+        <label class="form-label notification-pref-label">
+          <%= form.check_box :email_on_failure, class: "form-checkbox" %>
+          Email notification
+        </label>
+        <small class="form-hint ml-24">Receive an alert email at <%= current_user.email %>.</small>
+      </div>
+    </div>
+
+    <div class="form-actions">
+      <%= link_to "Back to Settings", settings_path, class: "btn btn-secondary" %>
+      <%= form.submit "Save Preferences", class: "btn btn-primary" %>
+    </div>
+  <% end %>
+</div>

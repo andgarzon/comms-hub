@@ -35,6 +35,16 @@ Rails.application.routes.draw do
   resources :settings, only: [ :index ]
   resources :help, only: [ :index ]
 
+  resource :notification_preferences, only: [ :edit, :update ]
+  resources :notifications, only: [ :index ] do
+    collection do
+      post :mark_read
+    end
+    member do
+      post :mark_one_read
+    end
+  end
+
   # Integration routes
   get "integrations", to: "integrations#index", as: :integrations
   get "integrations/openai", to: "integrations#openai", as: :openai_integration

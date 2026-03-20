@@ -254,6 +254,8 @@ class SendAnnouncementJob < ApplicationJob
 
     announcement.update!(status: "sent")
 
+    NotificationService.notify_sent(announcement, announcement.delivery_logs.reload)
+
   rescue => e
     if (announcement ||= Announcement.find_by(id: announcement_id))
       announcement.delivery_logs.create!(
@@ -263,6 +265,8 @@ class SendAnnouncementJob < ApplicationJob
         details: "#{e.class}: #{e.message}"
       )
       announcement.update!(status: "failed")
+
+      NotificationService.notify_failed(announcement, e.message)
     end
 
     raise

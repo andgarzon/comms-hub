@@ -39,16 +39,19 @@
     </div>
   <% end %>
 
-  <!-- Placeholder: Notifications (coming soon) -->
-  <div class="card opacity-50">
-    <div class="settings-card__header">
-      <div class="settings-card__icon">🔔</div>
-      <div>
-        <h3 class="settings-card__title">Notifications</h3>
-        <span class="badge badge-info badge--sm">Coming Soon</span>
+  <!-- Notifications -->
+  <%= link_to edit_notification_preferences_path, class: "settings-card-link" do %>
+    <div class="card settings-card">
+      <div class="settings-card__header">
+        <div class="settings-card__icon">🔔</div>
+        <div>
+          <h3 class="settings-card__title">Notifications</h3>
+          <span class="settings-card__subtitle">Email & in-app alerts</span>
+        </div>
       </div>
+      <p class="settings-card__desc">Choose how you get notified when announcements are delivered or fail.</p>
+      <div class="settings-card__action">Manage Preferences →</div>
     </div>
-    <p class="settings-card__desc">Manage notification preferences and alerts.</p>
-  </div>
+  <% end %>
 
 </div>

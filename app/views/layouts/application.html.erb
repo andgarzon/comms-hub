@@ -22,9 +22,43 @@
       <div class="app-topbar__spacer"></div>
 
       <div class="app-topbar__notification">
-        <button class="app-topbar__notification-btn" aria-label="Notifications">
-          🔔
-        </button>
+        <% if user_signed_in? %>
+          <% unread_count = current_user.notifications.unread.count %>
+          <button class="app-topbar__notification-btn" aria-label="Notifications" onclick="this.parentElement.classList.toggle('is-open')">
+            🔔
+            <% if unread_count > 0 %>
+              <span class="notification-badge"><%= unread_count > 9 ? "9+" : unread_count %></span>
+            <% end %>
+          </button>
+          <div class="notification-dropdown">
+            <div class="notification-dropdown__header">
+              <strong>Notifications</strong>
+              <% if unread_count > 0 %>
+                <%= button_to "Mark all read", mark_read_notifications_path, method: :post, class: "notification-dropdown__mark-read" %>
+              <% end %>
+            </div>
+            <div class="notification-dropdown__body">
+              <% current_user.notifications.recent.each do |notification| %>
+                <a href="<%= announcement_path(notification.announcement) %>" class="notification-dropdown__item <%= 'notification-dropdown__item--unread' unless notification.read? %>">
+                  <span class="notification-dot notification-dot--<%= notification.event == 'sent' ? 'success' : 'danger' %>"></span>
+                  <div class="notification-dropdown__item-content">
+                    <div class="notification-dropdown__item-title"><%= truncate(notification.announcement.title, length: 40) %></div>
+                    <div class="notification-dropdown__item-summary"><%= truncate(notification.summary, length: 60) %></div>
+                    <div class="notification-dropdown__item-time"><%= time_ago_in_words(notification.created_at) %> ago</div>
+                  </div>
+                </a>
+              <% end %>
+              <% if current_user.notifications.none? %>
+                <div class="notification-dropdown__empty">No notifications yet</div>
+              <% end %>
+            </div>
+            <div class="notification-dropdown__footer">
+              <%= link_to "View all notifications", notifications_path %>
+            </div>
+          </div>
+        <% else %>
+          <button class="app-topbar__notification-btn" aria-label="Notifications">🔔</button>
+        <% end %>
       </div>
 
       <div class="app-topbar__user">
@@ -104,5 +138,13 @@
         <%= yield %>
       </div>
     </div>
+    <script>
+      document.addEventListener('click', function(e) {
+        var notif = document.querySelector('.app-topbar__notification');
+        if (notif && !notif.contains(e.target)) {
+          notif.classList.remove('is-open');
+        }
+      });
+    </script>
   </body>
 </html>

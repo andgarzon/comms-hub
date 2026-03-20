@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta content="text/html; charset=UTF-8" http-equiv="Content-Type" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+      background-color: #f4f4f4;
+    }
+    .email-container {
+      max-width: 600px;
+      margin: 0 auto;
+      background-color: #ffffff;
+    }
+    .header {
+      <% if @event == "sent" %>
+      background: linear-gradient(135deg, #38a169 0%, #2f855a 100%);
+      <% else %>
+      background: linear-gradient(135deg, #e53e3e 0%, #c53030 100%);
+      <% end %>
+      padding: 30px;
+      text-align: center;
+    }
+    .header h1 {
+      color: #ffffff;
+      margin: 0;
+      font-size: 22px;
+      font-weight: 600;
+    }
+    .header p {
+      color: rgba(255,255,255,0.9);
+      margin: 8px 0 0;
+      font-size: 14px;
+    }
+    .content {
+      padding: 30px;
+      line-height: 1.6;
+      color: #333333;
+    }
+    .summary-box {
+      background-color: #f7fafc;
+      border: 1px solid #e2e8f0;
+      border-radius: 8px;
+      padding: 20px;
+      margin-bottom: 20px;
+    }
+    .summary-box p {
+      margin: 0;
+      font-size: 15px;
+      color: #4a5568;
+    }
+    .detail-row {
+      display: flex;
+      margin-bottom: 8px;
+      font-size: 14px;
+    }
+    .detail-label {
+      color: #718096;
+      min-width: 100px;
+    }
+    .detail-value {
+      color: #2d3748;
+      font-weight: 500;
+    }
+    .footer {
+      background-color: #f8f9fa;
+      padding: 20px 30px;
+      text-align: center;
+      border-top: 1px solid #e9ecef;
+    }
+    .footer p {
+      margin: 0;
+      font-size: 12px;
+      color: #adb5bd;
+    }
+  </style>
+</head>
+<body>
+  <table role="presentation" cellspacing="0" cellpadding="0" border="0" width="100%" style="background-color: #f4f4f4;">
+    <tr>
+      <td style="padding: 40px 0;">
+        <div class="email-container">
+          <div class="header">
+            <h1><%= @event == "sent" ? "Announcement Delivered" : "Announcement Failed" %></h1>
+            <p><%= @announcement.title %></p>
+          </div>
+
+          <div class="content">
+            <div class="summary-box">
+              <p><%= @summary %></p>
+            </div>
+
+            <table cellspacing="0" cellpadding="4" style="font-size: 14px; color: #4a5568;">
+              <tr>
+                <td style="color: #718096; padding-right: 16px;">Announcement</td>
+                <td style="font-weight: 500; color: #2d3748;"><%= @announcement.title %></td>
+              </tr>
+              <tr>
+                <td style="color: #718096; padding-right: 16px;">Status</td>
+                <td style="font-weight: 500; color: #2d3748;"><%= @event.capitalize %></td>
+              </tr>
+              <tr>
+                <td style="color: #718096; padding-right: 16px;">Time</td>
+                <td style="font-weight: 500; color: #2d3748;"><%= Time.current.strftime("%B %d, %Y at %I:%M %p") %></td>
+              </tr>
+            </table>
+          </div>
+
+          <div class="footer">
+            <p>You received this because you have email notifications enabled in CommsHub.</p>
+          </div>
+        </div>
+      </td>
+    </tr>
+  </table>
+</body>
+</html>

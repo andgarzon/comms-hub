@@ -1,0 +1,12 @@
+<%= @event == "sent" ? "ANNOUNCEMENT DELIVERED" : "ANNOUNCEMENT FAILED" %>
+<%= "=" * 40 %>
+
+<%= @announcement.title %>
+
+<%= @summary %>
+
+Status: <%= @event.capitalize %>
+Time: <%= Time.current.strftime("%B %d, %Y at %I:%M %p") %>
+
+--
+You received this because you have email notifications enabled in CommsHub.

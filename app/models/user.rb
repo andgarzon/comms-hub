@@ -11,6 +11,8 @@ class User < ApplicationRecord
   has_many :audience_memberships, dependent: :destroy
   has_many :audiences, through: :audience_memberships
   has_many :created_audiences, class_name: "Audience", foreign_key: :created_by_id, dependent: :nullify
+  has_one :notification_preference, dependent: :destroy
+  has_many :notifications, dependent: :destroy
 
   def has_role?(*roles)
     roles.map!(&:to_s)
