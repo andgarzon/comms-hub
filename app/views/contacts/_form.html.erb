@@ -1,4 +1,4 @@
-<%= form_with(model: contact, local: true, data: { controller: "contact-form" }) do |form| %>
+<%= form_with(model: contact, local: true) do |form| %>
   <% if contact.errors.any? %>
     <div class="alert alert-danger error-list">
       <strong class="error-list__title">
@@ -19,17 +19,17 @@
 
     <div class="form-group">
       <%= form.label :contact_type, "Type", class: "form-label" %>
-      <%= form.select :contact_type, Contact::CONTACT_TYPES.map { |t| [t.titleize, t] }, {}, class: "form-control", data: { contact_type_field: true, action: "change->contact-form#toggle" } %>
+      <%= form.select :contact_type, Contact::CONTACT_TYPES.map { |t| [t.titleize, t] }, {}, class: "form-control", id: "contact_type_select", onchange: "toggleContactFields()" %>
       <small class="form-hint">Slack Channel is for channels (e.g. #general), not individual people.</small>
     </div>
 
     <div class="form-group mb-0">
       <%= form.label :name, class: "form-label" %>
-      <%= form.text_field :name, class: "form-control", placeholder: "Full name", data: { contact_form_target: "nameInput" } %>
+      <%= form.text_field :name, class: "form-control", id: "contact_name_input", placeholder: "Full name" %>
     </div>
   </div>
 
-  <div class="card mb-20" data-contact-form-target="personFields">
+  <div class="card mb-20" id="person-fields">
     <div class="card__header">
       <h3 class="card__title">Contact Details</h3>
     </div>
@@ -50,7 +50,7 @@
     </div>
   </div>
 
-  <div class="card mb-20 hidden" data-contact-form-target="slackChannelFields">
+  <div class="card mb-20 hidden" id="slack-channel-fields">
     <div class="card__header">
       <h3 class="card__title">Slack Channel</h3>
     </div>
@@ -62,7 +62,7 @@
     </div>
   </div>
 
-  <div class="card mb-20" data-contact-form-target="organizationFields">
+  <div class="card mb-20" id="organization-fields">
     <div class="card__header">
       <h3 class="card__title">Organization</h3>
     </div>
@@ -102,3 +102,23 @@
     <%= form.submit class: "btn btn-primary" %>
   </div>
 <% end %>
+
+<script>
+  function toggleContactFields() {
+    var typeSelect = document.getElementById('contact_type_select');
+    var personFields = document.getElementById('person-fields');
+    var slackChannelFields = document.getElementById('slack-channel-fields');
+    var organizationFields = document.getElementById('organization-fields');
+    var nameInput = document.getElementById('contact_name_input');
+
+    var isSlackChannel = typeSelect.value === 'slack_channel';
+    personFields.classList.toggle('hidden', isSlackChannel);
+    slackChannelFields.classList.toggle('hidden', !isSlackChannel);
+    organizationFields.classList.toggle('hidden', isSlackChannel);
+    nameInput.placeholder = isSlackChannel ? 'e.g., Engineering Updates' : 'Full name';
+  }
+
+  // Run on initial load and Turbo page visits
+  document.addEventListener('turbo:load', toggleContactFields);
+  document.addEventListener('DOMContentLoaded', toggleContactFields);
+</script>
