@@ -28,15 +28,6 @@
 
       <div class="grid-2-col">
         <label class="audience-type-option">
-          <%= form.radio_button :type, '', checked: @audience.type.blank?, class: "type-radio", id: "type_general" %>
-          <div class="type-content">
-            <div class="type-icon">👥</div>
-            <div class="type-name">General</div>
-            <div class="type-desc">A general-purpose audience with platform users as members.</div>
-          </div>
-        </label>
-
-        <label class="audience-type-option">
           <%= form.radio_button :type, 'SlackAudience', checked: @audience.type == 'SlackAudience', class: "type-radio", id: "type_slack" %>
           <div class="type-content">
             <div class="type-icon">💬</div>
