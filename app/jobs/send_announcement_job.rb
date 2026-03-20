@@ -102,7 +102,8 @@ class SendAnnouncementJob < ApplicationJob
     end
 
     # Send to slack_channel type contacts in any audience
-    sent_slack_channels = []
+    # Seed with channels already sent above from SlackAudience audiences
+    sent_slack_channels = announcement.audiences.where(type: "SlackAudience").filter_map(&:slack_channel)
     announcement.audiences.each do |audience|
       audience.contact_slack_channels.each do |channel|
         next if sent_slack_channels.include?(channel)
