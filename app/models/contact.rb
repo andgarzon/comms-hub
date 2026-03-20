@@ -1,5 +1,5 @@
 class Contact < ApplicationRecord
-  CONTACT_TYPES = %w[employee client vendor admin_staff client_staff].freeze
+  CONTACT_TYPES = %w[client vendor admin_staff client_staff].freeze
 
   belongs_to :contact_list, optional: true
   has_many :audience_contacts, dependent: :destroy
@@ -19,7 +19,7 @@ class Contact < ApplicationRecord
   }
 
   def display_type
-    contact_type&.titleize || "Employee"
+    contact_type&.titleize || "Admin Staff"
   end
 
   def active_label

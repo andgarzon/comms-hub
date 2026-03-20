@@ -100,7 +100,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_03_19_000001) do
     t.boolean "active", default: true, null: false
     t.string "company"
     t.bigint "contact_list_id"
-    t.string "contact_type", default: "employee"
+    t.string "contact_type", default: "admin_staff"
     t.datetime "created_at", null: false
     t.string "department"
     t.string "email"

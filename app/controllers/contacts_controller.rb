@@ -122,7 +122,7 @@ class ContactsController < ApplicationController
         slack_username: row["slack_username"]&.strip || row["slack"]&.strip,
         company: row["company"]&.strip,
         department: row["department"]&.strip,
-        contact_type: row["contact_type"]&.strip&.downcase || row["type"]&.strip&.downcase || "employee",
+        contact_type: row["contact_type"]&.strip&.downcase || row["type"]&.strip&.downcase || "admin_staff",
         contact_list: contact_list,
         active: true
       }
