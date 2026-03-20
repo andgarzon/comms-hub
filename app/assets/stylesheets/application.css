@@ -2713,20 +2713,88 @@ a {
    Page: Dashboard
    ============================================================ */
 
-.dashboard-stats {
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 20px;
+/* Compact horizontal stats bar */
+.dashboard-stats-compact {
+  display: flex;
+  gap: 16px;
   margin-bottom: 24px;
 }
 
-.stat-card__badges {
+.stat-compact {
+  flex: 1;
   display: flex;
-  gap: 6px;
-  justify-content: center;
-  flex-wrap: wrap;
-  margin-top: 10px;
+  align-items: center;
+  gap: 10px;
+  padding: 12px 16px;
+  border-radius: var(--radius-lg);
+  border: 1px solid var(--border-light);
+  background: var(--bg-white);
+  min-width: 0;
 }
+
+.stat-compact--blue  { border-left: 4px solid var(--primary-blue); }
+.stat-compact--green { border-left: 4px solid var(--success); }
+.stat-compact--orange { border-left: 4px solid var(--warning); }
+.stat-compact--info  { border-left: 4px solid var(--info); }
+
+.stat-compact__value {
+  font-size: 24px;
+  font-weight: 700;
+  line-height: 1;
+  flex-shrink: 0;
+}
+
+.stat-compact--blue .stat-compact__value  { color: var(--primary-blue); }
+.stat-compact--green .stat-compact__value { color: var(--success); }
+.stat-compact--orange .stat-compact__value { color: var(--warning); }
+.stat-compact--info .stat-compact__value  { color: var(--info); }
+
+.stat-compact__label {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--text-primary);
+  white-space: nowrap;
+}
+
+.stat-compact__sub {
+  display: flex;
+  gap: 4px;
+  flex-wrap: wrap;
+  margin-left: auto;
+}
+
+/* Mini pagination for announcements widget */
+.mini-pagination {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 13px;
+}
+
+.mini-pagination__link {
+  padding: 2px 8px;
+  border-radius: var(--radius-sm);
+  color: var(--primary-blue);
+  text-decoration: none;
+  font-weight: 500;
+  transition: background 0.15s;
+}
+
+.mini-pagination__link:hover {
+  background: var(--bg-hover);
+}
+
+.mini-pagination__link--disabled {
+  color: var(--text-muted);
+  pointer-events: none;
+}
+
+.mini-pagination__info {
+  color: var(--text-secondary);
+  font-size: 12px;
+}
+
+.text-right { text-align: right; }
 
 /* Dashboard list (contacts & audiences widgets) */
 .dashboard-list {
@@ -2778,14 +2846,22 @@ a {
 
 /* Responsive: stack on small screens */
 @media (max-width: 900px) {
-  .dashboard-stats {
-    grid-template-columns: repeat(2, 1fr);
+  .dashboard-stats-compact {
+    flex-wrap: wrap;
+  }
+
+  .stat-compact {
+    flex: 1 1 calc(50% - 8px);
   }
 }
 
 @media (max-width: 600px) {
-  .dashboard-stats {
-    grid-template-columns: 1fr;
+  .dashboard-stats-compact {
+    flex-direction: column;
+  }
+
+  .stat-compact {
+    flex: 1 1 100%;
   }
 
   .grid-2-col {

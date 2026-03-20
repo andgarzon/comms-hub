@@ -5,34 +5,31 @@
   <p class="page-header__description">Welcome to CommsHub — Your central communication management system</p>
 </div>
 
-<%# ── Summary Statistics ── %>
-<div class="dashboard-stats">
-  <div class="stat-card stat-card--blue">
-    <div class="stat-card__value text-blue"><%= @total_announcements %></div>
-    <div class="stat-card__label">Announcements</div>
-    <div class="stat-card__badges">
+<%# ── Summary Statistics (compact horizontal) ── %>
+<div class="dashboard-stats-compact">
+  <div class="stat-compact stat-compact--blue">
+    <span class="stat-compact__value"><%= @total_announcements %></span>
+    <span class="stat-compact__label">Announcements</span>
+    <span class="stat-compact__sub">
       <span class="badge badge--sm badge-warning"><%= @draft_announcements %> draft</span>
-      <span class="badge badge--sm badge-info"><%= @scheduled_announcements %> scheduled</span>
+      <span class="badge badge--sm badge-info"><%= @scheduled_announcements %> sched</span>
       <span class="badge badge--sm badge-success"><%= @sent_announcements %> sent</span>
-    </div>
+    </span>
   </div>
-
-  <div class="stat-card stat-card--green">
-    <div class="stat-card__value text-success"><%= @total_contacts %></div>
-    <div class="stat-card__label">Contacts</div>
-    <div class="stat-card__badges">
+  <div class="stat-compact stat-compact--green">
+    <span class="stat-compact__value"><%= @total_contacts %></span>
+    <span class="stat-compact__label">Contacts</span>
+    <span class="stat-compact__sub">
       <span class="badge badge--sm badge-success"><%= @active_contacts %> active</span>
-    </div>
+    </span>
   </div>
-
-  <div class="stat-card stat-card--orange">
-    <div class="stat-card__value text-warning"><%= @total_audiences %></div>
-    <div class="stat-card__label">Audiences</div>
+  <div class="stat-compact stat-compact--orange">
+    <span class="stat-compact__value"><%= @total_audiences %></span>
+    <span class="stat-compact__label">Audiences</span>
   </div>
-
-  <div class="stat-card stat-card--info">
-    <div class="stat-card__value text-info"><%= @total_contact_lists %></div>
-    <div class="stat-card__label">Contact Lists</div>
+  <div class="stat-compact stat-compact--info">
+    <span class="stat-compact__value"><%= @total_contact_lists %></span>
+    <span class="stat-compact__label">Contact Lists</span>
   </div>
 </div>
 
@@ -80,9 +77,27 @@
 <div class="card mb-24">
   <div class="card__header flex-between">
     <h3 class="card__title">Recent Announcements</h3>
-    <%= link_to "View All Announcements →", announcements_path, class: "text-sm text-blue" %>
+    <div class="flex-row gap-12">
+      <% if @announcements_total_pages > 1 %>
+        <div class="mini-pagination">
+          <% if @announcements_page > 1 %>
+            <%= link_to "‹ Prev", root_path(ann_page: @announcements_page - 1, anchor: "announcements"), class: "mini-pagination__link" %>
+          <% else %>
+            <span class="mini-pagination__link mini-pagination__link--disabled">‹ Prev</span>
+          <% end %>
+          <span class="mini-pagination__info"><%= @announcements_page %>/<%= @announcements_total_pages %></span>
+          <% if @announcements_page < @announcements_total_pages %>
+            <%= link_to "Next ›", root_path(ann_page: @announcements_page + 1, anchor: "announcements"), class: "mini-pagination__link" %>
+          <% else %>
+            <span class="mini-pagination__link mini-pagination__link--disabled">Next ›</span>
+          <% end %>
+        </div>
+      <% end %>
+      <%= link_to "View All →", announcements_path, class: "text-sm text-blue" %>
+    </div>
   </div>
 
+  <div id="announcements">
   <% if @recent_announcements.any? %>
     <table class="table">
       <thead>
@@ -91,6 +106,7 @@
           <th>Status</th>
           <th>Audience</th>
           <th>Date</th>
+          <th></th>
         </tr>
       </thead>
       <tbody>
@@ -104,6 +120,11 @@
             </td>
             <td class="text-secondary"><%= announcement.audiences.map(&:name).join(", ").presence || "—" %></td>
             <td class="text-secondary text-sm"><%= announcement.scheduled_for&.strftime("%b %d, %Y") || announcement.created_at.strftime("%b %d, %Y") %></td>
+            <td class="text-right">
+              <%= link_to duplicate_announcement_path(announcement), method: :post, class: "btn btn-secondary btn--xs", title: "Duplicate" do %>
+                📋 Duplicate
+              <% end %>
+            </td>
           </tr>
         <% end %>
       </tbody>
@@ -117,6 +138,7 @@
       </div>
     </div>
   <% end %>
+  </div>
 </div>
 
 <%# ── Recent Contacts & Audiences side-by-side ── %>
@@ -140,10 +162,11 @@
                 <div class="text-xs text-muted"><%= contact.company %></div>
               <% end %>
             </div>
-            <div>
+            <div class="flex-row gap-8">
               <span class="badge badge--sm <%= contact.active? ? 'badge-success' : 'badge-neutral' %>">
                 <%= contact.active_label %>
               </span>
+              <%= link_to "Edit", edit_contact_path(contact), class: "btn btn-secondary btn--xs" %>
             </div>
           </div>
         <% end %>
@@ -178,10 +201,11 @@
               <div class="font-semibold"><%= audience.name %></div>
               <div class="text-sm text-secondary"><%= audience.recipients_count %> recipients</div>
             </div>
-            <div>
+            <div class="flex-row gap-8">
               <% if audience.type.present? %>
                 <span class="badge badge--sm badge-info"><%= audience.type.sub("Audience", "") %></span>
               <% end %>
+              <%= link_to "Edit", edit_audience_path(audience), class: "btn btn-secondary btn--xs" %>
             </div>
           </div>
         <% end %>
