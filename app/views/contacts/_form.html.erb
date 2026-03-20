@@ -1,4 +1,4 @@
-<%= form_with(model: contact, local: true) do |form| %>
+<%= form_with(model: contact, local: true, data: { controller: "contact-form" }) do |form| %>
   <% if contact.errors.any? %>
     <div class="alert alert-danger error-list">
       <strong class="error-list__title">
@@ -17,21 +17,21 @@
       <h3 class="card__title">Contact Type</h3>
     </div>
 
-    <div class="form-group mb-0">
+    <div class="form-group">
       <%= form.label :contact_type, "Type", class: "form-label" %>
-      <%= form.select :contact_type, Contact::CONTACT_TYPES.map { |t| [t.titleize, t] }, {}, class: "form-control", id: "contact_type_select" %>
+      <%= form.select :contact_type, Contact::CONTACT_TYPES.map { |t| [t.titleize, t] }, {}, class: "form-control", data: { contact_type_field: true, action: "change->contact-form#toggle" } %>
       <small class="form-hint">Slack Channel is for channels (e.g. #general), not individual people.</small>
+    </div>
+
+    <div class="form-group mb-0">
+      <%= form.label :name, class: "form-label" %>
+      <%= form.text_field :name, class: "form-control", placeholder: "Full name", data: { contact_form_target: "nameInput" } %>
     </div>
   </div>
 
-  <div class="card mb-20" id="person-fields">
+  <div class="card mb-20" data-contact-form-target="personFields">
     <div class="card__header">
-      <h3 class="card__title">Basic Information</h3>
-    </div>
-
-    <div class="form-group">
-      <%= form.label :name, class: "form-label" %>
-      <%= form.text_field :name, class: "form-control", placeholder: "Full name" %>
+      <h3 class="card__title">Contact Details</h3>
     </div>
 
     <div class="form-group">
@@ -50,15 +50,9 @@
     </div>
   </div>
 
-  <div class="card mb-20 hidden" id="slack-channel-fields">
+  <div class="card mb-20 hidden" data-contact-form-target="slackChannelFields">
     <div class="card__header">
       <h3 class="card__title">Slack Channel</h3>
-    </div>
-
-    <div class="form-group">
-      <%= form.label :name, "Channel Name", class: "form-label" %>
-      <%= form.text_field :name, class: "form-control", placeholder: "e.g., Engineering Updates", id: "slack_channel_name" %>
-      <small class="form-hint">A friendly name to identify this channel</small>
     </div>
 
     <div class="form-group mb-0">
@@ -68,7 +62,7 @@
     </div>
   </div>
 
-  <div class="card mb-20" id="organization-fields">
+  <div class="card mb-20" data-contact-form-target="organizationFields">
     <div class="card__header">
       <h3 class="card__title">Organization</h3>
     </div>
@@ -108,22 +102,3 @@
     <%= form.submit class: "btn btn-primary" %>
   </div>
 <% end %>
-
-<script>
-  document.addEventListener('DOMContentLoaded', function() {
-    var typeSelect = document.getElementById('contact_type_select');
-    var personFields = document.getElementById('person-fields');
-    var slackChannelFields = document.getElementById('slack-channel-fields');
-    var organizationFields = document.getElementById('organization-fields');
-
-    function toggleFields() {
-      var isSlackChannel = typeSelect.value === 'slack_channel';
-      personFields.classList.toggle('hidden', isSlackChannel);
-      slackChannelFields.classList.toggle('hidden', !isSlackChannel);
-      organizationFields.classList.toggle('hidden', isSlackChannel);
-    }
-
-    typeSelect.addEventListener('change', toggleFields);
-    toggleFields();
-  });
-</script>
