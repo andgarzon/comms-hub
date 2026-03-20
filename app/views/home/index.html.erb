@@ -5,34 +5,6 @@
   <p class="page-header__description">Welcome to CommsHub — Your central communication management system</p>
 </div>
 
-<%# ── Summary Statistics (compact horizontal) ── %>
-<div class="dashboard-stats-compact">
-  <div class="stat-compact stat-compact--blue">
-    <span class="stat-compact__value"><%= @total_announcements %></span>
-    <span class="stat-compact__label">Announcements</span>
-    <span class="stat-compact__sub">
-      <span class="badge badge--sm badge-warning"><%= @draft_announcements %> draft</span>
-      <span class="badge badge--sm badge-info"><%= @scheduled_announcements %> sched</span>
-      <span class="badge badge--sm badge-success"><%= @sent_announcements %> sent</span>
-    </span>
-  </div>
-  <div class="stat-compact stat-compact--green">
-    <span class="stat-compact__value"><%= @total_contacts %></span>
-    <span class="stat-compact__label">Contacts</span>
-    <span class="stat-compact__sub">
-      <span class="badge badge--sm badge-success"><%= @active_contacts %> active</span>
-    </span>
-  </div>
-  <div class="stat-compact stat-compact--orange">
-    <span class="stat-compact__value"><%= @total_audiences %></span>
-    <span class="stat-compact__label">Audiences</span>
-  </div>
-  <div class="stat-compact stat-compact--info">
-    <span class="stat-compact__value"><%= @total_contact_lists %></span>
-    <span class="stat-compact__label">Contact Lists</span>
-  </div>
-</div>
-
 <%# ── Quick Actions ── %>
 <div class="card mb-24">
   <div class="card__header">
