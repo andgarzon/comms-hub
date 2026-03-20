@@ -3,7 +3,7 @@ slack_contact:
   email: jane@example.com
   slack_username: "@jane.doe"
   company: Acme Corp
-  contact_type: employee
+  contact_type: admin_staff
   active: true
 
 slack_contact_two:
@@ -11,12 +11,12 @@ slack_contact_two:
   email: john@example.com
   slack_username: "@john.smith"
   company: Acme Corp
-  contact_type: employee
+  contact_type: admin_staff
   active: true
 
 no_slack_contact:
   name: Bob Wilson
   email: bob@example.com
   company: Acme Corp
-  contact_type: employee
+  contact_type: admin_staff
   active: true
