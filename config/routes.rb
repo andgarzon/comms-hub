@@ -1,7 +1,7 @@
 Rails.application.routes.draw do
   devise_for :users, skip: [ :registrations ]
 
-  root "announcements#index"
+  root "home#index"
 
   resources :announcements, only: [ :index, :new, :create, :show, :edit, :update ] do
     member do

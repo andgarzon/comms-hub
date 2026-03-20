@@ -2,76 +2,108 @@
 
 <div class="page-header">
   <h2 class="page-header__title">Dashboard</h2>
-  <p class="page-header__description">Welcome to CommsHub - Your central communication management system</p>
-  <div class="page-header__actions">
-    <%= link_to "Create Announcement", new_announcement_path, class: "btn btn-primary" %>
+  <p class="page-header__description">Welcome to CommsHub — Your central communication management system</p>
+</div>
+
+<%# ── Summary Statistics ── %>
+<div class="dashboard-stats">
+  <div class="stat-card stat-card--blue">
+    <div class="stat-card__value text-blue"><%= @total_announcements %></div>
+    <div class="stat-card__label">Announcements</div>
+    <div class="stat-card__badges">
+      <span class="badge badge--sm badge-warning"><%= @draft_announcements %> draft</span>
+      <span class="badge badge--sm badge-info"><%= @scheduled_announcements %> scheduled</span>
+      <span class="badge badge--sm badge-success"><%= @sent_announcements %> sent</span>
+    </div>
+  </div>
+
+  <div class="stat-card stat-card--green">
+    <div class="stat-card__value text-success"><%= @total_contacts %></div>
+    <div class="stat-card__label">Contacts</div>
+    <div class="stat-card__badges">
+      <span class="badge badge--sm badge-success"><%= @active_contacts %> active</span>
+    </div>
+  </div>
+
+  <div class="stat-card stat-card--orange">
+    <div class="stat-card__value text-warning"><%= @total_audiences %></div>
+    <div class="stat-card__label">Audiences</div>
+  </div>
+
+  <div class="stat-card stat-card--info">
+    <div class="stat-card__value text-info"><%= @total_contact_lists %></div>
+    <div class="stat-card__label">Contact Lists</div>
   </div>
 </div>
 
-<div class="card">
+<%# ── Quick Actions ── %>
+<div class="card mb-24">
   <div class="card__header">
-    <h3 class="card__title">Quick Stats</h3>
+    <h3 class="card__title">Quick Actions</h3>
   </div>
-
   <div class="grid-auto-fit-200">
-    <div class="stat-card stat-card--blue">
-      <div class="stat-card__value text-blue"><%= Announcement.count %></div>
-      <div class="stat-card__label">Total Announcements</div>
-    </div>
+    <%= link_to new_announcement_path, class: "settings-card-link" do %>
+      <div class="quick-action-card">
+        <div class="quick-action-card__icon">📝</div>
+        <div class="quick-action-card__title">Create Announcement</div>
+        <div class="quick-action-card__desc">Draft a new communication</div>
+      </div>
+    <% end %>
 
-    <div class="stat-card stat-card--green">
-      <div class="stat-card__value text-success"><%= Announcement.where(status: 'delivered').count %></div>
-      <div class="stat-card__label">Delivered</div>
-    </div>
+    <%= link_to new_contact_path, class: "settings-card-link" do %>
+      <div class="quick-action-card">
+        <div class="quick-action-card__icon">➕</div>
+        <div class="quick-action-card__title">Add Contact</div>
+        <div class="quick-action-card__desc">Add a new contact</div>
+      </div>
+    <% end %>
 
-    <div class="stat-card stat-card--orange">
-      <div class="stat-card__value text-warning"><%= Announcement.where(status: 'pending').count %></div>
-      <div class="stat-card__label">Pending</div>
-    </div>
+    <%= link_to import_contacts_path, class: "settings-card-link" do %>
+      <div class="quick-action-card">
+        <div class="quick-action-card__icon">📄</div>
+        <div class="quick-action-card__title">Import Contacts</div>
+        <div class="quick-action-card__desc">Import from CSV file</div>
+      </div>
+    <% end %>
 
-    <div class="stat-card stat-card--info">
-      <div class="stat-card__value text-info"><%= Audience.count %></div>
-      <div class="stat-card__label">Audiences</div>
-    </div>
+    <%= link_to new_audience_path, class: "settings-card-link" do %>
+      <div class="quick-action-card">
+        <div class="quick-action-card__icon">👥</div>
+        <div class="quick-action-card__title">Create Audience</div>
+        <div class="quick-action-card__desc">Define a recipient group</div>
+      </div>
+    <% end %>
   </div>
 </div>
 
-<div class="card">
-  <div class="card__header">
+<%# ── Recent Announcements ── %>
+<div class="card mb-24">
+  <div class="card__header flex-between">
     <h3 class="card__title">Recent Announcements</h3>
+    <%= link_to "View All Announcements →", announcements_path, class: "text-sm text-blue" %>
   </div>
 
-  <% if Announcement.any? %>
+  <% if @recent_announcements.any? %>
     <table class="table">
       <thead>
         <tr>
           <th>Title</th>
-          <th>Audience</th>
           <th>Status</th>
-          <th>Delivery Date</th>
-          <th>Actions</th>
+          <th>Audience</th>
+          <th>Date</th>
         </tr>
       </thead>
       <tbody>
-        <% Announcement.order(created_at: :desc).limit(5).each do |announcement| %>
+        <% @recent_announcements.each do |announcement| %>
           <tr>
-            <td><strong><%= announcement.title %></strong></td>
-            <td><%= announcement.audience&.name || "N/A" %></td>
             <td>
-              <% if announcement.status == 'delivered' %>
-                <span class="badge badge-success">Delivered</span>
-              <% elsif announcement.status == 'pending' %>
-                <span class="badge badge-warning">Pending</span>
-              <% elsif announcement.status == 'failed' %>
-                <span class="badge badge-danger">Failed</span>
-              <% else %>
-                <span class="badge badge-info"><%= announcement.status %></span>
-              <% end %>
+              <%= link_to announcement.title, announcement_path(announcement), class: "font-semibold text-primary" %>
             </td>
-            <td><%= announcement.delivery_date ? announcement.delivery_date.strftime("%b %d, %Y") : "Not set" %></td>
             <td>
-              <%= link_to "View", announcement_path(announcement), class: "btn btn-secondary btn--xs" %>
+              <span class="status-badge status-<%= announcement.status %>"><%= announcement.status&.titleize %></span>
             </td>
+            <td class="text-secondary"><%= announcement.audiences.map(&:name).join(", ").presence || "—" %></td>
+            <td class="text-secondary text-sm"><%= announcement.scheduled_for&.strftime("%b %d, %Y") || announcement.created_at.strftime("%b %d, %Y") %></td>
           </tr>
         <% end %>
       </tbody>
@@ -87,33 +119,128 @@
   <% end %>
 </div>
 
-<div class="card">
-  <div class="card__header">
-    <h3 class="card__title">Quick Actions</h3>
+<%# ── Recent Contacts & Audiences side-by-side ── %>
+<div class="grid-2-col mb-24">
+  <%# ── Recent Contacts ── %>
+  <div class="card mb-0">
+    <div class="card__header flex-between">
+      <h3 class="card__title">Recent Contacts</h3>
+      <%= link_to "View All →", contacts_path, class: "text-sm text-blue" %>
+    </div>
+
+    <% if @recent_contacts.any? %>
+      <div class="dashboard-list">
+        <% @recent_contacts.each do |contact| %>
+          <div class="dashboard-list__item">
+            <div class="dashboard-list__avatar"><%= contact.name&.first&.upcase %></div>
+            <div class="dashboard-list__info">
+              <div class="font-semibold"><%= contact.name %></div>
+              <div class="text-sm text-secondary"><%= contact.email.presence || contact.slack_channel.presence || "No email" %></div>
+              <% if contact.company.present? %>
+                <div class="text-xs text-muted"><%= contact.company %></div>
+              <% end %>
+            </div>
+            <div>
+              <span class="badge badge--sm <%= contact.active? ? 'badge-success' : 'badge-neutral' %>">
+                <%= contact.active_label %>
+              </span>
+            </div>
+          </div>
+        <% end %>
+      </div>
+    <% else %>
+      <div class="empty-state">
+        <div class="empty-state__icon">📇</div>
+        <p>No contacts yet. Import your first contact list!</p>
+        <div class="empty-state__actions">
+          <%= link_to "Add Contact", new_contact_path, class: "btn btn-primary btn--sm" %>
+          <%= link_to "Import CSV", import_contacts_path, class: "btn btn-secondary btn--sm" %>
+        </div>
+      </div>
+    <% end %>
   </div>
 
-  <div class="grid-auto-fit-250">
-    <%= link_to new_announcement_path, class: "settings-card-link" do %>
+  <%# ── Recent Audiences ── %>
+  <div class="card mb-0">
+    <div class="card__header flex-between">
+      <h3 class="card__title">Recent Audiences</h3>
+      <%= link_to "View All →", audiences_path, class: "text-sm text-blue" %>
+    </div>
+
+    <% if @recent_audiences.any? %>
+      <div class="dashboard-list">
+        <% @recent_audiences.each do |audience| %>
+          <div class="dashboard-list__item">
+            <div class="dashboard-list__avatar dashboard-list__avatar--blue">
+              <%= audience.type == "SlackAudience" ? "S" : audience.type == "EmailAudience" ? "E" : audience.type == "WhatsappAudience" ? "W" : "A" %>
+            </div>
+            <div class="dashboard-list__info">
+              <div class="font-semibold"><%= audience.name %></div>
+              <div class="text-sm text-secondary"><%= audience.recipients_count %> recipients</div>
+            </div>
+            <div>
+              <% if audience.type.present? %>
+                <span class="badge badge--sm badge-info"><%= audience.type.sub("Audience", "") %></span>
+              <% end %>
+            </div>
+          </div>
+        <% end %>
+      </div>
+    <% else %>
+      <div class="empty-state">
+        <div class="empty-state__icon">👥</div>
+        <p>No audiences yet. Create your first audience!</p>
+        <div class="empty-state__actions">
+          <%= link_to "Create Audience", new_audience_path, class: "btn btn-primary btn--sm" %>
+        </div>
+      </div>
+    <% end %>
+  </div>
+</div>
+
+<%# ── Navigation Shortcuts ── %>
+<div class="card">
+  <div class="card__header">
+    <h3 class="card__title">Navigation</h3>
+  </div>
+  <div class="grid-auto-fit-200">
+    <%= link_to announcements_path, class: "settings-card-link" do %>
       <div class="quick-action-card">
-        <div class="quick-action-card__icon">📝</div>
-        <div class="quick-action-card__title">Create Announcement</div>
-        <div class="quick-action-card__desc">Draft a new communication</div>
+        <div class="quick-action-card__icon">📢</div>
+        <div class="quick-action-card__title">Announcements</div>
+        <div class="quick-action-card__desc">Manage all announcements</div>
+      </div>
+    <% end %>
+
+    <%= link_to contacts_path, class: "settings-card-link" do %>
+      <div class="quick-action-card">
+        <div class="quick-action-card__icon">📇</div>
+        <div class="quick-action-card__title">Contacts</div>
+        <div class="quick-action-card__desc">Manage your contacts</div>
       </div>
     <% end %>
 
     <%= link_to audiences_path, class: "settings-card-link" do %>
       <div class="quick-action-card">
         <div class="quick-action-card__icon">👥</div>
-        <div class="quick-action-card__title">Manage Audiences</div>
+        <div class="quick-action-card__title">Audiences</div>
         <div class="quick-action-card__desc">Configure recipient groups</div>
       </div>
     <% end %>
 
-    <%= link_to announcements_path, class: "settings-card-link" do %>
+    <%= link_to contact_lists_path, class: "settings-card-link" do %>
       <div class="quick-action-card">
-        <div class="quick-action-card__icon">📊</div>
-        <div class="quick-action-card__title">View All Announcements</div>
-        <div class="quick-action-card__desc">See complete history</div>
+        <div class="quick-action-card__icon">📋</div>
+        <div class="quick-action-card__title">Contact Lists</div>
+        <div class="quick-action-card__desc">Organize contact groups</div>
+      </div>
+    <% end %>
+
+    <%= link_to settings_path, class: "settings-card-link" do %>
+      <div class="quick-action-card">
+        <div class="quick-action-card__icon">⚙️</div>
+        <div class="quick-action-card__title">Settings</div>
+        <div class="quick-action-card__desc">App configuration</div>
       </div>
     <% end %>
   </div>

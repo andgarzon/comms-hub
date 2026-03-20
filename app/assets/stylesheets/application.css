@@ -2707,3 +2707,90 @@ a {
   font-size: 13px;
   color: var(--text-secondary);
 }
+
+
+/* ============================================================
+   Page: Dashboard
+   ============================================================ */
+
+.dashboard-stats {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 20px;
+  margin-bottom: 24px;
+}
+
+.stat-card__badges {
+  display: flex;
+  gap: 6px;
+  justify-content: center;
+  flex-wrap: wrap;
+  margin-top: 10px;
+}
+
+/* Dashboard list (contacts & audiences widgets) */
+.dashboard-list {
+  display: flex;
+  flex-direction: column;
+}
+
+.dashboard-list__item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 0;
+  border-bottom: 1px solid var(--border-light);
+}
+
+.dashboard-list__item:last-child {
+  border-bottom: none;
+}
+
+.dashboard-list__avatar {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: var(--bg-tertiary);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 600;
+  font-size: 14px;
+  color: var(--text-secondary);
+  flex-shrink: 0;
+}
+
+.dashboard-list__avatar--blue {
+  background: rgba(30, 174, 219, 0.1);
+  color: var(--primary-blue);
+}
+
+.dashboard-list__info {
+  flex: 1;
+  min-width: 0;
+}
+
+.dashboard-list__info > div {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* Responsive: stack on small screens */
+@media (max-width: 900px) {
+  .dashboard-stats {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 600px) {
+  .dashboard-stats {
+    grid-template-columns: 1fr;
+  }
+
+  .grid-2-col {
+    grid-template-columns: 1fr;
+  }
+}
+
+.mb-0 { margin-bottom: 0; }
