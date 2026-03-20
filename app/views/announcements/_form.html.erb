@@ -51,7 +51,7 @@
         <div class="base-message-header">
           <%= form.label message_field, "Message Content", class: "form-label form-label--inline" %>
           <div data-react-component="AiImproveButton"
-               data-react-props='<%= { mode: "async", endpoint: "/announcements/ai_improve", textareaId: "message-textarea", csrfToken: form_authenticity_token }.to_json %>'></div>
+               data-react-props='<%= { mode: "submit", textareaId: "message-textarea", csrfToken: form_authenticity_token }.to_json %>'></div>
         </div>
         <%= form.text_area message_field, rows: 8, class: "form-control", id: "message-textarea", placeholder: "Enter your announcement message..." %>
         <small class="form-hint">This message will be sent to all recipients in the selected audiences</small>
