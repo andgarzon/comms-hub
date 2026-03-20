@@ -14,6 +14,18 @@
 
   <div class="card mb-20">
     <div class="card__header">
+      <h3 class="card__title">Contact Type</h3>
+    </div>
+
+    <div class="form-group mb-0">
+      <%= form.label :contact_type, "Type", class: "form-label" %>
+      <%= form.select :contact_type, Contact::CONTACT_TYPES.map { |t| [t.titleize, t] }, {}, class: "form-control", id: "contact_type_select" %>
+      <small class="form-hint">Slack Channel is for channels (e.g. #general), not individual people.</small>
+    </div>
+  </div>
+
+  <div class="card mb-20" id="person-fields">
+    <div class="card__header">
       <h3 class="card__title">Basic Information</h3>
     </div>
 
@@ -38,7 +50,25 @@
     </div>
   </div>
 
-  <div class="card mb-20">
+  <div class="card mb-20 hidden" id="slack-channel-fields">
+    <div class="card__header">
+      <h3 class="card__title">Slack Channel</h3>
+    </div>
+
+    <div class="form-group">
+      <%= form.label :name, "Channel Name", class: "form-label" %>
+      <%= form.text_field :name, class: "form-control", placeholder: "e.g., Engineering Updates", id: "slack_channel_name" %>
+      <small class="form-hint">A friendly name to identify this channel</small>
+    </div>
+
+    <div class="form-group mb-0">
+      <%= form.label :slack_channel, "Slack Channel ID or Name", class: "form-label" %>
+      <%= form.text_field :slack_channel, class: "form-control", placeholder: "#channel-name or C0123456789" %>
+      <small class="form-hint">The Slack channel where announcements will be posted</small>
+    </div>
+  </div>
+
+  <div class="card mb-20" id="organization-fields">
     <div class="card__header">
       <h3 class="card__title">Organization</h3>
     </div>
@@ -51,11 +81,6 @@
     <div class="form-group">
       <%= form.label :department, class: "form-label" %>
       <%= form.text_field :department, class: "form-control", placeholder: "Department" %>
-    </div>
-
-    <div class="form-group">
-      <%= form.label :contact_type, "Type", class: "form-label" %>
-      <%= form.select :contact_type, Contact::CONTACT_TYPES.map { |t| [t.titleize, t] }, {}, class: "form-control" %>
     </div>
 
     <div class="form-group mb-0">
@@ -83,3 +108,22 @@
     <%= form.submit class: "btn btn-primary" %>
   </div>
 <% end %>
+
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    var typeSelect = document.getElementById('contact_type_select');
+    var personFields = document.getElementById('person-fields');
+    var slackChannelFields = document.getElementById('slack-channel-fields');
+    var organizationFields = document.getElementById('organization-fields');
+
+    function toggleFields() {
+      var isSlackChannel = typeSelect.value === 'slack_channel';
+      personFields.classList.toggle('hidden', isSlackChannel);
+      slackChannelFields.classList.toggle('hidden', !isSlackChannel);
+      organizationFields.classList.toggle('hidden', isSlackChannel);
+    }
+
+    typeSelect.addEventListener('change', toggleFields);
+    toggleFields();
+  });
+</script>

@@ -106,6 +106,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_03_20_000001) do
     t.string "email"
     t.string "name", null: false
     t.string "phone_number"
+    t.string "slack_channel"
     t.string "slack_username"
     t.datetime "updated_at", null: false
     t.index ["contact_list_id"], name: "index_contacts_on_contact_list_id"

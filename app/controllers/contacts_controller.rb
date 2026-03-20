@@ -97,7 +97,7 @@ class ContactsController < ApplicationController
 
   def contact_params
     params.require(:contact).permit(
-      :name, :email, :phone_number, :slack_username,
+      :name, :email, :phone_number, :slack_username, :slack_channel,
       :company, :department, :contact_type, :active, :contact_list_id
     )
   end
@@ -120,6 +120,7 @@ class ContactsController < ApplicationController
         email: email,
         phone_number: row["phone_number"]&.strip || row["phone"]&.strip,
         slack_username: row["slack_username"]&.strip || row["slack"]&.strip,
+        slack_channel: row["slack_channel"]&.strip,
         company: row["company"]&.strip,
         department: row["department"]&.strip,
         contact_type: row["contact_type"]&.strip&.downcase || row["type"]&.strip&.downcase || "admin_staff",
@@ -129,7 +130,7 @@ class ContactsController < ApplicationController
 
       # Validate contact_type
       unless Contact::CONTACT_TYPES.include?(attrs[:contact_type])
-        attrs[:contact_type] = "employee"
+        attrs[:contact_type] = "admin_staff"
       end
 
       existing = email.present? ? Contact.find_by(email: email, company: attrs[:company]) : nil

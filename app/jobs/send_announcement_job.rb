@@ -101,6 +101,36 @@ class SendAnnouncementJob < ApplicationJob
       end
     end
 
+    # Send to slack_channel type contacts in any audience
+    sent_slack_channels = []
+    announcement.audiences.each do |audience|
+      audience.contact_slack_channels.each do |channel|
+        next if sent_slack_channels.include?(channel)
+
+        begin
+          SlackAnnouncementSender.new(
+            announcement,
+            channel: channel
+          ).call
+
+          announcement.delivery_logs.create!(
+            channel: "slack",
+            destination: channel,
+            status: "sent",
+            details: "Slack channel contact in audience: #{audience.name}"
+          )
+          sent_slack_channels << channel
+        rescue => e
+          announcement.delivery_logs.create!(
+            channel: "slack",
+            destination: channel,
+            status: "error",
+            details: "#{e.class}: #{e.message}"
+          )
+        end
+      end
+    end
+
     # --------------------
     # EMAIL DELIVERY
     # --------------------
