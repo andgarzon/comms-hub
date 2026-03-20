@@ -36,29 +36,36 @@
 
       <div class="flex-col gap-16">
         <div>
-          <div class="detail-label">Email</div>
-          <div class="detail-value"><%= @contact.email || "—" %></div>
-        </div>
-        <div>
-          <div class="detail-label">Phone Number</div>
-          <div class="detail-value"><%= @contact.phone_number || "—" %></div>
-        </div>
-        <div>
-          <div class="detail-label">Slack Username</div>
-          <div class="detail-value"><%= @contact.slack_username || "—" %></div>
-        </div>
-        <div>
-          <div class="detail-label">Company</div>
-          <div class="detail-value"><%= @contact.company || "—" %></div>
-        </div>
-        <div>
-          <div class="detail-label">Department</div>
-          <div class="detail-value"><%= @contact.department || "—" %></div>
-        </div>
-        <div>
           <div class="detail-label">Contact Type</div>
           <div class="detail-value"><%= @contact.display_type %></div>
         </div>
+        <% if @contact.slack_channel_type? %>
+          <div>
+            <div class="detail-label">Slack Channel</div>
+            <div class="detail-value"><%= @contact.slack_channel || "—" %></div>
+          </div>
+        <% else %>
+          <div>
+            <div class="detail-label">Email</div>
+            <div class="detail-value"><%= @contact.email || "—" %></div>
+          </div>
+          <div>
+            <div class="detail-label">Phone Number</div>
+            <div class="detail-value"><%= @contact.phone_number || "—" %></div>
+          </div>
+          <div>
+            <div class="detail-label">Slack Username</div>
+            <div class="detail-value"><%= @contact.slack_username || "—" %></div>
+          </div>
+          <div>
+            <div class="detail-label">Company</div>
+            <div class="detail-value"><%= @contact.company || "—" %></div>
+          </div>
+          <div>
+            <div class="detail-label">Department</div>
+            <div class="detail-value"><%= @contact.department || "—" %></div>
+          </div>
+        <% end %>
         <% if @contact.contact_list.present? %>
           <div>
             <div class="detail-label">Contact List</div>
