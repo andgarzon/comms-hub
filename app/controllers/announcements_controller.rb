@@ -239,9 +239,6 @@ class AnnouncementsController < ApplicationController
       :email_body,
       :slack_body,
       :whatsapp_body,
-      :send_to_slack,
-      :send_to_email,
-      :send_to_whatsapp,
       :scheduled_for,
       audience_ids: []
     )

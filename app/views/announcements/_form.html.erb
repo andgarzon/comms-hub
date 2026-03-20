@@ -113,52 +113,6 @@
         <small class="form-hint">Select one or more audiences to receive this announcement</small>
       </div>
 
-      <div class="form-group">
-        <%= label_tag :delivery_channels, "Delivery Channels", class: "form-label" %>
-        <div class="grid-3-col">
-          <%
-            current_channels = if @announcement.message_type == 'both'
-              ['email', 'slack']
-            elsif @announcement.message_type.present?
-              [@announcement.message_type]
-            else
-              []
-            end
-          %>
-
-          <label class="channel-option-checkbox">
-            <%= check_box_tag 'announcement[channels][]', 'email', current_channels.include?('email'),
-                class: "channel-checkbox", id: "channel_email" %>
-            <div class="channel-content">
-              <div class="channel-icon">📧</div>
-              <div class="channel-name">Email</div>
-              <div class="channel-desc">Send via email</div>
-            </div>
-          </label>
-
-          <label class="channel-option-checkbox">
-            <%= check_box_tag 'announcement[channels][]', 'slack', current_channels.include?('slack'),
-                class: "channel-checkbox", id: "channel_slack" %>
-            <div class="channel-content">
-              <div class="channel-icon">💬</div>
-              <div class="channel-name">Slack</div>
-              <div class="channel-desc">Send to Slack</div>
-            </div>
-          </label>
-
-          <label class="channel-option-checkbox">
-            <%= check_box_tag 'announcement[channels][]', 'whatsapp', current_channels.include?('whatsapp'),
-                class: "channel-checkbox", id: "channel_whatsapp" %>
-            <div class="channel-content">
-              <div class="channel-icon">📱</div>
-              <div class="channel-name">WhatsApp</div>
-              <div class="channel-desc">Send via WhatsApp</div>
-            </div>
-          </label>
-        </div>
-        <small class="form-hint">Select one or more channels for delivery</small>
-      </div>
-
       <div class="form-group mb-0">
         <%= form.label :delivery_date, "Schedule Delivery", class: "form-label" %>
         <%= form.datetime_local_field :delivery_date, class: "form-control" %>
