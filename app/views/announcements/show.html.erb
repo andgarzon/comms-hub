@@ -52,7 +52,15 @@
     <% end %>
   </div>
 
-  <!-- Channels Card -->
+  <!-- Channels Card (auto-detected from audiences) -->
+  <%
+    has_slack = @announcement.audiences.where(type: "SlackAudience").exists? ||
+                @announcement.audiences.joins(:contacts).where.not(contacts: { slack_username: [nil, ""] }).exists?
+    has_email = @announcement.audiences.where(type: "EmailAudience").exists? ||
+                @announcement.audiences.joins(:contacts).where.not(contacts: { email: [nil, ""] }).exists?
+    has_whatsapp = @announcement.audiences.where(type: "WhatsappAudience").exists? ||
+                   @announcement.audiences.joins(:contacts).where.not(contacts: { phone_number: [nil, ""] }).exists?
+  %>
   <div class="show-card">
     <div class="show-card-header">
       <div class="show-card-header__icon">📱</div>
@@ -60,17 +68,17 @@
     </div>
 
     <div class="channels-grid">
-      <div class="channel-card <%= 'active' if @announcement.send_to_slack %>">
+      <div class="channel-card <%= 'active' if has_slack %>">
         <div class="icon">💬</div>
         <div class="label">Slack</div>
       </div>
 
-      <div class="channel-card <%= 'active' if @announcement.send_to_email %>">
+      <div class="channel-card <%= 'active' if has_email %>">
         <div class="icon">📧</div>
         <div class="label">Email</div>
       </div>
 
-      <div class="channel-card <%= 'active' if @announcement.send_to_whatsapp %>">
+      <div class="channel-card <%= 'active' if has_whatsapp %>">
         <div class="icon">📲</div>
         <div class="label">WhatsApp</div>
       </div>

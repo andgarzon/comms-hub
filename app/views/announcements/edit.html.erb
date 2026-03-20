@@ -80,122 +80,30 @@
         <h3 class="card__title">Delivery Settings</h3>
       </div>
 
-      <!-- Delivery Channels -->
+      <!-- Target Audiences -->
       <div class="form-group">
-        <%= label_tag :delivery_channels, "Delivery Channels", class: "form-label" %>
-        <div class="grid-3-col">
-          <label class="channel-option-checkbox">
-            <%= form.check_box :send_to_email, class: "channel-checkbox", id: "channel_email", data: { channel: "email" } %>
-            <div class="channel-content">
-              <div class="channel-icon">Email</div>
-              <div class="channel-name">Email</div>
-              <div class="channel-desc">Send via email</div>
-            </div>
-          </label>
-
-          <label class="channel-option-checkbox">
-            <%= form.check_box :send_to_slack, class: "channel-checkbox", id: "channel_slack", data: { channel: "slack" } %>
-            <div class="channel-content">
-              <div class="channel-icon">Slack</div>
-              <div class="channel-name">Slack</div>
-              <div class="channel-desc">Send to Slack</div>
-            </div>
-          </label>
-
-          <label class="channel-option-checkbox">
-            <%= form.check_box :send_to_whatsapp, class: "channel-checkbox", id: "channel_whatsapp", data: { channel: "whatsapp" } %>
-            <div class="channel-content">
-              <div class="channel-icon">WhatsApp</div>
-              <div class="channel-name">WhatsApp</div>
-              <div class="channel-desc">Send via WhatsApp</div>
-            </div>
-          </label>
-        </div>
-        <small class="form-hint">Select one or more channels, then choose audiences below</small>
-      </div>
-
-      <!-- React component for channel/audience toggling -->
-      <div data-react-component="ChannelAudienceToggler"
-           data-react-props='<%= { channels: [
-             { name: "email", sectionId: "email-audiences-section" },
-             { name: "slack", sectionId: "slack-audiences-section" },
-             { name: "whatsapp", sectionId: "whatsapp-audiences-section" }
-           ] }.to_json %>'></div>
-
-      <!-- Audiences per Channel -->
-      <div id="email-audiences-section" class="channel-audience-section hidden">
-        <div class="form-group">
-          <label class="form-label">Email Audiences</label>
-          <div class="audience-list audience-list--lg">
-            <% if @email_audiences.present? %>
-              <% @email_audiences.each do |audience| %>
-                <label class="audience-list__item">
-                  <%= check_box_tag 'announcement[audience_ids][]', audience.id,
-                      @announcement.audience_ids.include?(audience.id),
-                      id: "audience_#{audience.id}", class: "audience-list__item-checkbox" %>
-                  <div class="audience-list__item-info">
-                    <div class="audience-list__item-name"><%= audience.name %></div>
-                    <div class="audience-list__item-meta"><%= audience.recipients_count %> recipients</div>
-                  </div>
-                </label>
-              <% end %>
-            <% else %>
-              <div class="audience-list__empty">
-                No email audiences yet. <%= link_to "Create one", new_email_audience_path, class: "text-blue" %>
-              </div>
+        <%= form.label :audience_ids, "Target Audiences", class: "form-label" %>
+        <div class="audience-list audience-list--lg">
+          <% all_audiences = @email_audiences.to_a + @slack_audiences.to_a + @whatsapp_audiences.to_a %>
+          <% if all_audiences.any? %>
+            <% all_audiences.uniq(&:id).each do |audience| %>
+              <label class="audience-list__item">
+                <%= check_box_tag 'announcement[audience_ids][]', audience.id,
+                    @announcement.audience_ids.include?(audience.id),
+                    id: "audience_#{audience.id}", class: "audience-list__item-checkbox" %>
+                <div class="audience-list__item-info">
+                  <div class="audience-list__item-name"><%= audience.name %></div>
+                  <div class="audience-list__item-meta"><%= audience.recipients_count %> recipients</div>
+                </div>
+              </label>
             <% end %>
-          </div>
+          <% else %>
+            <div class="audience-list__empty">
+              No audiences available. <%= link_to "Create one", new_audience_path, class: "text-blue" %>
+            </div>
+          <% end %>
         </div>
-      </div>
-
-      <div id="slack-audiences-section" class="channel-audience-section hidden">
-        <div class="form-group">
-          <label class="form-label">Slack Audiences</label>
-          <div class="audience-list audience-list--lg">
-            <% if @slack_audiences.present? %>
-              <% @slack_audiences.each do |audience| %>
-                <label class="audience-list__item">
-                  <%= check_box_tag 'announcement[audience_ids][]', audience.id,
-                      @announcement.audience_ids.include?(audience.id),
-                      id: "audience_#{audience.id}", class: "audience-list__item-checkbox" %>
-                  <div class="audience-list__item-info">
-                    <div class="audience-list__item-name"><%= audience.name %></div>
-                    <div class="audience-list__item-meta">#<%= audience.slack_channel %></div>
-                  </div>
-                </label>
-              <% end %>
-            <% else %>
-              <div class="audience-list__empty">
-                No Slack audiences yet. <%= link_to "Create one", new_slack_audience_path, class: "text-blue" %>
-              </div>
-            <% end %>
-          </div>
-        </div>
-      </div>
-
-      <div id="whatsapp-audiences-section" class="channel-audience-section hidden">
-        <div class="form-group">
-          <label class="form-label">WhatsApp Audiences</label>
-          <div class="audience-list audience-list--lg">
-            <% if @whatsapp_audiences.present? %>
-              <% @whatsapp_audiences.each do |audience| %>
-                <label class="audience-list__item">
-                  <%= check_box_tag 'announcement[audience_ids][]', audience.id,
-                      @announcement.audience_ids.include?(audience.id),
-                      id: "audience_#{audience.id}", class: "audience-list__item-checkbox" %>
-                  <div class="audience-list__item-info">
-                    <div class="audience-list__item-name"><%= audience.name %></div>
-                    <div class="audience-list__item-meta"><%= audience.recipients_count %> contacts</div>
-                  </div>
-                </label>
-              <% end %>
-            <% else %>
-              <div class="audience-list__empty">
-                No WhatsApp audiences yet. <%= link_to "Create one", new_whatsapp_audience_path, class: "text-blue" %>
-              </div>
-            <% end %>
-          </div>
-        </div>
+        <small class="form-hint">Select one or more audiences. Channels are determined automatically based on contact information.</small>
       </div>
 
       <!-- Schedule -->
